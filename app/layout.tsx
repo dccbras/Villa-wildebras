@@ -1,0 +1,32 @@
+import { Inter } from "next/font/google"
+import type React from "react" // Import React
+
+import { SiteHeader } from "@/components/site-header"
+import "./globals.css"
+
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata = {
+  title: "Villa Wildebras - Tiny House Verhuur",
+  description: "Ervaar tiny living in onze unieke tiny house, omringd door natuur",
+    generator: 'v0.dev'
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="nl">
+      <body className={inter.className}>
+        <SiteHeader />
+        <main>{children}</main>
+      </body>
+    </html>
+  )
+}
+
+
+
+import './globals.css'
