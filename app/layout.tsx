@@ -5,7 +5,7 @@ import "./globals.css"
 import type React from "react" // Import React
 
 const inter = Inter({ subsets: ["latin"] })
-const waterlily = localFont({ src: "./fonts/waterlily.woff2" })
+const waterlily = localFont({ src: "../fonts/waterlily.woff2" })
 
 export const metadata: Metadata = {
   title: "Villa Wildebras - verblijf in ons unieke tiny house",
