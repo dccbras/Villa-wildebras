@@ -6,7 +6,7 @@ import "./globals.css"
 import type React from "react"
 
 const inter = Inter({ subsets: ["latin"] })
-const waterlily = localFont({ src: "./fonts/waterlily.ttf" }) // Aangepast naar .ttf
+const waterlily = localFont({ src: "/fonts/waterlily.ttf" }) // Gebruik public-folder path
 
 export const metadata: Metadata = {
   title: "Villa Wildebras - verblijf in ons unieke tiny house",
