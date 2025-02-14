@@ -1,24 +1,16 @@
-"use client";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
-import "./globals.css";
-import type React from "react";
+import { Inter } from "next/font/google"
+import localFont from "next/font/local"
+import "./globals.css"
+import type React from "react"
+import { metadata } from "./metadata" // Importeer metadata
 
-// Correcte font-import met bestand in public/fonts:
-const inter = Inter({ subsets: ["latin"] });
-const waterlily = localFont({ src: "/fonts/Waterlily.woff2" });
-
-export const metadata: Metadata = {
-  title: "Villa Wildebras - verblijf in ons unieke tiny house",
-  description: "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
-  generator: 'v0.dev'
-};
+const inter = Inter({ subsets: ["latin"] })
+const waterlily = localFont({ src: "./fonts/waterlily.ttf" })
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -31,5 +23,6 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }
+
