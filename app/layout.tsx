@@ -4,10 +4,11 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import type React from "react";
+import { metadata } from "./metadata"; // Importeer metadata uit apart bestand
 
 const inter = Inter({ subsets: ["latin"] });
 const waterlily = localFont({
-  src: "../public/fonts/waterlily.ttf", // Pad aangepast voor juiste resolutie
+  src: "./fonts/waterlily.ttf", // Uniform pad voor beide branches
   variable: "--font-waterlily"
 });
 
@@ -26,3 +27,4 @@ export default function RootLayout({
     </html>
   );
 }
+
