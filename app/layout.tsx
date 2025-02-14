@@ -7,12 +7,9 @@ import type React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 const waterlily = localFont({
-  src: "/fonts/waterlily.ttf",
+  src: "../public/fonts/waterlily.ttf", // Pad aangepast voor juiste resolutie
   variable: "--font-waterlily"
 });
-
-// Verplaats metadata naar een apart bestand of verwijder voor 'use client'
-// Hier is metadata apart gelaten voor server compatibility
 
 export default function RootLayout({
   children,
@@ -29,4 +26,3 @@ export default function RootLayout({
     </html>
   );
 }
-
