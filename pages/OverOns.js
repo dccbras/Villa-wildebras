@@ -1,4 +1,4 @@
-javascript
+jsx
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -10,7 +10,7 @@ export default function OverOns() {
         Wij zijn Albert en Daniëlle en wij hebben het tinyhouse gebouwd.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {[1, 2, 3].map((num) => (
+        {[1, 2, 3].map(num => (
           <Card key={num}>
             <CardContent>
               <Image
@@ -19,7 +19,7 @@ export default function OverOns() {
                 width={400}
                 height={600}
                 className="rounded-2xl shadow-lg"
-                priority // Verbeterde laadtijd
+                priority
               />
             </CardContent>
           </Card>
