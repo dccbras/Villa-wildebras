@@ -19,7 +19,7 @@ export function HeroSection() {
           <span className="text-primary"> Villa Wildebras</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-white">
-          Ontdek de rust en eenvoud van het leven in onze unieke tiny house, omringd door natuur
+          Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat
         </p>
         <div className="mt-10 flex gap-4">
           <Button size="lg" asChild>
