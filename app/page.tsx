@@ -83,7 +83,7 @@ const features = [
     icon: Wifi,
   },
   {
-    title: "Stap zo de duinen in richting het strand",
+    title: "Aan de duinrand",
     description: "Begin je wandeling direct vanuit het tiny house.",
     icon: Leaf,
   },
