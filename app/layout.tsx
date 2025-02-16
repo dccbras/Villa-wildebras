@@ -7,8 +7,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Villa Wildebras - Tiny House Verhuur",
-  description: "Ervaar tiny living in onze unieke tiny house, omringd door natuur",
+  title: "Villa Wildebras - verblijf in ons unieke tiny house",
+  description: "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
     generator: 'v0.dev'
 }
 
