@@ -19,6 +19,7 @@ export default function OverOns() {
                 width={400}
                 height={600}
                 className="rounded-2xl shadow-lg"
+                priority // Verbeterde laadtijd
               />
             </CardContent>
           </Card>
