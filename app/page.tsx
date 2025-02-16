@@ -59,7 +59,7 @@ import { Bed, ChefHat, Flame, Leaf, ShowerHeadIcon as Shower, Wifi } from "lucid
 const features = [
   {
     title: "Volledig Uitgeruste Keuken",
-    description: "Kook je eigen maaltijden in onze moderne keuken met alle benodigde apparatuur.",
+    description: "Kook je eigen maaltijden in onze ruime keuken",
     icon: ChefHat,
   },
   {
