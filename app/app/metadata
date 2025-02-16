@@ -1,8 +1,0 @@
-// app/metadata.ts
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Villa Wildebras - verblijf in ons unieke tiny house",
-  description: "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
-  generator: 'v0.dev'
-}
