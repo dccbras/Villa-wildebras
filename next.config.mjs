@@ -1,3 +1,5 @@
+// next.config.js
+
 let userConfig = undefined
 try {
   userConfig = await import('./v0-user-next.config')
@@ -17,9 +19,19 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
+    appDir: true, // BELANGRIJK: Nodig voor app/ structuur
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/test/',
+        destination: '/test',
+        permanent: true,
+      },
+    ]
   },
 }
 
@@ -35,14 +47,4 @@ function mergeConfig(nextConfig, userConfig) {
       typeof nextConfig[key] === 'object' &&
       !Array.isArray(nextConfig[key])
     ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...userConfig[key],
-      }
-    } else {
-      nextConfig[key] = userConfig[key]
-    }
-  }
-}
-
-export default nextConfig
+     
