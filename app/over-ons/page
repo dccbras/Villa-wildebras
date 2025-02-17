@@ -1,4 +1,3 @@
-// app/over-ons/page.js
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 
