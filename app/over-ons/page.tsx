@@ -17,7 +17,7 @@ const timelineEvents = [
 const sections = [
   {
     image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij hebben in 2022 het avontuur van het bouwen van ons eigen tiny house aangegaan. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
+    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 gestart met het bouwen van ons eigen Tiny house. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
   },
   {
     image: "/2.png",
@@ -50,18 +50,20 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="space-y-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sections.map((section, index) => (
-            <div key={index} className="flex flex-col md:flex-row items-start gap-8">
-              <div className="md:w-1/3">
+            <div key={index}>
+              {" "}
+              {/* Added key prop here */}
+              <div className={`${index % 2 === 0 ? "md:col-span-2 lg:col-span-2" : "md:col-span-1 lg:col-span-1"}`}>
                 <Dialog>
                   <DialogTrigger>
                     <div className="relative overflow-hidden rounded-2xl transition-transform duration-300 ease-in-out hover:scale-105">
                       <Image
                         src={section.image || "/placeholder.svg"}
                         alt={`Afbeelding ${index + 1}`}
-                        width={400}
-                        height={300}
+                        width={600}
+                        height={400}
                         className="w-full h-auto object-cover"
                         priority
                       />
@@ -78,8 +80,8 @@ export default function Page() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <div className="md:w-2/3">
-                <Card className="bg-[#FFC0CB] shadow-xl">
+              <div className={`${index % 2 === 0 ? "md:col-span-1 lg:col-span-1" : "md:col-span-2 lg:col-span-2"}`}>
+                <Card className="bg-[#FFC0CB] shadow-xl h-full">
                   <CardContent className="p-6">
                     <p className="text-lg text-[#333333] leading-relaxed">{section.text}</p>
                   </CardContent>
@@ -92,3 +94,4 @@ export default function Page() {
     </main>
   )
 }
+
