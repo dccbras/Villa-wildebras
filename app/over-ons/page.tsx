@@ -31,7 +31,7 @@ const sections = [
 
 export default function Page() {
   return (
-    <main className="bg-[#F5F5DC] min-h-screen py-16">
+    <main className="bg-[#F5F5DC] min-h-screen pt-8 pb-16">
       <div className="container mx-auto px-4">
         <div className="mb-12">
           <Image
@@ -45,7 +45,7 @@ export default function Page() {
         </div>
 
         {/* Intro met foto en spraakwolk */}
-        <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
+        <div className="flex flex-col md:flex-row items-start gap-6 mb-16">
           <div className="relative">
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-19%20at%2020.53.32%20(1)-BAG9OZWMQRB1pSMPNkEFDR6on76U7h.jpeg"
@@ -67,7 +67,7 @@ export default function Page() {
           </div>
 
           {/* Tijdlijn sectie */}
-          <div className="flex-1">
+          <div className="flex-1 -mt-4">
             <div className="flex flex-wrap justify-center items-start gap-2">
               {timelineEvents.map((event, index) => (
                 <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-4">
@@ -124,4 +124,3 @@ export default function Page() {
     </main>
   )
 }
-
