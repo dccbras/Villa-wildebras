@@ -17,7 +17,7 @@ const timelineEvents = [
 const sections = [
   {
     image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 gestart met het bouwen van ons eigen Tiny house. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
+    text: "Wij zijn Daniëlle en Albert, en wij hebben in 2022 het avontuur van het bouwen van ons eigen tiny house aangegaan. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
   },
   {
     image: "/2.png",
@@ -33,28 +33,58 @@ export default function Page() {
   return (
     <main className="bg-[#F5F5DC] min-h-screen py-16">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold text-center text-[#4A5D23] mb-12">Over ons</h1>
-
-        {/* Tijdlijn sectie */}
         <div className="mb-12">
-          <div className="flex flex-wrap justify-center items-start gap-2">
-            {timelineEvents.map((event, index) => (
-              <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-4">
-                <div className="bg-[#4A5D23] rounded-full p-2 mb-1">
-                  {<event.icon className="w-4 h-4 text-white" />}
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Over%20ons%20titel-hYg4Pd3D2WKTOWYnc0jFRKJozPmEUT.png"
+            alt="Over ons"
+            width={300}
+            height={100}
+            className="mx-auto"
+            priority
+          />
+        </div>
+
+        {/* Intro met foto en spraakwolk */}
+        <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
+          <div className="relative">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-19%20at%2020.53.32%20(1)-BAG9OZWMQRB1pSMPNkEFDR6on76U7h.jpeg"
+              alt="Albert en Daniëlle"
+              width={300}
+              height={300}
+              className="rounded-2xl"
+              priority
+            />
+            <div className="absolute -right-4 top-4 bg-[#4A5D23] text-white p-4 rounded-2xl rounded-tr-none transform translate-x-full">
+              <p className="text-sm whitespace-nowrap">Wij zijn Albert en Daniëlle</p>
+              <div
+                className="absolute -left-2 top-4 w-0 h-0 
+                border-t-8 border-t-transparent 
+                border-r-8 border-r-[#4A5D23]
+                border-b-8 border-b-transparent"
+              ></div>
+            </div>
+          </div>
+
+          {/* Tijdlijn sectie */}
+          <div className="flex-1">
+            <div className="flex flex-wrap justify-center items-start gap-2">
+              {timelineEvents.map((event, index) => (
+                <div key={index} className="flex flex-col items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/5 mb-4">
+                  <div className="bg-[#4A5D23] rounded-full p-2 mb-1">
+                    {<event.icon className="w-4 h-4 text-white" />}
+                  </div>
+                  <p className="text-xs font-semibold text-[#4A5D23]">{event.date}</p>
+                  <p className="text-xs text-center mt-1">{event.title}</p>
                 </div>
-                <p className="text-xs font-semibold text-[#4A5D23]">{event.date}</p>
-                <p className="text-xs text-center mt-1">{event.title}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sections.map((section, index) => (
             <div key={index}>
-              {" "}
-              {/* Added key prop here */}
               <div className={`${index % 2 === 0 ? "md:col-span-2 lg:col-span-2" : "md:col-span-1 lg:col-span-1"}`}>
                 <Dialog>
                   <DialogTrigger>
