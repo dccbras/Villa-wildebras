@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Villa Wildebras - verblijf in ons unieke tiny house",
   description: "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
-    generator: 'v0.dev'
+    generator: 'v0.dev',
   icons: {
     icon: "/favicon.ico",
 }
