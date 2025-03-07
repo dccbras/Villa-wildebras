@@ -1,34 +1,35 @@
-import { Inter } from "next/font/google"
-import type React from "react" // Import React
-
-import { SiteHeader } from "@/components/site-header"
+import type React from "react"
+import { Nunito, Playfair_Display } from "next/font/google"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const nunito = Nunito({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-nunito",
+})
 
-export const metadata = {
-  title: "Villa Wildebras - verblijf in ons unieke tiny house",
-  description: "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
-    generator: 'v0.dev',
-  icons: {
-    icon: "/favicon.ico",
-},
-  };
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair",
+})
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="nl">
-      <body className={inter.className}>
-        <SiteHeader />
-        <main>{children}</main>
-      </body>
+    <html lang="nl" className={`${nunito.variable} ${playfair.variable}`}>
+      <head>
+        <title>Villa Wildebras - Over Ons</title>
+        <meta
+          name="description"
+          content="Ontdek het verhaal achter Villa Wildebras, ons zelfgebouwde tiny house in Egmond aan de rand van het Noordhollands Duinreservaat."
+        />
+      </head>
+      <body>{children}</body>
     </html>
   )
 }
 
-
-
-import './globals.css'
