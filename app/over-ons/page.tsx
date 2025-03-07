@@ -31,7 +31,7 @@ const timelineEvents = [
 const sections = [
   {
     image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij hebben in 2022 het avontuur van het bouwen van ons eigen tiny house aangegaan. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
+    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 begonnen met de bouw van Villa Wildebras. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
   },
   {
     image: "/2.png",
