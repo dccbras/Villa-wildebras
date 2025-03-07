@@ -91,15 +91,15 @@ export default function Page() {
               key={index}
               className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}
             >
-              <div className="md:w-1/2">
+              <div className="md:w-2/5">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div className="cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02]">
+                    <div className="cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02] max-w-sm mx-auto">
                       <Image
                         src={section.image || "/placeholder.svg"}
                         alt={`Afbeelding ${index + 1}`}
-                        width={600}
-                        height={400}
+                        width={400}
+                        height={300}
                         className="w-full h-auto object-cover"
                         priority
                       />
@@ -110,14 +110,14 @@ export default function Page() {
                     <Image
                       src={section.image || "/placeholder.svg"}
                       alt={`Afbeelding ${index + 1}`}
-                      width={1200}
-                      height={800}
+                      width={800}
+                      height={600}
                       className="w-full h-auto object-contain rounded-lg"
                     />
                   </DialogContent>
                 </Dialog>
               </div>
-              <div className="md:w-1/2">
+              <div className="md:w-3/5">
                 <Card className="border-0 shadow-lg h-full overflow-hidden" style={{ backgroundColor: colors.cardBg }}>
                   <CardContent className="p-6 md:p-8">
                     <p
