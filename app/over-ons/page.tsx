@@ -31,7 +31,7 @@ const timelineEvents = [
 const sections = [
   {
     image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 begonnen met de bouw van Villa Wildebras. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
+    text: "Wij zijn Daniëlle en Albert, en wij hebben in 2022 het avontuur van het bouwen van ons eigen tiny house aangegaan. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
   },
   {
     image: "/2.png",
@@ -89,7 +89,7 @@ export default function Page() {
           {sections.map((section, index) => (
             <div
               key={index}
-              className={flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center}
+              className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}
             >
               <div className="md:w-2/5">
                 <Dialog>
@@ -97,7 +97,7 @@ export default function Page() {
                     <div className="cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02] max-w-sm mx-auto">
                       <Image
                         src={section.image || "/placeholder.svg"}
-                        alt={Afbeelding ${index + 1}}
+                        alt={`Afbeelding ${index + 1}`}
                         width={400}
                         height={300}
                         className="w-full h-auto object-cover"
@@ -109,7 +109,7 @@ export default function Page() {
                   <DialogContent className="max-w-4xl">
                     <Image
                       src={section.image || "/placeholder.svg"}
-                      alt={Afbeelding ${index + 1}}
+                      alt={`Afbeelding ${index + 1}`}
                       width={800}
                       height={600}
                       className="w-full h-auto object-contain rounded-lg"
@@ -145,3 +145,4 @@ export default function Page() {
     </main>
   )
 }
+
