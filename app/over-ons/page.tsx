@@ -5,7 +5,6 @@ import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Truck, Hammer, Home, Thermometer, Paintbrush, Flame, Hexagon, Moon } from "lucide-react"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { motion } from "framer-motion"
 
 // Natural, warm color palette
 const colors = {
@@ -53,36 +52,24 @@ export default function Page() {
     }
   }, [])
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  }
-
   return (
     <main style={{ backgroundColor: colors.background }} className="min-h-screen pt-12 pb-20">
       <div className="container mx-auto px-4 max-w-6xl">
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mb-16 text-center">
+        <div className="mb-16 text-center">
           <h1 className="text-4xl md:text-5xl font-serif mb-4" style={{ color: colors.primary }}>
             Over Ons
           </h1>
           <div className="w-24 h-1 mx-auto rounded-full" style={{ backgroundColor: colors.accent }}></div>
-        </motion.div>
+        </div>
 
         {/* Tijdlijn sectie */}
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="mb-20">
+        <div className="mb-20">
           <h2 className="text-2xl mb-6 font-serif" style={{ color: colors.primary }}>
             Ons Tiny House Avontuur
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {timelineEvents.map((event, index) => (
-              <motion.div
-                key={index}
-                className="flex flex-col items-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-              >
+              <div key={index} className="flex flex-col items-center transition-transform duration-200 hover:scale-105">
                 <div className="rounded-full p-3 mb-3 shadow-md" style={{ backgroundColor: colors.primary }}>
                   {<event.icon className="w-5 h-5 text-white" />}
                 </div>
@@ -92,20 +79,16 @@ export default function Page() {
                 <p className="text-sm text-center mt-1" style={{ color: colors.text }}>
                   {event.title}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Content sections */}
         <div className="space-y-16">
           {sections.map((section, index) => (
-            <motion.div
+            <div
               key={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeIn}
               className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}
             >
               <div className="md:w-1/2">
@@ -146,27 +129,20 @@ export default function Page() {
                   </CardContent>
                 </Card>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Footer quote */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="mt-20 text-center max-w-2xl mx-auto"
-        >
+        <div className="mt-20 text-center max-w-2xl mx-auto">
           <blockquote className="italic text-xl" style={{ color: colors.primary }}>
             "Onze droom was om een duurzaam tiny house te bouwen waar we tot rust kunnen komen. We delen deze droom
             graag met jou."
           </blockquote>
           <div className="w-16 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: colors.accent }}></div>
-        </motion.div>
+        </div>
       </div>
     </main>
   )
 }
-
 
