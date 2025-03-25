@@ -15,7 +15,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-black/40" />
       <div className="container relative flex h-full flex-col items-center justify-center text-center">
         <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-          Ervaar tiny living in
+          
           <span className="text-primary"> Villa Wildebras</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-white">
