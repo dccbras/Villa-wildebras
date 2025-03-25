@@ -20,7 +20,7 @@ export default function Home() {
               </p>
               <div className="mt-8">
                 <Button asChild>
-                  <Link href="/over-ons">Ontdek Meer</Link>
+                  <Link href="/het huisje">Meer over het huisje</Link>
                 </Button>
               </div>
             </div>
