@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Boeken | Villa Wildebras",
-  description: "Boek uw verblijf bij Villa Wildebras in Egmond aan den Hoef",
+  description: "Boek jouw verblijf bij Villa Wildebras in Egmond",
 }
 
 export default function BoekenPage() {
@@ -32,8 +32,7 @@ export default function BoekenPage() {
             <h2 className="text-2xl font-semibold mb-6 text-center">Boek uw verblijf</h2>
 
             <p className="text-center mb-8">
-              Ontdek de rust en schoonheid van Villa Wildebras. Boek nu uw verblijf en geniet van een onvergetelijke
-              ervaring in Egmond aan den Hoef.
+              Ontdek binnenkort Villa Wildebras. Omdat we voornamelijk zelf het huisje gebruiken, en we de tuin nog zomer klaar maken zijn we voorlopig beperkt te boeken.
             </p>
 
             {/* Cartoon bij-knop */}
