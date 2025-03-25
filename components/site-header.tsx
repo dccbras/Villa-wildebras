@@ -17,8 +17,8 @@ export function SiteHeader() {
       label: "Home",
     },
     {
-      href: "/het huisje",
-      label: "Het huisje",
+      href: "/het-huisje",
+      label: "Het-huisje",
     },
     {
       href: "/over-ons",
