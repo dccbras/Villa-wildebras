@@ -41,18 +41,19 @@ export default function Page() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-white font-sans">
-      {/* Header met afbeelding */}
-      <div className="relative h-96 w-full">
+    <main className="min-h-screen relative">
+      {/* Hero sectie met aangepaste afbeelding */}
+      <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
-          src="/zoe-gayah-jonker-tbvTNdviuc8-unsplash"
+          src="/zoe-gayah-jonker-Lit4A7dKruo-unsplash.jpg"
           alt="Tiny House Header"
-          layout="fill"
-          objectFit="cover"
-          className="opacity-90"
+          fill
+          className="object-cover"
+          priority
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <h1 className="text-white text-5xl font-bold">Over ons</h1>
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">Over ons</h1>
         </div>
       </div>
 
@@ -113,6 +114,4 @@ export default function Page() {
     </main>
   )
 }
-
-
 
