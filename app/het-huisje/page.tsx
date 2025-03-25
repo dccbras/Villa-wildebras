@@ -4,7 +4,7 @@ import { Home, MapPin, Sparkles, Flame, Utensils, Wifi } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Over het huisje | Villa Wildebras",
-  description: "Ontdek alles over ons tiny house Villa Wildebras in Egmond aan den Hoef",
+  description: "Ontdek alles over ons tiny house Villa Wildebras in Egmond.",
 }
 
 export default function OverHetHuisjePage() {
@@ -30,15 +30,19 @@ export default function OverHetHuisjePage() {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Introductie */}
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6">Welkom bij Villa Wildebras</h2>
+            <h2 className="text-2xl font-semibold mb-6">Bekijk het tiny house van binnen</h2>
             <p className="mb-4">
-              Villa Wildebras is een charmant tiny house gelegen in het prachtige Egmond aan den Hoef. Ons huisje biedt
-              een unieke en comfortabele verblijfservaring, perfect voor wie op zoek is naar rust en natuur, maar toch
-              dicht bij alle voorzieningen wil zijn.
+              Villa Wildebras is een charmant tiny house gelegen in het prachtige Egmond aan den Hoef. Het huisje staat aan de duinrand op het erf van een oude bloembollenkwekerij. Wij bieden een
+              unieke en comfortabele verblijfservaring, perfect voor wie op zoek is naar rust en natuur, maar toch dicht bij alle voorzieningen wil zijn.
             </p>
             <p>
               Het tiny house is met zorg ingericht en biedt alles wat u nodig heeft voor een ontspannen verblijf. Geniet
               van de rust, de prachtige omgeving en de gezellige sfeer die ons huisje te bieden heeft.
+            </p>
+            <p>
+              Het huisje staat sinds eind zomer 2024 op zijn plaats. Wij klussen nog heel vaak aan het huisje om het steeds weer wat extra comfortabel te maken.
+              Zo zijn we nu volop bezig met het ontwerpen van een gezellige tuin voor in de zomer. 
+
             </p>
           </div>
 
@@ -73,7 +77,7 @@ export default function OverHetHuisjePage() {
                     <h3 className="font-medium">Comfortabel verblijf</h3>
                     <p>
                       Ondanks de compacte afmetingen biedt ons tiny house alle comfort die u nodig heeft. Met een
-                      gezellige woonruimte, volledig uitgeruste keuken, comfortabele slaapkamer en een moderne badkamer.
+                      gezellige woonruimte, volledig uitgeruste keuken, comfortabele slaapvide en een moderne badkamer.
                     </p>
                   </div>
                 </div>
@@ -97,7 +101,7 @@ export default function OverHetHuisjePage() {
                     <h3 className="font-medium">Volledig uitgeruste keuken</h3>
                     <p>
                       De keuken is voorzien van alle benodigdheden om zelf te kunnen koken, inclusief kookplaat,
-                      koelkast, koffiezetapparaat en alle keukengerei.
+                      koelkast, koffiezetapparaat en alle keukengerei (geen oven of magnetron).
                     </p>
                   </div>
                 </div>
@@ -142,10 +146,10 @@ export default function OverHetHuisjePage() {
               Villa Wildebras is ideaal gelegen in Egmond aan den Hoef, op slechts een korte afstand van:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>5 minuten rijden naar het strand van Egmond aan Zee</li>
-              <li>Directe toegang tot prachtige wandel- en fietsroutes door de duinen</li>
+              <li>5 minuten rijden naar het strand van Egmond aan Zee.</li>
+              <li>Directe toegang tot prachtige wandel- en fietsroutes door de duinen.</li>
               <li>15 minuten rijden naar de historische stad Alkmaar</li>
-              <li>Nabij diverse restaurants en winkels in Egmond aan den Hoef</li>
+              <li>Nabij diverse restaurants en winkels in Egmond.</li>
             </ul>
             <p>
               De rustige locatie biedt een perfecte uitvalsbasis om de omgeving te verkennen. Geniet van de rust van het
