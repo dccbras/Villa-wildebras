@@ -32,7 +32,7 @@ export default function BoekenPage() {
             <h2 className="text-2xl font-semibold mb-6 text-center">Boek uw verblijf</h2>
 
             <p className="text-center mb-8">
-              Ontdek binnenkort Villa Wildebras. Omdat we voornamelijk zelf het huisje gebruiken, en we de tuin nog zomer klaar maken zijn we voorlopig beperkt te boeken.
+              Binnenkort boek je jouw verblijf bij Villa Wildebras!
             </p>
 
             {/* Cartoon bij-knop */}
