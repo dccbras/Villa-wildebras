@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotocollege%20zonder%20filter%201-SNLAeTpLfZ6lgpdMNYmoh4pirfOwE1.png"
+        src="/IMG_8403.jpeg"
         alt="Villa Wildebras exterieur"
         fill
         className="object-cover"
@@ -26,7 +26,7 @@ export function HeroSection() {
             <Link href="/boeken">Nu Boeken</Link>
           </Button>
           <Button size="lg" variant="outline" className="bg-white" asChild>
-            <Link href="/over-ons">Meer Info</Link>
+            <Link href="/over-ons">Over ons</Link>
           </Button>
         </div>
       </div>
