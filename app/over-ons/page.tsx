@@ -1,20 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
 import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
+import { useEffect } from "react"
 import { Truck, Hammer, Home, Thermometer, Paintbrush, Flame, Hexagon, Moon } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-
-const colors = {
-  background: "#F8F5F0",
-  primary: "#5C7D54",
-  secondary: "#A4B494",
-  accent: "#D8B38C",
-  text: "#3A3A3A",
-  textLight: "#6B6B6B",
-  cardBg: "#FFFAF2",
-}
 
 const timelineEvents = [
   { date: "Mei 2022", title: "Tiny house trailer gekocht", icon: Truck },
@@ -51,81 +41,77 @@ export default function Page() {
   }, [])
 
   return (
-    <main style={{ backgroundColor: colors.background }} className="min-h-screen pt-12 pb-20">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="mb-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-serif mb-4" style={{ color: colors.primary }}>
-            Over Ons
-          </h1>
-          <div className="w-24 h-1 mx-auto rounded-full" style={{ backgroundColor: colors.accent }}></div>
+    <main className="min-h-screen bg-white font-sans">
+      {/* Header met afbeelding */}
+      <div className="relative h-96 w-full">
+        <Image
+          src="/uploads/WhatsApp Image 2025-03-25 at 15.36.17.jpeg"
+          alt="Tiny House Header"
+          layout="fill"
+          objectFit="cover"
+          className="opacity-90"
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <h1 className="text-white text-5xl font-bold">Over ons</h1>
         </div>
+      </div>
 
-        <div className="mb-20">
-          <h2 className="text-2xl mb-6 font-serif" style={{ color: colors.primary }}>
-            Ons Tiny House Avontuur
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Tijdlijn */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-3xl font-semibold text-center mb-6">Ons Tiny House Avontuur</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {timelineEvents.map((event, index) => (
-              <div key={index} className="flex flex-col items-center transition-transform duration-200 hover:scale-105">
-                <div className="rounded-full p-3 mb-3 shadow-md" style={{ backgroundColor: colors.primary }}>
-                  {<event.icon className="w-5 h-5 text-white" />}
+              <div key={index} className="flex flex-col items-center text-center">
+                <div className="bg-gray-700 text-white p-3 rounded-full">
+                  <event.icon className="w-6 h-6" />
                 </div>
-                <p className="font-medium text-sm" style={{ color: colors.primary }}>
-                  {event.date}
-                </p>
-                <p className="text-sm text-center mt-1" style={{ color: colors.text }}>
-                  {event.title}
-                </p>
+                <p className="font-medium mt-2">{event.date}</p>
+                <p className="text-gray-600 text-sm">{event.title}</p>
               </div>
             ))}
           </div>
         </div>
+      </div>
 
-        <div className="space-y-16">
-          {sections.map((section, index) => (
-            <div
-              key={index}
-              className={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}
-            >
-              <div className="md:w-2/5">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <div className="cursor-pointer overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02] max-w-sm mx-auto">
-                      <Image
-                        src={section.image}
-                        alt={`Afbeelding ${index + 1}`}
-                        width={400}
-                        height={300}
-                        className="w-full h-auto object-cover"
-                        priority
-                      />
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl">
-                    <Image
-                      src={section.image}
-                      alt={`Afbeelding ${index + 1}`}
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-contain rounded-lg"
-                    />
-                  </DialogContent>
-                </Dialog>
-              </div>
-              <div className="md:w-3/5">
-                <Card className="border-0 shadow-lg h-full overflow-hidden" style={{ backgroundColor: colors.cardBg }}>
-                  <CardContent className="p-6 md:p-8">
-                    <p className="text-lg leading-relaxed" style={{ color: colors.text }}>
-                      {section.text}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
+      {/* Inhoudssecties */}
+      <div className="container mx-auto px-4 space-y-12">
+        {sections.map((section, index) => (
+          <div key={index} className={`flex flex-col md:flex-row ${index % 2 === 1 ? "md:flex-row-reverse" : ""} gap-8 items-center`}>
+            <div className="md:w-2/5">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Image
+                    src={section.image}
+                    alt={`Afbeelding ${index + 1}`}
+                    width={400}
+                    height={300}
+                    className="rounded-lg shadow-lg cursor-pointer"
+                  />
+                </DialogTrigger>
+                <DialogContent>
+                  <Image
+                    src={section.image}
+                    alt={`Afbeelding ${index + 1}`}
+                    width={800}
+                    height={600}
+                    className="rounded-lg"
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
-          ))}
-        </div>
+            <div className="md:w-3/5">
+              <Card className="p-6 shadow-md rounded-lg">
+                <CardContent>
+                  <p className="text-gray-700 text-lg">{section.text}</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   )
 }
+
 
