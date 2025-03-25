@@ -29,7 +29,7 @@ export default function BoekenPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Boek BINNENKORT jouw verblijf</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center">Boek binnenkort jouw verblijf</h2>
 
             <p className="text-center mb-8">
               Binnenkort boek je jouw verblijf bij Villa Wildebras!
