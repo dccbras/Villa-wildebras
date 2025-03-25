@@ -45,7 +45,7 @@ export default function Page() {
       {/* Header met afbeelding */}
       <div className="relative h-96 w-full">
         <Image
-          src="/uploads/WhatsApp Image 2025-03-25 at 15.36.17.jpeg"
+          src="/uploads/WhatsApp Image 2025-03-25 at 15.36.17.JPEG"
           alt="Tiny House Header"
           layout="fill"
           objectFit="cover"
@@ -113,5 +113,6 @@ export default function Page() {
     </main>
   )
 }
+
 
 
