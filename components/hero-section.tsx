@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <Image
-        src="/Header Wildebras.jpg"
+        src="/Header tinyhouse 2.png"
         alt="Villa Wildebras exterieur"
         fill
         className="object-cover"
