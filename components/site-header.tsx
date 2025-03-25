@@ -17,6 +17,10 @@ export function SiteHeader() {
       label: "Home",
     },
     {
+      href: "/het huisje",
+      label: "Het huisje",
+    },
+    {
       href: "/over-ons",
       label: "Over ons",
     },
