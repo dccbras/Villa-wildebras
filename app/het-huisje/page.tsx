@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { Home, MapPin, Sparkles, Flame, Utensils, Wifi } from "lucide-react"
+import { Home, MapPin, Sparkles, Flame, Utensils, Wifi, Instagram } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Over het huisje | Villa Wildebras",
@@ -32,18 +32,40 @@ export default function OverHetHuisjePage() {
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
             <h2 className="text-2xl font-semibold mb-6">Bekijk het tiny house van binnen</h2>
             <p className="mb-4">
-              Villa Wildebras is een charmant tiny house gelegen in het prachtige Egmond aan den Hoef. Het huisje staat aan de duinrand op het erf van een oude bloembollenkwekerij. Wij bieden een
-              unieke en comfortabele verblijfservaring, perfect voor wie op zoek is naar rust en natuur, maar toch dicht bij alle voorzieningen wil zijn.
+              Villa Wildebras is een charmant tiny house gelegen in het prachtige Egmond aan den Hoef. Het huisje staat
+              aan de duinrand op het erf van een oude bloembollenkwekerij. Wij bieden een unieke en comfortabele
+              verblijfservaring, perfect voor wie op zoek is naar rust en natuur, maar toch dicht bij alle voorzieningen
+              wil zijn.
             </p>
             <p>
               Het tiny house is met zorg ingericht en biedt alles wat u nodig heeft voor een ontspannen verblijf. Geniet
               van de rust, de prachtige omgeving en de gezellige sfeer die ons huisje te bieden heeft.
             </p>
             <p>
-              Het huisje staat sinds eind zomer 2024 op zijn plaats. Wij klussen nog heel vaak aan het huisje om het steeds weer wat extra comfortabel te maken.
-              Zo zijn we nu volop bezig met het ontwerpen van een gezellige tuin voor in de zomer. 
-
+              Het huisje staat sinds eind zomer 2024 op zijn plaats. Wij klussen nog heel vaak aan het huisje om het
+              steeds weer wat extra comfortabel te maken. Zo zijn we nu volop bezig met het ontwerpen van een gezellige
+              tuin voor in de zomer.
             </p>
+          </div>
+
+          {/* Instagram sectie */}
+          <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
+            <div className="flex flex-col items-center justify-center">
+              <h2 className="text-2xl font-semibold mb-6">Volg ons op Instagram</h2>
+              <p className="text-center mb-6">
+                Bekijk meer foto's en blijf op de hoogte van de laatste updates over Villa Wildebras op onze Instagram
+                pagina.
+              </p>
+              <a
+                href="https://www.instagram.com/villawildebras"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] text-white font-medium py-3 px-6 rounded-full hover:opacity-90 transition-opacity"
+              >
+                <Instagram className="h-5 w-5" />
+                <span>@villawildebras</span>
+              </a>
+            </div>
           </div>
 
           {/* Fotocollage 1 */}
@@ -156,13 +178,6 @@ export default function OverHetHuisjePage() {
               platteland, maar met alle voorzieningen binnen handbereik.
             </p>
 
-            <div className="mt-6">
-              <h3 className="font-medium mb-2">Adres</h3>
-              <p>Herenweg 285</p>
-              <p>1934 BC Egmond aan den Hoef</p>
-            </div>
-          </div>
-
           {/* Bijzonderheden */}
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
             <h2 className="text-2xl font-semibold mb-6">Bijzonderheden</h2>
@@ -184,3 +199,4 @@ export default function OverHetHuisjePage() {
     </main>
   )
 }
+
