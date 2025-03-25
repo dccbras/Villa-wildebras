@@ -26,7 +26,7 @@ export function HeroSection() {
             <Link href="/boeken">Nu Boeken</Link>
           </Button>
           <Button size="lg" variant="outline" className="bg-white" asChild>
-            <Link href="/over-ons">Over ons</Link>
+            <Link href="/het-huisje">Meer over het huisje</Link>
           </Button>
         </div>
       </div>
