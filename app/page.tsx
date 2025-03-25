@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="relative aspect-square overflow-hidden rounded-xl lg:aspect-auto lg:h-[600px]">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotocollage%20zonder%20filter%202-aN2ORUU9wYg13yKjFmdsPh1B4GoQMb.png"
+                src="/IMG_8403.JPEG"
                 alt="Villa Wildebras interieur"
                 fill
                 className="object-cover"
