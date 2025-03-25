@@ -21,10 +21,6 @@ export function SiteHeader() {
       label: "Over ons",
     },
     {
-      href: "/gids",
-      label: "Gasten gids",
-    },
-    {
       href: "/boeken",
       label: "Boeken",
     },
