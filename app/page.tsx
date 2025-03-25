@@ -14,8 +14,8 @@ export default function Home() {
             <div>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Welkom bij Villa Wildebras</h2>
               <p className="mt-4 text-lg text-muted-foreground">
-               Villa Wildebras is een zelfgebouwd tiny house, gemaakt met duurzame materialen en met oog voor detail. 
-                Het huisje ligt aan de rand van het Noordhollands Duinreservaat, waar je vanuit de achtertuin Schotse hooglanders kunt spotten. 
+               Villa Wildebras is een uniek tiny house, gemaakt met duurzame materialen. 
+                Het huisje ligt aan rand van het Noordhollands Duinreservaat, waar je vanuit de achtertuin Schotse hooglanders kunt spotten. 
                 Een fijne plek om te ontspannen en te genieten van de natuur in Egmond.
               </p>
               <div className="mt-8">
