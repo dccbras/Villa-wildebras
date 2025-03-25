@@ -31,7 +31,7 @@ const timelineEvents = [
 const sections = [
   {
     image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij hebben in 2022 het avontuur van het bouwen van ons eigen tiny house aangegaan. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. We wonen zelf in Amsterdam, maar Daniëlle is opgegroeid in Egmond en het voelt heerlijk om af en toe weer terug te zijn op deze rustige plek.",
+    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 begonnen met de bouw van ons Tinyhouse. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. Zelf wonen we in Amsterdam en nu ons huisje af is komen we hier graag om het drukke stadsleven af te wisselen met de natuur.",
   },
   {
     image: "/2.png",
@@ -39,7 +39,7 @@ const sections = [
   },
   {
     image: "/3.png",
-    text: "Het kleine huisje is van alle gemakken voorzien, omdat we het zelf ook vaak gebruiken en weten wat we nodig hebben voor een fijne en comfortabele tijd. In de tussentijd is onze zoon Abel geboren, wat deze nieuwe fase van ons leven nog specialer maakt. We nodigen jou van harte uit om ook van de rust en de natuur rondom ons tiny house te genieten. Of je nu komt voor een weekendje weg of een langere vakantie, we hopen dat ons huisje ook voor jou een fijne plek zal zijn om te ontspannen en tot rust te komen.",
+    text: "Het kleine huisje is van alle gemakken voorzien, omdat we het zelf ook vaak gebruiken en weten wat we nodig hebben voor een fijne en comfortabele tijd. De momenten die wij zelf niet in het huisje doorbrengen, delen we graag met jou. We hopen dat het er ook voor jou een fijne plek zal zijn om te ontspannen en tot rust te komen.",
   },
 ]
 
