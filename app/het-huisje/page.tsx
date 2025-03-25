@@ -178,6 +178,13 @@ export default function OverHetHuisjePage() {
               platteland, maar met alle voorzieningen binnen handbereik.
             </p>
 
+            <div className="mt-6">
+              <h3 className="font-medium mb-2">Adres</h3>
+              <p>Herenweg 285</p>
+              <p>1934 BC Egmond aan den Hoef</p>
+            </div>
+          </div>
+
           {/* Bijzonderheden */}
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
             <h2 className="text-2xl font-semibold mb-6">Bijzonderheden</h2>
@@ -199,4 +206,5 @@ export default function OverHetHuisjePage() {
     </main>
   )
 }
+
 
