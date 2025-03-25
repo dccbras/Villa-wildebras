@@ -45,7 +45,7 @@ export default function Page() {
       {/* Header met afbeelding */}
       <div className="relative h-96 w-full">
         <Image
-          src="zoe-gayah-jonker-tbvTNdviuc8-unsplash"
+          src="/zoe-gayah-jonker-tbvTNdviuc8-unsplash"
           alt="Tiny House Header"
           layout="fill"
           objectFit="cover"
