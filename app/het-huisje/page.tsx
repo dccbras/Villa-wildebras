@@ -174,8 +174,8 @@ export default function OverHetHuisjePage() {
               <li>Nabij diverse restaurants en winkels in Egmond.</li>
             </ul>
             <p>
-              De rustige locatie biedt een perfecte uitvalsbasis om de omgeving te verkennen. Geniet van de rust van het
-              platteland, maar met alle voorzieningen binnen handbereik.
+              De locatie biedt een perfecte uitvalsbasis om de omgeving te verkennen. Vanuit de grote ramen van het huisje heb je zicht op de duinrand waar wilde paarden en schotse hooglanders grazen. Je zit ook direct aan de weg waardoor alle voorzieningen binnen handbereik zijn. 
+              Het is goed om te weten dat het huisje niet midden in de natuur staat, maar wel beschikt over een grote tuin en veel privacy.
             </p>
 
             <div className="mt-6">
