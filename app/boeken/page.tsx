@@ -38,7 +38,7 @@ export default function BoekenPage() {
             {/* Cartoon bij-knop */}
             <div className="mt-8 flex justify-center">
               <a
-                href="https://www.natuurhuisje.nl"
+                href="https://www.natuurhuisje.nl/vakantiehuisje/83614"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block group relative"
