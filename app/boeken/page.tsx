@@ -32,7 +32,7 @@ export default function BoekenPage() {
             <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
 
             <p className="text-center mb-8">
-              Je kunt ook (met korting) direct bij ons boeken, neem contact met ons op voor een uitgebreide beschikbaarheidslijst.
+              Je kunt bij ons boeken via Natuurhuisje. Je kunt ook (met korting) direct bij ons boeken, neem contact met ons op voor een uitgebreide beschikbaarheidslijst.
             </p>
 
             {/* Cartoon bij-knop */}
