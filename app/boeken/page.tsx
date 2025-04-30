@@ -29,10 +29,10 @@ export default function BoekenPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Boek binnenkort jouw verblijf</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf via Natuurhuisje</h2>
 
             <p className="text-center mb-8">
-              Binnenkort boek je jouw verblijf bij Villa Wildebras!
+              Je kunt ook (met korting) direct bij ons boeken, neem contact met ons op voor een uitgebreide beschikbaarheidslijst.
             </p>
 
             {/* Cartoon bij-knop */}
@@ -84,7 +84,7 @@ export default function BoekenPage() {
 
                   {/* Knop */}
                   <div className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors px-8 py-4 rounded-lg flex items-center justify-center shadow-lg">
-                    <span className="text-white font-medium text-lg">Check de beschikbaarheid</span>
+                    <span className="text-white font-medium text-lg">Check de beschikbaarheid via Natuurhuisje/span>
                     <ExternalLink className="ml-2 h-5 w-5 text-white" />
                   </div>
                 </div>
