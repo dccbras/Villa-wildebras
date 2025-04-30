@@ -29,7 +29,7 @@ export default function BoekenPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf via Natuurhuisje</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
 
             <p className="text-center mb-8">
               Je kunt ook (met korting) direct bij ons boeken, neem contact met ons op voor een uitgebreide beschikbaarheidslijst.
