@@ -30,6 +30,11 @@ const AdminCalendar = () => {
       ...prev,
       [date]: status,
     }));
+
+    // Herlaad de beschikbaarheid om de nieuwste status te krijgen
+    const response = await fetch("/api/availability");
+    const data = await response.json();
+    setAvailabilityState(data);
   };
 
   return (
@@ -66,6 +71,11 @@ const AdminCalendar = () => {
         ))}
       </div>
     </div>
+  );
+};
+
+export default AdminCalendar;
+
   );
 };
 
