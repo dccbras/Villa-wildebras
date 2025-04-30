@@ -1,29 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { setAvailability } from "../lib/redis";  // Je eigen Redis-service
 
-type Availability = { [date: string]: "available" | "unavailable" };
+const AdminCalendar = () => {
+  const [availability, setAvailabilityState] = useState<any>({});
 
-export default function AvailabilityCalendar() {
-  const [availability, setAvailability] = useState<Availability>({});
-
+  // Laad de beschikbaarheid van Redis bij het laden van de pagina
   useEffect(() => {
-    fetch("/api/availability")
-      .then((res) => res.json())
-      .then(setAvailability);
+    // Functie om de beschikbare datums op te halen uit Redis
+    const fetchAvailability = async () => {
+      const response = await fetch('/api/availability');
+      const data = await response.json();
+      setAvailabilityState(data);
+    };
+    fetchAvailability();
   }, []);
+
+  // Functie om de beschikbaarheid bij te werken in Redis
+  const updateAvailability = async (date: string, status: "available" | "unavailable") => {
+    await fetch('/api/availability', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ date, status }),
+    });
+
+    // Update de state direct na het aanpassen
+    setAvailabilityState((prev: any) => ({
+      ...prev,
+      [date]: status,
+    }));
+  };
 
   return (
     <div>
-      <h2>Beschikbaarheid</h2>
-      {["2025-05-01", "2025-05-02", "2025-05-03"].map((date) => (
-        <div key={date}>
-          <span>{date}</span>
-          <span style={{ color: availability[date] === "available" ? "green" : "red" }}>
-            {availability[date] || "onbekend"}
-          </span>
-        </div>
-      ))}
+      <h1>Kalenderbeheer</h1>
+      <div>
+        {Object.keys(availability).map((date) => (
+          <div key={date}>
+            <span>{date}</span>
+            <button onClick={() => updateAvailability(date, "available")}>Beschikbaar</button>
+            <button onClick={() => updateAvailability(date, "unavailable")}>Niet Beschikbaar</button>
+            <span>{availability[date]}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default AdminCalendar;
+
