@@ -1,23 +1,18 @@
-import { NextResponse } from 'next/server';
-import { Redis } from '@upstash/redis';
+import { NextResponse } from "next/server";
+import { setAvailability } from "../../../lib/redis";  // Voeg hier de Redis-communicatie toe
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
-const KEY = "beschikbaarheid"; // de key waaronder je alle data opslaat
-
-// GET – Haal beschikbaarheid op
+// Haal de beschikbaarheid op (GET)
 export async function GET() {
-  const data = await redis.get(KEY);
-  return NextResponse.json(data || {});
+  const availability = await getAvailability();  // Haal de beschikbaarheid op uit Redis
+  return NextResponse.json(availability);
 }
 
-// POST – Sla nieuwe beschikbaarheid op
+// Update de beschikbaarheid (POST)
 export async function POST(req: Request) {
-  const body = await req.json();
-  await redis.set(KEY, body);
-  return NextResponse.json({ success: true });
+  const { date, status } = await req.json();
+
+  // Update de beschikbaarheid in Redis
+  await setAvailability(date, status);
+  return NextResponse.json({ message: "Beschikbaarheid geüpdatet" });
 }
 
