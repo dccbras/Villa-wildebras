@@ -1,5 +1,5 @@
 // app/api/availability/route.ts
-import { setAvailability, getAvailability } from "../../lib/redis";
+import { getAvailability, setAvailability } from '../../../lib/redis';
 
 export async function GET() {
   // Haal de actuele beschikbaarheid op uit Redis
