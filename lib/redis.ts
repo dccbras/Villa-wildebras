@@ -1,15 +1,9 @@
-import { Redis } from "@upstash/redis";
+import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
-  url: process.env.REDIS_URL,
-  token: process.env.REDIS_TOKEN,
-});
+  url: 'https://tender-parakeet-22011.upstash.io',
+  token: 'AVX7AAIjcDFiZjFmY2I2YTYzMTI0NTM5YWY3Y2EwZDg1NzAzYTdiYnAxMA',
+})
 
-export const setAvailability = async (date: string, status: "available" | "unavailable") => {
-  await redis.hset("availability", date, status);
-};
-
-export const getAvailability = async () => {
-  const availability = await redis.hgetall("availability");
-  return availability;
-};
+await redis.set('foo', 'bar');
+const data = await redis.get('foo');
