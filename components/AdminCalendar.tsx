@@ -76,8 +76,3 @@ const AdminCalendar = () => {
 
 export default AdminCalendar;
 
-  );
-};
-
-export default AdminCalendar;
-
