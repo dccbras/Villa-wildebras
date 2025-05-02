@@ -75,4 +75,4 @@ const AvailabilityCalendar = () => {
   );
 };
 
-export default AvailabilityCalendar;  // Zorg ervoor dat dit de enige export default is!
+export default AvailabilityCalendar;
