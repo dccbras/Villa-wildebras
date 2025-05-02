@@ -22,12 +22,19 @@ const months = Array.from({ length: 13 }, (_, i) => {
 const AvailabilityCalendar = () => {
   const [availability, setAvailability] = useState<Availability>({});
 
-  useEffect(() => {
-    const saved = localStorage.getItem("availability");
-    if (saved) {
-      setAvailability(JSON.parse(saved));
+useEffect(() => {
+  const fetchAvailability = async () => {
+    try {
+      const res = await fetch("/api/availability");
+      const data = await res.json();
+      setAvailability(data);
+    } catch (error) {
+      console.error("Fout bij ophalen beschikbaarheid:", error);
     }
-  }, []);
+  };
+
+  fetchAvailability();
+}, []);
 
   return (
     <div className="space-y-8">
