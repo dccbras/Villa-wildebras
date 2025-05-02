@@ -1,24 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 type Availability = {
   [date: string]: "available" | "unavailable";
 };
 
-const AvailabilityCalendar = () => {
-  const [availability, setAvailability] = useState<Availability>({});
+const getMonthDays = (year: number, month: number) => {
+  const days = new Date(year, month + 1, 0).getDate();
+  return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
+};
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("/api/availability"); // deze endpoint heeft ISR via server
-      const data = await res.json();
-      setAvailability(data);
-    }
+const months = Array.from({ length: 13 }, (_, i) => {
+  const date = new Date(2025, 4 + i, 1);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+  };
+});
 
-    fetchData();
-  }, []);
+type AvailabilityCalendarProps = {
+  availability: Availability;
+};
 
+const AvailabilityCalendar = ({ availability }: AvailabilityCalendarProps) => {
   return (
     <div className="space-y-8">
       {months.map(({ year, month }) => {
@@ -64,5 +69,8 @@ const AvailabilityCalendar = () => {
     </div>
   );
 };
+
+export default AvailabilityCalendar;
+
 
 export default AvailabilityCalendar;
