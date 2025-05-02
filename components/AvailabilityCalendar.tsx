@@ -1,6 +1,6 @@
-"use client";
+// In AvailabilityCalendar.tsx
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Availability = {
   [date: string]: "available" | "unavailable";
@@ -19,11 +19,16 @@ const months = Array.from({ length: 13 }, (_, i) => {
   };
 });
 
-type AvailabilityCalendarProps = {
-  availability: Availability;
-};
+const AvailabilityCalendar = () => {
+  const [availability, setAvailability] = useState<Availability>({});
 
-const AvailabilityCalendar = ({ availability }: AvailabilityCalendarProps) => {
+  useEffect(() => {
+    const saved = localStorage.getItem("availability");
+    if (saved) {
+      setAvailability(JSON.parse(saved));
+    }
+  }, []);
+
   return (
     <div className="space-y-8">
       {months.map(({ year, month }) => {
@@ -70,7 +75,4 @@ const AvailabilityCalendar = ({ availability }: AvailabilityCalendarProps) => {
   );
 };
 
-export default AvailabilityCalendar;
-
-
-export default AvailabilityCalendar;
+export default AvailabilityCalendar;  // Zorg ervoor dat dit de enige export default is!
