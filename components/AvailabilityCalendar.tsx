@@ -6,35 +6,18 @@ type Availability = {
   [date: string]: "available" | "unavailable";
 };
 
-const getMonthDays = (year: number, month: number) => {
-  const days = new Date(year, month + 1, 0).getDate();
-  return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
-};
-
-const months = Array.from({ length: 13 }, (_, i) => {
-  const date = new Date(2025, 4 + i, 1);
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-  };
-});
-
 const AvailabilityCalendar = () => {
   const [availability, setAvailability] = useState<Availability>({});
 
-useEffect(() => {
-  const fetchAvailability = async () => {
-    try {
-      const res = await fetch("/api/availability");
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("/api/availability"); // deze endpoint heeft ISR via server
       const data = await res.json();
       setAvailability(data);
-    } catch (error) {
-      console.error("Fout bij ophalen beschikbaarheid:", error);
     }
-  };
 
-  fetchAvailability();
-}, []);
+    fetchData();
+  }, []);
 
   return (
     <div className="space-y-8">
