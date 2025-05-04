@@ -52,7 +52,7 @@ export default async function BoekenPage() {
             </ul>
             <a
               href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
-              className="inline-block bg-green-600 hover:bg-green-700 transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
+              className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
             >
               Stuur een e-mail
             </a>
