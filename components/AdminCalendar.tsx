@@ -2,77 +2,103 @@
 
 import React, { useState, useEffect } from "react";
 
-const AdminCalendar = () => {
-  const [availability, setAvailabilityState] = useState<any>({});
+const getMonthDays = (year: number, month: number) => {
+  const days = new Date(year, month + 1, 0).getDate();
+  return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
+};
 
-  // Laad de beschikbaarheid van Redis bij het laden van de pagina
+const months = Array.from({ length: 13 }, (_, i) => {
+  const date = new Date(2025, 4 + i, 1);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+  };
+});
+
+const AdminCalendar = () => {
+  const [availability, setAvailability] = useState<any>({});
+
   useEffect(() => {
     const fetchAvailability = async () => {
       const response = await fetch("/api/availability");
       const data = await response.json();
-      setAvailabilityState(data);
+      setAvailability(data);
     };
     fetchAvailability();
   }, []);
 
-  // Functie om de beschikbaarheid bij te werken in Redis
-  const updateAvailability = async (date: string, status: "available" | "unavailable") => {
+  const toggleAvailability = async (date: string) => {
+    const currentStatus = availability[date] === "available" ? "unavailable" : "available";
+
     await fetch("/api/availability", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ date, status }),
+      body: JSON.stringify({ date, status: currentStatus }),
     });
 
-    // Update de state direct na het aanpassen
-    setAvailabilityState((prev: any) => ({
+    // Update lokale state
+    setAvailability((prev: any) => ({
       ...prev,
-      [date]: status,
+      [date]: currentStatus,
     }));
-
-    // Herlaad de beschikbaarheid om de nieuwste status te krijgen
-    const response = await fetch("/api/availability");
-    const data = await response.json();
-    setAvailabilityState(data);
   };
 
   return (
-    <div>
-      <h1>Kalenderbeheer</h1>
-      <div>
-        {Object.keys(availability).map((date) => (
-          <div key={date} className="flex items-center mb-2">
-            <span className="mr-2">{date}</span>
-            <button
-              onClick={() => updateAvailability(date, "available")}
-              className={`px-4 py-2 rounded ${
-                availability[date] === "available" ? "bg-green-500" : "bg-gray-300"
-              }`}
-            >
-              Beschikbaar
-            </button>
-            <button
-              onClick={() => updateAvailability(date, "unavailable")}
-              className={`px-4 py-2 rounded ${
-                availability[date] === "unavailable" ? "bg-red-500" : "bg-gray-300"
-              }`}
-            >
-              Niet Beschikbaar
-            </button>
-            <span
-              className={`ml-4 px-2 py-1 rounded ${
-                availability[date] === "available" ? "bg-green-200" : "bg-red-200"
-              }`}
-            >
-              {availability[date]}
-            </span>
+    <div className="space-y-8">
+      <h1 className="text-2xl font-bold mb-4">Kalenderbeheer</h1>
+
+      {months.map(({ year, month }) => {
+        const days = getMonthDays(year, month);
+        const firstDay = new Date(year, month, 1).getDay();
+        const offset = (firstDay + 6) % 7;
+
+        return (
+          <div key={`${year}-${month}`} className="border p-4 rounded-xl shadow">
+            <h2 className="text-xl font-semibold mb-4">
+              {new Date(year, month).toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              })}
+            </h2>
+            <div className="grid grid-cols-7 gap-2">
+              {["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"].map((d) => (
+                <div key={d} className="text-sm text-center font-semibold">
+                  {d}
+                </div>
+              ))}
+
+              {/* Lege vakjes vooraan */}
+              {Array.from({ length: offset }, (_, i) => (
+                <div key={`empty-${i}`} />
+              ))}
+
+              {days.map((day) => {
+                const dateStr = day.toISOString().split("T")[0];
+                const status = availability[dateStr] || "unavailable";
+
+                return (
+                  <button
+                    key={dateStr}
+                    onClick={() => toggleAvailability(dateStr)}
+                    className={`w-10 h-10 rounded-full text-sm font-medium flex items-center justify-center ${
+                      status === "available"
+                        ? "bg-green-400 text-white"
+                        : "bg-red-400 text-white"
+                    }`}
+                    title={`${dateStr} - klik om te wisselen`}
+                  >
+                    {day.getDate()}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 };
 
 export default AdminCalendar;
-
