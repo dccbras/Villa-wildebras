@@ -30,24 +30,23 @@ return (
       <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
         <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Optie 1: Direct boeken */}
-          <div className="border border-gray-200 rounded-lg p-6 shadow-sm">
-            <h3 className="text-xl font-semibold mb-4">Direct boeken bij ons</h3>
-            <p className="mb-4">
-              Je kunt direct bij ons boeken voor een lager tarief. Bekijk de beschikbaarheid en neem contact met ons op om te reserveren.
-            </p>
-            <ul className="mb-4 text-gray-700">
-              <li>• €95,00 per nacht (minimaal 3 nachten)</li>
-              <li>• €570,- voor 1 week (van maandag tot zondag)</li>
-            </ul>
-            <a
-              href="https://www.villawildebras.nl/beschikbaarheid"
-              className="inline-block bg-green-600 hover:bg-green-700 transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
-            >
-              Bekijk beschikbaarheid
-            </a>
-          </div>
+{/* Optie 1: Direct boeken */}
+<div className="border border-gray-200 rounded-lg p-6 shadow-sm">
+  <h3 className="text-xl font-semibold mb-4">Direct boeken bij ons</h3>
+  <p className="mb-4">
+    Je kunt direct bij ons boeken. Bekijk de beschikbaarheid en stuur ons een e-mail om te reserveren.
+  </p>
+  <ul className="mb-4 text-gray-700">
+    <li>• €95,00 per nacht (minimaal 3 nachten)</li>
+    <li>• €570,- voor 1 week (van maandag tot zondag)</li>
+  </ul>
+  <a
+    href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
+    className="inline-block bg-green-600 hover:bg-green-700 transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
+  >
+    Stuur een e-mail
+  </a>
+</div>
 
           {/* Optie 2: Natuurhuisje */}
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm flex flex-col items-center">
