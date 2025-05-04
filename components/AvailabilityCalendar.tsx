@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 type Availability = {
   [date: string]: "available" | "unavailable";
@@ -19,16 +19,7 @@ const months = Array.from({ length: 13 }, (_, i) => {
   };
 });
 
-const AvailabilityCalendar = () => {
-  const [availability, setAvailability] = useState<Availability>({});
-
-  useEffect(() => {
-    const saved = localStorage.getItem("availability");
-    if (saved) {
-      setAvailability(JSON.parse(saved));
-    }
-  }, []);
-
+const AvailabilityCalendar = ({ availability }: { availability: Availability }) => {
   return (
     <div className="space-y-8">
       {months.map(({ year, month }) => {
@@ -76,3 +67,4 @@ const AvailabilityCalendar = () => {
 };
 
 export default AvailabilityCalendar;
+
