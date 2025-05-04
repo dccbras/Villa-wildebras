@@ -29,7 +29,7 @@ return (
     <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
       <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
         <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
-
+<div className="grid md:grid-cols-2 gap-8">
 {/* Optie 1: Direct boeken */}
 <div className="border border-gray-200 rounded-lg p-6 shadow-sm">
   <h3 className="text-xl font-semibold mb-4">Direct boeken bij ons</h3>
