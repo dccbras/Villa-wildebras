@@ -4,7 +4,7 @@ import { Home, MapPin, Sparkles, Flame, Utensils, Wifi, Instagram } from "lucide
 
 export const metadata: Metadata = {
   title: "Over het huisje | Villa Wildebras",
-  description: "Ontdek alles over ons tiny house Villa Wildebras in Egmond.",
+  description: "Ontdek alles over ons Tiny House Villa Wildebras in Egmond.",
 }
 
 export default function OverHetHuisjePage() {
@@ -30,21 +30,18 @@ export default function OverHetHuisjePage() {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Introductie */}
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6">Bekijk het tiny house van binnen</h2>
+            <h2 className="text-2xl font-semibold mb-6">Bekijk het Tiny House van binnen</h2>
             <p className="mb-4">
-              Villa Wildebras is een charmant tiny house gelegen in het prachtige Egmond aan den Hoef. Het huisje staat
+              Villa Wildebras is een charmant Tiny House gelegen in het prachtige Egmond aan den Hoef. Het huisje staat
               aan de duinrand op het erf van een oude bloembollenkwekerij. Wij bieden een unieke en comfortabele
               verblijfservaring, perfect voor wie op zoek is naar rust en natuur, maar toch dicht bij alle voorzieningen
               wil zijn.
             </p>
             <p>
-              Het tiny house is met zorg ingericht en biedt alles wat u nodig heeft voor een ontspannen verblijf. Geniet
+              Het Tiny House is met zorg ingericht en biedt alles wat je nodig hebt voor een ontspannen verblijf. Geniet
               van de rust, de prachtige omgeving en de gezellige sfeer die ons huisje te bieden heeft.
             </p>
             <p>
-              Het huisje staat sinds eind zomer 2024 op zijn plaats. Wij klussen nog heel vaak aan het huisje om het
-              steeds weer wat extra comfortabel te maken. Zo zijn we nu volop bezig met het ontwerpen van een gezellige
-              tuin voor in de zomer.
             </p>
           </div>
 
@@ -70,7 +67,7 @@ export default function OverHetHuisjePage() {
 
           {/* Fotocollage 1 */}
           <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-            <h2 className="text-2xl font-semibold mb-6">Ons tiny house</h2>
+            <h2 className="text-2xl font-semibold mb-6">Ons Tiny House</h2>
             <div className="rounded-lg overflow-hidden">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotocollege%20zonder%20filter%201-mCoyuZGi5lPaAMBrpQ7qrCI1EbJU05.png"
@@ -98,7 +95,7 @@ export default function OverHetHuisjePage() {
                   <div>
                     <h3 className="font-medium">Comfortabel verblijf</h3>
                     <p>
-                      Ondanks de compacte afmetingen biedt ons tiny house alle comfort die u nodig heeft. Met een
+                      Ondanks de compacte afmetingen biedt ons Tiny House alle comfort die je nodig hebt. Met een
                       gezellige woonruimte, volledig uitgeruste keuken, comfortabele slaapvide en een moderne badkamer.
                     </p>
                   </div>
@@ -174,8 +171,8 @@ export default function OverHetHuisjePage() {
               <li>Nabij diverse restaurants en winkels in Egmond.</li>
             </ul>
             <p>
-              De locatie biedt een perfecte uitvalsbasis om de omgeving te verkennen. Vanuit de grote ramen van het huisje heb je zicht op de duinrand waar wilde paarden en schotse hooglanders grazen. Je zit ook direct aan de weg waardoor alle voorzieningen binnen handbereik zijn. 
-              Het is goed om te weten dat het huisje niet midden in de natuur staat, maar wel beschikt over een grote tuin en veel privacy.
+              De locatie biedt een perfecte uitvalsbasis om de omgeving te verkennen. Vanuit de grote ramen van het huisje heb je zicht op de duinrand waar wilde paarden en schotse hooglanders grazen. Daarnaast zijn alle voorzieningen binnen handbereik.
+              Laat het vooral weten wanneer je meer vragen hebt over ons geweldige huisje!
             </p>
 
             <div className="mt-6">
