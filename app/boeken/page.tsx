@@ -48,7 +48,8 @@ export default async function BoekenPage() {
             </p>
             <ul className="mb-4 text-gray-700">
               <li>• €95,00 per nacht (minimaal 3 nachten)</li>
-              <li>• €570,- voor 1 week (van maandag tot zondag)</li>
+              <li>• €570,- voor 1 week (van maandag tot zondag)
+              Prijzen zijn incl. schoonmaakkosten, linnengoed en toeristenbelasting.</li>              
             </ul>
             <a
               href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
