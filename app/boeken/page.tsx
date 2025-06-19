@@ -47,8 +47,8 @@ export default async function BoekenPage() {
               Je kunt direct bij ons boeken. Bekijk de beschikbaarheid en stuur ons een e-mail om te reserveren.
             </p>
             <ul className="mb-4 text-gray-700">
-              <li>• €95,00 per nacht (minimaal 3 nachten)</li>
-              <li>• €570,- voor 1 week (van maandag tot zondag)
+              <li>• €117 per nacht (minimaal 4 nachten)</li>
+              <li>• €690,- voor 1 week (van maandag tot zondag)
               Prijzen zijn incl. schoonmaakkosten, linnengoed en toeristenbelasting.</li>              
             </ul>
             <a
