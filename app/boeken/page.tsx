@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
 import AvailabilityCalendar from "@/components/AvailabilityCalendar"
 
 export const metadata: Metadata = {
@@ -48,47 +47,16 @@ export default async function BoekenPage() {
             </p>
             <ul className="mb-4 text-gray-700">
               <li>• €117 per nacht (minimaal 4 nachten)</li>
-              <li>• €690,- voor 1 week (van maandag tot zondag)
-              Prijzen zijn incl. schoonmaakkosten, linnengoed en toeristenbelasting.</li>              
+              <li>
+                • €690,- voor 1 week (van maandag tot zondag)<br />
+                Prijzen zijn incl. schoonmaakkosten, linnengoed en toeristenbelasting.
+              </li>
             </ul>
             <a
               href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
               className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
             >
               Stuur een e-mail
-            </a>
-          </div>
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
-                  <svg
-                    className="absolute w-48 h-24 -left-16 -top-8"
-                    viewBox="0 0 200 100"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10,50 Q50,10 100,50 T190,50"
-                      stroke="black"
-                      strokeWidth="2"
-                      strokeDasharray="5,5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="relative z-10 transition-transform group-hover:-translate-y-1">
-                    <div className="w-16 h-10 bg-black rounded-full relative overflow-hidden">
-                      <div className="absolute top-1 left-0 w-full h-2 bg-yellow-300"></div>
-                      <div className="absolute top-5 left-0 w-full h-2 bg-yellow-300"></div>
-                    </div>
-                    <div className="absolute -top-2 -left-2 w-8 h-6 bg-white rounded-full rotate-[30deg]"></div>
-                    <div className="absolute -top-2 -right-2 w-8 h-6 bg-white rounded-full -rotate-[30deg]"></div>
-                    <div className="absolute -top-3 left-5 w-1 h-3 bg-black"></div>
-                    <div className="absolute -top-3 right-5 w-1 h-3 bg-black"></div>
-                    <div className="absolute -top-4 left-5 w-2 h-2 bg-yellow-300 rounded-full"></div>
-                  </div>
-                </div>
-                </div>
-              </div>
             </a>
           </div>
 
