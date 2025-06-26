@@ -58,18 +58,6 @@ export default async function BoekenPage() {
               Stuur een e-mail
             </a>
           </div>
-
-          {/* Boeken via Natuurhuisje */}
-          <div className="border border-gray-200 rounded-lg p-6 shadow-sm flex flex-col items-center mb-8">
-            <p className="mb-4 text-center">
-              Je kunt ook boeken via Natuurhuisje. Let op: daar staat niet alle beschikbaarheid open. Neem gerust contact met ons op als je gewenste data er niet tussen staan.
-            </p>
-
-            <a
-              href="https://www.natuurhuisje.nl/vakantiehuisje/83614"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block group relative mt-4"
             >
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
