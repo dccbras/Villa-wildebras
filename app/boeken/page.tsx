@@ -87,10 +87,6 @@ export default async function BoekenPage() {
                     <div className="absolute -top-4 left-5 w-2 h-2 bg-yellow-300 rounded-full"></div>
                   </div>
                 </div>
-
-                <div className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors px-6 py-3 rounded-lg flex items-center justify-center shadow-lg">
-                  <span className="text-white font-medium text-lg">Boeken via Natuurhuisje</span>
-                  <ExternalLink className="ml-2 h-5 w-5 text-white" />
                 </div>
               </div>
             </a>
