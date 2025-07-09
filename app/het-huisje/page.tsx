@@ -70,7 +70,7 @@ export default function OverHetHuisjePage() {
             <h2 className="text-2xl font-semibold mb-6">Ons Tiny House</h2>
             <div className="rounded-lg overflow-hidden">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotocollege%20zonder%20filter%201-mCoyuZGi5lPaAMBrpQ7qrCI1EbJU05.png"
+                src="Fotocollage impressie.jpg"
                 alt="Fotocollage van Villa Wildebras"
                 width={1200}
                 height={1200}
@@ -144,7 +144,7 @@ export default function OverHetHuisjePage() {
             <h2 className="text-2xl font-semibold mb-6">Interieur impressie</h2>
             <div className="rounded-lg overflow-hidden">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotocollage%20zonder%20filter%202-0xJzitG054PS8Wjgk935FZdNtVLmEQ.png"
+                src="Fotocollage impressie (1).jpg"
                 alt="Interieur fotocollage van Villa Wildebras"
                 width={1200}
                 height={1200}
