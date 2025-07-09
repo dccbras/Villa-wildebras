@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="relative aspect-square overflow-hidden rounded-xl lg:aspect-auto lg:h-[600px]">
               <Image
-                src="/5194EF5E-9065-4026-886D-8201A810361C.JPEG"
+                src="/IMG_9386 (1).JPEG"
                 alt="Villa Wildebras interieur"
                 fill
                 className="object-cover"
