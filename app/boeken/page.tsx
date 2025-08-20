@@ -42,19 +42,37 @@ export default async function BoekenPage() {
           {/* Direct boeken */}
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
             <h3 className="text-xl font-semibold mb-4">Direct boeken bij ons</h3>
-            <p className="mb-4">
+            <p className="mb-6">
               Je kunt direct bij ons boeken. Bekijk de beschikbaarheid en stuur ons een e-mail om te reserveren.
             </p>
-            <ul className="mb-4 text-gray-700">
-              <li>• €117 per nacht (minimaal 4 nachten)</li>
-              <li>
-                • €690,- voor 1 week (van maandag tot zondag)<br />
-                Prijzen zijn incl. schoonmaakkosten, linnengoed en toeristenbelasting.
-              </li>
-            </ul>
+
+            <div className="space-y-6">
+              {/* Zomertarief */}
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Zomertarief <span className="font-normal">(mei t/m september)</span></h4>
+                <ul className="text-gray-700 list-disc list-inside">
+                  <li>€117 per nacht (minimaal 4 nachten)</li>
+                  <li>€690 per week (maandag t/m zondag)</li>
+                </ul>
+              </div>
+
+              {/* Wintertarief */}
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Wintertarief <span className="font-normal">(oktober t/m april)</span></h4>
+                <ul className="text-gray-700 list-disc list-inside">
+                  <li>€110 per nacht (minimaal 3 nachten)</li>
+                  <li>€600 per week (maandag t/m zondag)</li>
+                </ul>
+              </div>
+            </div>
+
+            <p className="mt-6 text-gray-700">
+              Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
+            </p>
+
             <a
               href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
-              className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
+              className="inline-block mt-6 bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
             >
               Stuur een e-mail
             </a>
