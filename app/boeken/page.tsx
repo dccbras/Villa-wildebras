@@ -39,62 +39,31 @@ export default async function BoekenPage() {
         <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
           <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
 
-          {/* Direct boeken */}
-          <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
-            <h3 className="text-xl font-semibold mb-4">Direct boeken bij ons</h3>
-            <p className="mb-6">
-              Je kunt direct bij ons boeken. Bekijk de beschikbaarheid en stuur ons een e-mail om te reserveren.
-            </p>
-
-            <div className="space-y-6">
-              {/* Zomertarief */}
-              <div>
-                <h4 className="text-lg font-semibold mb-2">Zomertarief <span className="font-normal">(mei t/m september)</span></h4>
-                <ul className="text-gray-700 list-disc list-inside">
-                  <li>€117 per nacht (minimaal 4 nachten)</li>
-                  <li>€690 per week (maandag t/m zondag)</li>
-                </ul>
-              </div>
-
-              {/* Wintertarief */}
-              <div>
-                <h4 className="text-lg font-semibold mb-2">Wintertarief <span className="font-normal">(oktober t/m april)</span></h4>
-                <ul className="text-gray-700 list-disc list-inside">
-                  <li>€110 per nacht (minimaal 3 nachten)</li>
-                  <li>€600 per week (maandag t/m zondag)</li>
-                </ul>
-              </div>
-            </div>
-
-            <p className="mt-6 text-gray-700">
-              Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
-            </p>
-
-            <a
-              href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
-              className="inline-block mt-6 bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
-            >
-              Stuur een e-mail
-            </a>
-          </div>
-
-          {/* Airbnb prijzen */}
+          {/* Prijsinformatie via Airbnb */}
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4">Prijs bekijken op Airbnb</h3>
+            <h3 className="text-xl font-semibold mb-4">Prijzen & reserveren</h3>
             <p className="text-gray-700 mb-4">
-              Wil je de actuele prijs van je verblijf zien? Bekijk dan onze <a 
-                href="https://www.airbnb.nl/rooms/1421709322516548820?adults=2&search_mode=regular_search&source_impression_id=p3_1747506249_P31g_VcaNn26DfDl&previous_page_section_name=1000&federated_search_id=20e86a3a-a1b3-46fb-9d64-b51e515e1c13&guests=1&check_in=2025-10-06&check_out=2025-10-12" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              De actuele prijzen van je verblijf kun je bekijken via onze{" "}
+              <a
+                href="https://www.airbnb.nl/rooms/1421709322516548820?adults=2&search_mode=regular_search&source_impression_id=p3_1747506249_P31g_VcaNn26DfDl&previous_page_section_name=1000&federated_search_id=20e86a3a-a1b3-46fb-9d64-b51e515e1c13&guests=1&check_in=2025-10-06&check_out=2025-10-12"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#B84C65] font-medium hover:underline"
               >
                 Airbnb-pagina
               </a>.
             </p>
-            <p className="text-gray-700">
+            <p className="text-gray-700 mb-6">
               Boek je daarna direct via ons? Dan krijg je <strong>altijd minimaal €50 korting</strong> op de totaalprijs.  
-              Onze prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
+              Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
             </p>
+
+            <a
+              href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
+              className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
+            >
+              Direct boeken via e-mail
+            </a>
           </div>
 
           {/* Beschikbaarheid tonen */}
