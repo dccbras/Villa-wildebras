@@ -54,7 +54,7 @@ export default async function BoekenPage() {
               </a>.
             </p>
             <p className="text-gray-700 mb-6">
-              Boek je daarna direct via ons? Dan krijg je <strong>altijd minimaal €50 korting</strong> op de totaalprijs.  
+              Boek je daarna direct via ons? Dan krijg je <strong>altijd minimaal €50 korting</strong> op de totaalprijs. Bij een langer verblijf, ontvang je meer korting.  
               Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
             </p>
 
