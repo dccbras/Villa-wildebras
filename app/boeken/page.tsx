@@ -78,6 +78,25 @@ export default async function BoekenPage() {
             </a>
           </div>
 
+          {/* Airbnb prijzen */}
+          <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">Prijs bekijken op Airbnb</h3>
+            <p className="text-gray-700 mb-4">
+              Wil je de actuele prijs van je verblijf zien? Bekijk dan onze <a 
+                href="https://www.airbnb.nl/rooms/1421709322516548820?adults=2&search_mode=regular_search&source_impression_id=p3_1747506249_P31g_VcaNn26DfDl&previous_page_section_name=1000&federated_search_id=20e86a3a-a1b3-46fb-9d64-b51e515e1c13&guests=1&check_in=2025-10-06&check_out=2025-10-12" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[#B84C65] font-medium hover:underline"
+              >
+                Airbnb-pagina
+              </a>.
+            </p>
+            <p className="text-gray-700">
+              Boek je daarna direct via ons? Dan krijg je <strong>altijd minimaal €50 korting</strong> op de totaalprijs.  
+              Onze prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
+            </p>
+          </div>
+
           {/* Beschikbaarheid tonen */}
           <div className="mt-12">
             <h3 className="text-xl font-semibold mb-4 text-center">Beschikbaarheid</h3>
@@ -88,4 +107,3 @@ export default async function BoekenPage() {
     </main>
   )
 }
-
