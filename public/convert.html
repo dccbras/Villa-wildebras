@@ -336,6 +336,161 @@
   // quick keyboard: enter triggers convert
   document.addEventListener('keydown',(e)=>{ if(e.key==='Enter' && (document.activeElement===widthInput || document.activeElement===heightInput)) { e.preventDefault(); if(!convertBtn.disabled) convertBtn.click(); }});
 
+  // ----- BANNER: functies en eventlisteners -----
+  const color1 = document.getElementById('color1');
+  const color1hex = document.getElementById('color1hex');
+  const color2 = document.getElementById('color2');
+  const color2hex = document.getElementById('color2hex');
+  const stripeHeightInput = document.getElementById('stripeHeight');
+  const genBannerBtn = document.getElementById('genBanner');
+  const previewBannerBtn = document.getElementById('previewBanner');
+  const bannerPreview = document.getElementById('bannerPreview');
+  const bannerMeta = document.getElementById('bannerMeta');
+
+  // helper: normaliseer hex (zorg dat # aanwezig)
+  function normalizeHex(s){
+    if(!s) return '#000000';
+    s = String(s).trim();
+    if(s[0] !== '#') s = '#' + s;
+    // basic validation length 4 or 7
+    if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
+    return s;
+  }
+
+  // two-way sync color inputs (picker <-> text)
+  function syncColorInputs(pickerEl, textEl){
+    if(!pickerEl || !textEl) return;
+    // when picker changes, update text
+    pickerEl.addEventListener('input', ()=> {
+      textEl.value = pickerEl.value;
+    });
+    // when text changes, update picker (if valid)
+    textEl.addEventListener('change', ()=> {
+      const h = normalizeHex(textEl.value);
+      textEl.value = h;
+      pickerEl.value = h;
+    });
+    // init
+    textEl.value = normalizeHex(textEl.value || pickerEl.value);
+    pickerEl.value = normalizeHex(pickerEl.value || textEl.value);
+  }
+
+  syncColorInputs(color1, color1hex);
+  syncColorInputs(color2, color2hex);
+
+  // Generate a PNG data URL synchronously for the banner
+  function generateBannerDataUrl() {
+    try {
+      const W = 2480, H = 175;
+      const canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      if(!ctx) throw new Error('Canvas context niet beschikbaar');
+
+      // background white
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,W,H);
+
+      // read and sanitize inputs
+      const c1 = normalizeHex(color1.value || color1hex.value);
+      const c2 = normalizeHex(color2.value || color2hex.value);
+      const stripeH = Math.max(0, Math.min(175, parseInt(stripeHeightInput.value, 10) || 0));
+      const bottomH = 25; // fixed bottom height per jouw specificatie
+
+      // draw color2 (boven de onderste balk)
+      // position: top of the stripes sits above bottomH, so start at H - bottomH - stripeH
+      ctx.fillStyle = c2;
+      ctx.fillRect(0, H - bottomH - stripeH, W, stripeH);
+
+      // draw bottom color1
+      ctx.fillStyle = c1;
+      ctx.fillRect(0, H - bottomH, W, bottomH);
+
+      // return PNG data URL
+      return canvas.toDataURL('image/png');
+    } catch (err) {
+      console.error('generateBannerDataUrl error', err);
+      throw err;
+    }
+  }
+
+  // Download using data URL
+  function downloadBanner() {
+    try {
+      const dataUrl = generateBannerDataUrl();
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `banner-2480x175.png`;
+      // ensure it is clickable in all browsers
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      bannerMeta.textContent = `Banner gegenereerd — 2480×175 px.`;
+    } catch (err) {
+      alert('Fout bij maken banner: ' + (err && err.message ? err.message : err));
+    }
+  }
+
+  // Preview: open a new window/tab or fallback to in-page preview
+  function previewBanner() {
+    try {
+      const dataUrl = generateBannerDataUrl();
+      // probeer nieuw venster
+      const w = window.open();
+      if (w) {
+        w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Banner preview</title></head><body style="margin:0;display:flex;align-items:center;justify-content:center;background:#f3f3f3;">' +
+          '<img src="' + dataUrl + '" alt="Banner preview" style="max-width:100%;height:auto;display:block;box-shadow:0 6px 18px rgba(0,0,0,0.08)" />' +
+          '</body></html>');
+        w.document.close();
+        bannerMeta.textContent = `Preview geopend in nieuw venster.`;
+        return;
+      }
+      // fallback: show in page preview area
+      bannerPreview.innerHTML = '';
+      const img = new Image();
+      img.src = dataUrl;
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '8px';
+      img.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)';
+      bannerPreview.appendChild(img);
+      bannerMeta.textContent = `Preview in pagina (popup geblokkeerd).`;
+    } catch (err) {
+      alert('Fout bij preview banner: ' + (err && err.message ? err.message : err));
+    }
+  }
+
+  // Wire buttons
+  if (genBannerBtn) genBannerBtn.addEventListener('click', downloadBanner);
+  if (previewBannerBtn) previewBannerBtn.addEventListener('click', previewBanner);
+
+  // Optional: show a live mini-preview whenever inputs change (debounced)
+  let previewTimer = null;
+  function scheduleInlinePreview(){
+    if(previewTimer) clearTimeout(previewTimer);
+    previewTimer = setTimeout(()=> {
+      // generate a small preview for the page (scaled)
+      try {
+        const dataUrl = generateBannerDataUrl();
+        bannerPreview.innerHTML = '';
+        const img = new Image();
+        img.src = dataUrl;
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '6px';
+        bannerPreview.appendChild(img);
+      } catch (e) {
+        // ignore preview errors
+      }
+    }, 250);
+  }
+  [color1, color1hex, color2, color2hex, stripeHeightInput].forEach(el => {
+    if(!el) return;
+    el.addEventListener('input', scheduleInlinePreview);
+    el.addEventListener('change', scheduleInlinePreview);
+  });
+
+  // initial inline preview
+  scheduleInlinePreview();
 })();
 </script>
 </body>
