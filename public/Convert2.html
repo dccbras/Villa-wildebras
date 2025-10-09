@@ -196,7 +196,7 @@
  
 <body>
 <h1>AFAS Icon Finder</h1>
-<p class="lead">Voer een zoekterm in en bekijk de best passende iconen uit jouw AFAS Iconen-set.</p>
+<p class="lead">Voer een zoekterm in en bekijk de best passende iconen uit jouw AFAS Iconen-map.</p>
  
 <section class="card">
 <label for="searchTerm"><strong>Zoekterm:</strong></label>
@@ -221,29 +221,41 @@
 
   const results = document.getElementById('results');
  
-  // Gebruik jouw lokale iconen (moeten in dezelfde map als dit HTML-bestand staan)
+  // === Iconenlijst === //
 
   const icons = [
 
-    { name: "Boekingsmatrix", keywords: ["boek", "matrix", "boekingsmatrix"], url: "BOEKINGSMATRIX.png" },
+    { name: "Boekingsmatrix", keywords: ["boek", "matrix", "boekingsmatrix"], file: "BOEKINGSMATRIX.png" },
 
-    { name: "Controleren", keywords: ["controleren", "check", "beoordelen"], url: "CONTROLEREN.png" },
+    { name: "Controleren", keywords: ["controleren", "check", "beoordelen"], file: "CONTROLEREN.png" },
 
-    { name: "Fixed Price", keywords: ["prijs", "factuur", "bedrag"], url: "FIXED PRICE.png" },
+    { name: "Fixed Price", keywords: ["prijs", "factuur", "bedrag", "tarief"], file: "FIXED PRICE.png" },
 
-    { name: "Geaccordeerde uren", keywords: ["uren", "geaccordeerd", "goedkeuren"], url: "Geaccordeerde uren.png" },
+    { name: "Geaccordeerde uren", keywords: ["uren", "geaccordeerd", "goedkeuren", "tijd"], file: "Geaccordeerde uren.png" },
 
-    { name: "Medewerker uren boeken", keywords: ["uren", "boeken", "medewerker", "tijd"], url: "MW UREN BOEKEN.png" },
+    { name: "Medewerker uren boeken", keywords: ["uren", "boeken", "medewerker", "tijd", "registratie"], file: "MW UREN BOEKEN.png" },
 
-    { name: "Aan team deelnemen", keywords: ["team", "samenwerken", "groep", "collega"], url: "AAN TEAM DEELNEMEN.png" },
+    { name: "Aan team deelnemen", keywords: ["team", "samenwerken", "groep", "collega", "medewerker"], file: "AAN TEAM DEELNEMEN.png" },
 
-    { name: "Abonnementen", keywords: ["abo", "abonnement", "contract"], url: "Abonnementen.png" },
+    { name: "Abonnementen", keywords: ["abo", "abonnement", "contract"], file: "Abonnementen.png" },
 
-    { name: "Accorderen beoordelen", keywords: ["accoord", "beoordeling", "goedkeuren"], url: "ACCORDEREN BEOORDELEN.png" },
+    { name: "Accorderen beoordelen", keywords: ["accoord", "beoordeling", "goedkeuren", "uren"], file: "ACCORDEREN BEOORDELEN.png" },
 
-    { name: "Agekeurde uren", keywords: ["uren", "gekeurd", "beoordeling"], url: "AGEKEURDE UREN.png" }
+    { name: "Agekeurde uren", keywords: ["uren", "gekeurd", "goedkeuring", "tijd"], file: "AGEKEURDE UREN.png" }
 
   ];
+ 
+  // === Eenvoudige fuzzy matching === //
+
+  function fuzzyMatch(term, keyword) {
+
+    const t = term.toLowerCase();
+
+    const k = keyword.toLowerCase();
+
+    return k.includes(t) || t.includes(k) || k.startsWith(t) || t.endsWith(t);
+
+  }
  
   function handleSearch() {
 
@@ -261,7 +273,7 @@
  
     const matches = icons.filter(icon =>
 
-      icon.keywords.some(keyword => keyword.includes(term))
+      icon.keywords.some(keyword => fuzzyMatch(term, keyword))
 
     ).slice(0, 3);
  
@@ -275,7 +287,7 @@
  
     results.innerHTML = matches.map(icon => `
 <div class="icon-card">
-<img src="${icon.url}" alt="${icon.name}">
+<img src="public/public/Icons/${icon.file}" alt="${icon.name}">
 <div>${icon.name}</div>
 </div>
 
