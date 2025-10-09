@@ -248,44 +248,49 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   dropC.addEventListener('drop', e=>{ e.preventDefault(); dropC.classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f){ const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); }});
 
   function drawBannerC(img){
-    const W=2480,H=585; 
-    ctxC.clearRect(0,0,W,H);
+  const W = 2480, H = 585;
+  ctxC.clearRect(0, 0, W, H);
 
-    // Bovenste balken
-    ctxC.fillStyle='#fff'; ctxC.fillRect(0,0,W,125);
-    ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,125,W,25);
-    ctxC.fillStyle=normalizeHex(color2c.value); ctxC.fillRect(0,150,W,25);
+  // === Bovenste balken ===
+  ctxC.fillStyle = '#ffffff';
+  ctxC.fillRect(0, 0, W, 100); // witte balk 100px
+  ctxC.fillStyle = normalizeHex(color1c.value);
+  ctxC.fillRect(0, 100, W, 50); // eerste kleur 50px
+  ctxC.fillStyle = normalizeHex(color2c.value);
+  ctxC.fillRect(0, 150, W, 25); // tweede kleur 25px
 
-    // Afbeelding vlak onder balken
-    const imgY=175, imgH=410, imgW=1600, imgX=(W-imgW)/2;
+  // === Afbeelding ===
+  const imgY = 175;     // onderkant balken
+  const imgW = 1600;    // vaste breedte
+  const imgH = 410;     // vaste hoogte
+  const imgX = (W - imgW) / 2; // centreren
 
-    if(img){
-      // Schaal zodat de afbeelding binnen het vlak past (altijd kleiner dan of gelijk aan vlak)
-      const scale = Math.min(imgW/img.width, imgH/img.height);
-      const drawW = img.width * scale;
-      const drawH = img.height * scale;
-      const dx = imgX + (imgW - drawW)/2; 
-      const dy = imgY + (imgH - drawH)/2;
-      ctxC.drawImage(img, 0,0,img.width,img.height, dx,dy, drawW,drawH);
-    } else if(textInputC.value.trim()!==''){
-      ctxC.fillStyle='#000'; 
-      ctxC.font='bold 48px Arial'; 
-      ctxC.textAlign='center'; 
-      ctxC.textBaseline='middle';
-      ctxC.fillText(textInputC.value,W/2,imgY+imgH/2);
-    }
+  if (img) {
+    // schaal de afbeelding zodat hij volledig het 1600x410 kader vult
+    const scale = Math.max(imgW / img.width, imgH / img.height);
+    const drawW = img.width * scale;
+    const drawH = img.height * scale;
+    const sx = (drawW > imgW) ? (drawW - imgW) / 2 / scale : 0;
+    const sy = (drawH > imgH) ? (drawH - imgH) / 2 / scale : 0;
+    const sWidth = img.width - sx * 2;
+    const sHeight = img.height - sy * 2;
 
-    return canvasC.toDataURL('image/png');
+    ctxC.drawImage(
+      img,
+      sx, sy, sWidth, sHeight,  // bron uitsnede
+      imgX, imgY, imgW, imgH    // doelpositie
+    );
+  } else if (textInputC.value.trim() !== '') {
+    ctxC.fillStyle = '#000';
+    ctxC.font = 'bold 48px Arial';
+    ctxC.textAlign = 'center';
+    ctxC.textBaseline = 'middle';
+    ctxC.fillText(textInputC.value, W / 2, imgY + imgH / 2);
+  }
+
+  return canvasC.toDataURL('image/png');
 }
 
-  previewBtnC.addEventListener('click', ()=>{
-    if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-    const data=drawBannerC(currentImageC); previewDivC.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; img.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; previewDivC.appendChild(img);
-  });
-  genBtnC.addEventListener('click', ()=>{
-    if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-    const data=drawBannerC(currentImageC); const a=document.createElement('a'); a.href=data; a.download='banner-2480x585.png'; a.click();
-  });
 
 })();
 </script>
