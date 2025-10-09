@@ -247,25 +247,21 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   dropC.addEventListener('dragleave', ()=>dropC.classList.remove('dragover'));
   dropC.addEventListener('drop', e=>{ e.preventDefault(); dropC.classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f){ const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); }});
 
-  function drawBannerC(img){
-    const W=2480,H=585; ctxC.clearRect(0,0,W,H);
-    // Bovenste balken
-    ctxC.fillStyle='#fff'; ctxC.fillRect(0,0,W,125);
-    ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,125,W,25);
-    ctxC.fillStyle=normalizeHex(color2c.value); ctxC.fillRect(0,150,W,25);
-    // Afbeelding vlak
-    const imgY=175, imgH=410, imgW=1600, imgX=(W-imgW)/2;
-    if(img){
-      const scale = Math.max(imgW/img.width, imgH/img.height);
-      const drawW = img.width*scale; const drawH = img.height*scale;
-      const dx = imgX-(drawW-imgW)/2; const dy = imgY-(drawH-imgH)/2;
-      ctxC.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
-    } else if(textInputC.value.trim()!==''){
-      ctxC.fillStyle='#000'; ctxC.font='bold 48px Arial'; ctxC.textAlign='center'; ctxC.textBaseline='middle';
-      ctxC.fillText(textInputC.value,W/2,imgY+imgH/2);
-    }
-    return canvasC.toDataURL('image/png');
-  }
+  // Bovenste balken
+ctxC.fillStyle='#fff'; ctxC.fillRect(0,0,W,100);       // witte balk 100px
+ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,100,W,50); // kleur 1: 50px
+ctxC.fillStyle=normalizeHex(color2c.value); ctxC.fillRect(0,150,W,25); // kleur 2: 25px
+
+// Afbeeldingvlak
+const imgY = 175, imgH = 410, imgW = 1600, imgX = (W-imgW)/2;
+if(img){
+    const scale = Math.min(imgW/img.width, imgH/img.height); // <-- gebruik Math.min!
+    const drawW = img.width * scale;
+    const drawH = img.height * scale;
+    const dx = imgX + (imgW - drawW)/2;
+    const dy = imgY + (imgH - drawH)/2;
+    ctxC.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
+}
 
   previewBtnC.addEventListener('click', ()=>{
     if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
