@@ -1,190 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Banner Converters</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Afbeelding converteren — Villa Wildebras</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background:#fafafa; }
-  h2 { margin-top:40px; }
-  .converter { background:#fff; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); padding:20px; margin-bottom:40px; }
-  canvas { display:none; }
-  .color-block { display:flex; align-items:center; gap:10px; margin:8px 0; }
-  .color-display { width:32px; height:32px; border-radius:4px; border:1px solid #ccc; }
-  input[type=color] { width:60px; height:32px; padding:0; border:none; cursor:pointer; }
-  input[type=text] { padding:5px; width:90px; text-transform:uppercase; }
-  button { margin:8px 8px 0 0; padding:8px 14px; border:none; border-radius:6px; cursor:pointer; background:#007bff; color:#fff; }
-  button:hover { background:#005ec2; }
-  .preview { margin-top:10px; max-width:100%; border-radius:8px; border:1px solid #ccc; }
-  .dropzone { margin-top:8px; padding:40px; border:2px dashed #999; border-radius:10px; text-align:center; color:#666; cursor:pointer; transition:.3s; }
-  .dropzone.dragover { background:#eef7ff; border-color:#007bff; color:#007bff; }
+:root {
+  --color-accent:#0078d4;
+  --color-accent-hover:#005a9e;
+  --color-gray-dark:#333;
+  --color-gray-medium:#666;
+  --color-gray-light:#ddd;
+  --color-background:#f9f9f9;
+  --border-radius:8px;
+  --btn-padding:12px 20px;
+  --transition:0.2s ease-in-out;
+  font-family:'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+body { background-color: var(--color-background); padding:30px; max-width:1000px; margin:0 auto; color: var(--color-gray-dark); line-height:1.5; }
+h1,h2 { color: var(--color-gray-dark); font-weight:600; margin-bottom:0.5em; }
+p,label{color: var(--color-gray-medium);}
+.card { background:#fff; border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:24px; margin-top:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.drop { border:2px dashed var(--color-gray-light); border-radius: var(--border-radius); padding:40px; text-align:center; cursor:pointer; background-color:#fff; transition: background-color var(--transition), border-color var(--transition);}
+.drop.dragover{border-color: var(--color-accent); background-color:#eef6ff;}
+input[type="file"], input[type="number"], input[type="text"], select, input[type="color"] {border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:8px; font-size:1rem; transition:border-color var(--transition);}
+input:focus, select:focus { outline:none; border-color:var(--color-accent); box-shadow:0 0 0 2px rgba(0,120,212,0.2);}
+button { background-color:var(--color-accent); color:#fff; border:none; border-radius: var(--border-radius); padding: var(--btn-padding); font-size:1rem; cursor:pointer; transition: background-color var(--transition), transform var(--transition); box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+button:hover { background-color: var(--color-accent-hover); transform:translateY(-1px);}
+.controls, .actions { display:flex; gap:16px; flex-wrap:wrap;}
+.preview { max-width:100%; border-radius: var(--border-radius); margin-top:16px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.color-picker { display:flex; align-items:center; gap:10px; margin-top:5px; }
+.color-swatch { width:30px; height:30px; border-radius:4px; border:1px solid #aaa;}
+.meta { margin-top:12px; font-size:0.9rem; color:var(--color-gray-medium);}
+footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); text-align:center;}
+@media(max-width:600px){ .controls, .actions { flex-direction:column; } }
 </style>
 </head>
 <body>
+<h1>Afbeelding converters — Villa Wildebras</h1>
 
-<h1>Banner Converters</h1>
-
-<!-- ===== Converter 1 ===== -->
-<div class="converter">
-  <h2>Converter 1 – Tekstbanner</h2>
-  <input id="textInputA" placeholder="Voer tekst in" />
-  <button id="previewBannerA">Preview</button>
-  <button id="generateBannerA">Download</button>
-  <canvas id="bannerCanvasA" width="2480" height="585"></canvas>
-  <div id="previewDivA"></div>
+<!-- ================= Converter 1 ================= -->
+<section class="card">
+<h2>Logo Converter</h2>
+<p class="lead">Upload een logo en converteer naar exact formaat (bijv. 305×100 px).</p>
+<div id="drop1" class="drop">
+  <div style="font-weight:600">Klik of sleep hier je afbeelding</div>
+  <div class="small">Ondersteunde formaten: JPG, PNG, WebP. Max 12 MB.</div>
+  <input id="fileInput1" type="file" accept="image/*" style="display:none">
 </div>
+<div class="controls">
+  <label>Breedte (px)<br><input id="width1" type="number" value="305" min="1"></label>
+  <label>Hoogte (px)<br><input id="height1" type="number" value="100" min="1"></label>
+  <label>Modus<br>
+    <select id="mode1">
+      <option value="fit">Fit</option>
+      <option value="fill">Fill</option>
+      <option value="stretch">Stretch</option>
+    </select>
+  </label>
+  <label>Output formaat<br>
+    <select id="outFormat1">
+      <option value="image/png">PNG</option>
+      <option value="image/jpeg">JPEG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+  </label>
+  <label style="align-self:end"><input id="qualityToggle1" type="checkbox"> Met compressie (JPEG/WebP)</label>
+  <label style="align-self:end"><input id="bgWhite1" type="checkbox"> Achtergrond wit</label>
+</div>
+<div class="actions">
+  <button id="convertBtn1" disabled>Converteren & downloaden</button>
+  <button id="previewBtn1" disabled>Preview</button>
+  <a id="downloadLink1" style="display:none"></a>
+</div>
+<div id="previewArea1"></div>
+<div id="meta1" class="meta"></div>
+</section>
 
-<!-- ===== Converter 2 ===== -->
-<div class="converter">
-  <h2>Converter 2 – Kleurbanen</h2>
-  <div class="color-block">
-    <label>Kleur 1:</label>
-    <input type="color" id="color1b" value="#ff0000" />
-    <input type="text" id="color1bHex" value="#ff0000" maxlength="7" />
-    <div id="display1b" class="color-display" style="background:#ff0000;"></div>
-  </div>
-  <div class="color-block">
-    <label>Kleur 2:</label>
-    <input type="color" id="color2b" value="#0000ff" />
-    <input type="text" id="color2bHex" value="#0000ff" maxlength="7" />
-    <div id="display2b" class="color-display" style="background:#0000ff;"></div>
-  </div>
+<!-- ================= Converter 2 ================= -->
+<section class="card">
+<h2>Banner 2480×175 px</h2>
+<p>Kleurvlakken onderaan banner met kleur + hex-code</p>
+<div class="color-picker">
+  <input type="color" id="color1b" value="#59656b">
+  <input type="text" id="color1bHex" value="#59656b" style="width:80px">
+  <div id="colorDisplay1b" class="color-swatch" style="background:#59656b"></div>
+</div>
+<div class="color-picker">
+  <input type="color" id="color2b" value="#cf5c65">
+  <input type="text" id="color2bHex" value="#cf5c65" style="width:80px">
+  <div id="colorDisplay2b" class="color-swatch" style="background:#cf5c65"></div>
+</div>
+<label>Hoogte bovenste balk (px)<br><input id="stripeHeightB" type="number" value="25" min="0" max="175"></label>
+<div class="actions">
+  <button id="genBannerB">Genereer & download</button>
   <button id="previewBannerB">Preview</button>
-  <button id="generateBannerB">Download</button>
-  <canvas id="bannerCanvasB" width="2480" height="175"></canvas>
-  <div id="previewDivB"></div>
 </div>
+<div id="bannerPreviewB"></div>
+<canvas id="bannerCanvasB" width="2480" height="175" style="display:none"></canvas>
+<div id="bannerMetaB" class="meta"></div>
+</section>
 
-<!-- ===== Converter 3 ===== -->
-<div class="converter">
-  <h2>Converter 3 – Banner met afbeelding</h2>
-  <div class="color-block">
-    <label>Kleur 1:</label>
-    <input type="color" id="color1c" value="#ff0000" />
-    <input type="text" id="color1cHex" value="#ff0000" maxlength="7" />
-    <div id="display1c" class="color-display" style="background:#ff0000;"></div>
-  </div>
-  <div class="color-block">
-    <label>Kleur 2:</label>
-    <input type="color" id="color2c" value="#0000ff" />
-    <input type="text" id="color2cHex" value="#0000ff" maxlength="7" />
-    <div id="display2c" class="color-display" style="background:#0000ff;"></div>
-  </div>
-
-  <div id="dropC" class="dropzone">Klik of sleep een afbeelding hierheen</div>
-  <input type="file" id="imageUploadC" accept="image/*" style="display:none;" />
-  <input id="textInputC" placeholder="(optionele tekst)" />
+<!-- ================= Converter 3 ================= -->
+<section class="card">
+<h2>Afbeelding + Banner 2480×585 px</h2>
+<div class="color-picker">
+  <input type="color" id="color1c" value="#b4d44e">
+  <input type="text" id="color1cHex" value="#b4d44e" style="width:80px">
+  <div id="colorDisplay1c" class="color-swatch" style="background:#b4d44e"></div>
+</div>
+<div class="color-picker">
+  <input type="color" id="color2c" value="#6a9d1d">
+  <input type="text" id="color2cHex" value="#6a9d1d" style="width:80px">
+  <div id="colorDisplay2c" class="color-swatch" style="background:#6a9d1d"></div>
+</div>
+<div id="dropC" class="drop">
+  <div style="font-weight:600">Klik of sleep hier je afbeelding</div>
+  <div class="small">Ondersteunde formaten: JPG, PNG, WebP. Max 12 MB.</div>
+  <input id="imageUploadC" type="file" accept="image/*" style="display:none">
+</div>
+<label>Tekst (optioneel, als geen afbeelding)<br><input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas"></label>
+<div class="actions">
   <button id="previewBannerC">Preview</button>
-  <button id="generateBannerC">Download</button>
-  <canvas id="bannerCanvasC" width="2480" height="585"></canvas>
-  <div id="previewDivC"></div>
+  <button id="generateBannerC">Download banner</button>
+  <a id="downloadLinkC" style="display:none"></a>
 </div>
+<div id="previewDivC"></div>
+<canvas id="bannerCanvasC" width="2480" height="585" style="display:none"></canvas>
+</section>
+
+<footer>© Villa Wildebras</footer>
 
 <script>
-function normalizeHex(v){ return /^#/.test(v)?v:'#'+v; }
+(function(){
+  /* ===== Converter 1 ===== */
+  const fileInput1 = document.getElementById('fileInput1');
+  const drop1 = document.getElementById('drop1');
+  const convertBtn1 = document.getElementById('convertBtn1');
+  const previewBtn1 = document.getElementById('previewBtn1');
+  const width1 = document.getElementById('width1');
+  const height1 = document.getElementById('height1');
+  const mode1 = document.getElementById('mode1');
+  const outFormat1 = document.getElementById('outFormat1');
+  const downloadLink1 = document.getElementById('downloadLink1');
+  const previewArea1 = document.getElementById('previewArea1');
+  const meta1 = document.getElementById('meta1');
+  const qualityToggle1 = document.getElementById('qualityToggle1');
+  const bgWhite1 = document.getElementById('bgWhite1');
+  let currentImage1 = null;
 
-function syncColor(colorEl, hexEl, displayEl){
-  const update = val => { displayEl.style.background=val; colorEl.value=val; hexEl.value=val.toUpperCase(); };
-  colorEl.addEventListener('input', e => update(e.target.value));
-  hexEl.addEventListener('input', e => { let v=normalizeHex(e.target.value); update(v); });
-}
-
-/* ===== Converter 1 ===== */
-(() => {
-  const canvas=document.getElementById('bannerCanvasA'), ctx=canvas.getContext('2d');
-  const text=document.getElementById('textInputA'), prev=document.getElementById('previewBannerA');
-  const gen=document.getElementById('generateBannerA'), prevDiv=document.getElementById('previewDivA');
-  const W=2480,H=585;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='#000'; ctx.font='bold 72px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(text.value||'Voorbeeldtekst',W/2,H/2);
-    return canvas.toDataURL('image/png');
+  function onFile1(file){
+    if(!file) return;
+    const img = new Image();
+    img.onload = ()=>{
+      currentImage1 = img;
+      previewArea1.innerHTML='';
+      img.className='preview';
+      previewArea1.appendChild(img);
+      meta1.textContent=`Origineel: ${img.width}×${img.height}px`;
+      convertBtn1.disabled=false;
+      previewBtn1.disabled=false;
+    };
+    img.src = URL.createObjectURL(file);
   }
-  prev.onclick=()=>{const d=draw();prevDiv.innerHTML='';const i=new Image();i.src=d;i.className='preview';prevDiv.appendChild(i);};
-  gen.onclick=()=>{const d=draw();const a=document.createElement('a');a.href=d;a.download='banner1.png';a.click();};
-})();
+  drop1.addEventListener('click', ()=>fileInput1.click());
+  fileInput1.addEventListener('change', (e)=>onFile1(e.target.files[0]));
+  drop1.addEventListener('dragover', e=>{ e.preventDefault(); drop1.classList.add('dragover'); });
+  drop1.addEventListener('dragleave', ()=>drop1.classList.remove('dragover'));
+  drop1.addEventListener('drop', e=>{ e.preventDefault(); drop1.classList.remove('dragover'); onFile1(e.dataTransfer.files[0]); });
 
-/* ===== Converter 2 ===== */
-(() => {
-  const c=document.getElementById('bannerCanvasB'),x=c.getContext('2d');
-  const color1=document.getElementById('color1b'),color2=document.getElementById('color2b');
-  const color1Hex=document.getElementById('color1bHex'),color2Hex=document.getElementById('color2bHex');
-  const disp1=document.getElementById('display1b'),disp2=document.getElementById('display2b');
-  const prev=document.getElementById('previewBannerB'),gen=document.getElementById('generateBannerB'),prevDiv=document.getElementById('previewDivB');
-  syncColor(color1,color1Hex,disp1); syncColor(color2,color2Hex,disp2);
-  function draw(){
-    const W=2480,H=175; x.clearRect(0,0,W,H);
-    x.fillStyle='#ffffff'; x.fillRect(0,0,W,100);
-    x.fillStyle=normalizeHex(color1.value); x.fillRect(0,100,W,50);
-    x.fillStyle=normalizeHex(color2.value); x.fillRect(0,150,W,25);
-    return c.toDataURL('image/png');
+  function convertImage1(){
+    if(!currentImage1) return;
+    const W = parseInt(width1.value), H = parseInt(height1.value), mode = mode1.value, out = outFormat1.value;
+    const srcW = currentImage1.naturalWidth, srcH = currentImage1.naturalHeight;
+    const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    if(bgWhite1.checked){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H); }
+    let sx=0, sy=0, sW=srcW, sH=srcH;
+    if(mode==='fill'){
+      const srcRatio = srcW/srcH, outRatio=W/H;
+      if(srcRatio>outRatio){ sH=srcH; sW=Math.round(outRatio*sH); sx=Math.round((srcW-sW)/2); }
+      else{ sW=srcW; sH=Math.round(sW/outRatio); sy=Math.round((srcH-sH)/2); }
+      ctx.drawImage(currentImage1, sx,sy,sW,sH, 0,0,W,H);
+    } else if(mode==='fit'){
+      const ratio = Math.min(W/srcW, H/srcH);
+      const dw=Math.round(srcW*ratio), dh=Math.round(srcH*ratio);
+      const dx=Math.round((W-dw)/2), dy=Math.round((H-dh)/2);
+      ctx.drawImage(currentImage1,0,0,srcW,srcH, dx,dy,dw,dh);
+    } else { ctx.drawImage(currentImage1,0,0,srcW,srcH,0,0,W,H); }
+    return {canvas:canvas, out:out, quality:qualityToggle1.checked?0.85:undefined};
   }
-  prev.onclick=()=>{const d=draw();prevDiv.innerHTML='';const i=new Image();i.src=d;i.className='preview';prevDiv.appendChild(i);};
-  gen.onclick=()=>{const d=draw();const a=document.createElement('a');a.href=d;a.download='banner-2480x175.png';a.click();};
-})();
 
-/* ===== Converter 3 ===== */
-(() => {
-  const canvasC=document.getElementById('bannerCanvasC'),ctxC=canvasC.getContext('2d');
-  const color1c=document.getElementById('color1c'),color2c=document.getElementById('color2c');
-  const color1cHex=document.getElementById('color1cHex'),color2cHex=document.getElementById('color2cHex');
-  const display1c=document.getElementById('display1c'),display2c=document.getElementById('display2c');
-  const imageInputC=document.getElementById('imageUploadC'),textInputC=document.getElementById('textInputC');
-  const previewBtnC=document.getElementById('previewBannerC'),genBtnC=document.getElementById('generateBannerC');
-  const previewDivC=document.getElementById('previewDivC'),dropC=document.getElementById('dropC');
-  let currentImageC=null;
+  convertBtn1.addEventListener('click', ()=>{
+    const res = convertImage1();
+    res.canvas.toBlob(blob=>{
+      downloadLink1.href=URL.createObjectURL(blob);
+      downloadLink1.download='image.png';
+      downloadLink1.click();
+    }, res.out, res.quality);
+  });
+
+  previewBtn1.addEventListener('click', ()=>{
+    const res = convertImage1();
+    const dataUrl = res.canvas.toDataURL(res.out, res.quality);
+    previewArea1.innerHTML=''; 
+    const img = new Image(); img.src=dataUrl; img.className='preview'; previewArea1.appendChild(img);
+  });
+
+  /* ===== Converter 2 ===== */
+  const canvasB = document.getElementById('bannerCanvasB'); const ctxB = canvasB.getContext('2d');
+  const color1b = document.getElementById('color1b'); const color2b = document.getElementById('color2b');
+  const color1bHex = document.getElementById('color1bHex'); const color2bHex = document.getElementById('color2bHex');
+  const display1b = document.getElementById('colorDisplay1b'); const display2b = document.getElementById('colorDisplay2b');
+  const stripeHeightB = document.getElementById('stripeHeightB');
+  const genBtnB = document.getElementById('genBannerB'); const previewBtnB = document.getElementById('previewBannerB');
+  const previewDivB = document.getElementById('bannerPreviewB'); const metaB = document.getElementById('bannerMetaB');
+
+  function normalizeHex(s){ if(!s) return '#000000'; s=String(s).trim(); if(s[0]!=='#') s='#'+s; if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000'; return s;}
+  function syncColor(input, hex, disp){ input.addEventListener('input', ()=>{ let v=normalizeHex(input.value); hex.value=v; disp.style.background=v; }); hex.addEventListener('input', ()=>{ let v=normalizeHex(hex.value); input.value=v; disp.style.background=v; }); }
+  syncColor(color1b,color1bHex,display1b); syncColor(color2b,color2bHex,display2b);
+
+  function drawBannerB(){
+    const W=2480,H=175; ctxB.clearRect(0,0,W,H); ctxB.fillStyle='#fff'; ctxB.fillRect(0,0,W,H);
+    const h1 = Math.max(0,Math.min(175,parseInt(stripeHeightB.value)||0)); const bottomH = 25;
+    ctxB.fillStyle=normalizeHex(color2b.value); ctxB.fillRect(0,H-bottomH-h1,W,h1);
+    ctxB.fillStyle=normalizeHex(color1b.value); ctxB.fillRect(0,H-bottomH,W,bottomH);
+    return canvasB.toDataURL('image/png');
+  }
+  genBtnB.addEventListener('click', ()=>{ const a=document.createElement('a'); a.href=drawBannerB(); a.download='banner-2480x175.png'; a.click(); metaB.textContent='Banner gegenereerd — 2480×175 px.';});
+  previewBtnB.addEventListener('click', ()=>{ const data=drawBannerB(); previewDivB.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; previewDivB.appendChild(img); metaB.textContent='Preview banner';});
+
+  /* ===== Converter 3 ===== */
+  const canvasC = document.getElementById('bannerCanvasC'); const ctxC = canvasC.getContext('2d');
+  const color1c = document.getElementById('color1c'); const color2c = document.getElementById('color2c');
+  const color1cHex = document.getElementById('color1cHex'); const color2cHex = document.getElementById('color2cHex');
+  const display1c = document.getElementById('colorDisplay1c'); const display2c = document.getElementById('colorDisplay2c');
+  const imageInputC = document.getElementById('imageUploadC'); const textInputC = document.getElementById('textInputC');
+  const previewBtnC = document.getElementById('previewBannerC'); const genBtnC = document.getElementById('generateBannerC');
+  const previewDivC = document.getElementById('previewDivC'); let currentImageC = null;
+
   syncColor(color1c,color1cHex,display1c); syncColor(color2c,color2cHex,display2c);
 
-  dropC.addEventListener('click',()=>imageInputC.click());
-  dropC.addEventListener('dragover',e=>{e.preventDefault();dropC.classList.add('dragover');});
-  dropC.addEventListener('dragleave',()=>dropC.classList.remove('dragover'));
-  dropC.addEventListener('drop',e=>{e.preventDefault();dropC.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
-  imageInputC.addEventListener('change',e=>handleFile(e.target.files[0]));
-
-  function handleFile(file){
-    if(!file) return;
-    const img=new Image();
-    img.onload=()=>{currentImageC=img;};
-    img.src=URL.createObjectURL(file);
-  }
+  dropC.addEventListener('click', ()=>imageInputC.click());
+  imageInputC.addEventListener('change', (e)=>{ const f=e.target.files[0]; if(!f) return; const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); });
+  dropC.addEventListener('dragover', e=>{ e.preventDefault(); dropC.classList.add('dragover'); });
+  dropC.addEventListener('dragleave', ()=>dropC.classList.remove('dragover'));
+  dropC.addEventListener('drop', e=>{ e.preventDefault(); dropC.classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f){ const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); }});
 
   function drawBannerC(img){
     const W=2480,H=585; ctxC.clearRect(0,0,W,H);
-    ctxC.fillStyle='#ffffff'; ctxC.fillRect(0,0,W,100);
-    ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,100,W,50);
+    // Bovenste balken
+    ctxC.fillStyle='#fff'; ctxC.fillRect(0,0,W,125);
+    ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,125,W,25);
     ctxC.fillStyle=normalizeHex(color2c.value); ctxC.fillRect(0,150,W,25);
-
-    const imgY=175, imgW=1600, imgH=410, imgX=(W-imgW)/2;
+    // Afbeelding vlak
+    const imgY=175, imgH=410, imgW=1600, imgX=(W-imgW)/2;
     if(img){
-      const scale=Math.max(imgW/img.width,imgH/img.height);
-      const drawW=img.width*scale, drawH=img.height*scale;
-      const sx=(drawW>imgW)?(drawW-imgW)/(2*scale):0;
-      const sy=(drawH>imgH)?(drawH-imgH)/(2*scale):0;
-      const sW=img.width-2*sx, sH=img.height-2*sy;
-      ctxC.drawImage(img,sx,sy,sW,sH,imgX,imgY,imgW,imgH);
-    }else if(textInputC.value.trim()!==''){
+      const scale = Math.max(imgW/img.width, imgH/img.height);
+      const drawW = img.width*scale; const drawH = img.height*scale;
+      const dx = imgX-(drawW-imgW)/2; const dy = imgY-(drawH-imgH)/2;
+      ctxC.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
+    } else if(textInputC.value.trim()!==''){
       ctxC.fillStyle='#000'; ctxC.font='bold 48px Arial'; ctxC.textAlign='center'; ctxC.textBaseline='middle';
       ctxC.fillText(textInputC.value,W/2,imgY+imgH/2);
     }
     return canvasC.toDataURL('image/png');
   }
 
-  previewBtnC.addEventListener('click',()=>{
-    if(!currentImageC && textInputC.value.trim()===''){alert('Upload een afbeelding of tekst');return;}
-    const d=drawBannerC(currentImageC);
-    previewDivC.innerHTML=''; const img=new Image(); img.src=d; img.className='preview'; previewDivC.appendChild(img);
+  previewBtnC.addEventListener('click', ()=>{
+    if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
+    const data=drawBannerC(currentImageC); previewDivC.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; img.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; previewDivC.appendChild(img);
+  });
+  genBtnC.addEventListener('click', ()=>{
+    if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
+    const data=drawBannerC(currentImageC); const a=document.createElement('a'); a.href=data; a.download='banner-2480x585.png'; a.click();
   });
 
-  genBtnC.addEventListener('click',()=>{
-    if(!currentImageC && textInputC.value.trim()===''){alert('Upload een afbeelding of tekst');return;}
-    const d=drawBannerC(currentImageC);
-    const a=document.createElement('a'); a.href=d; a.download='banner-2480x585.png'; a.click();
-  });
 })();
 </script>
-
 </body>
 </html>
 
