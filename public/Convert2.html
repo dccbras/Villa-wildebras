@@ -296,6 +296,22 @@ const icons = [
 
 ];
  
+const excludedColors = [
+
+  [255,255,255],      // wit
+
+  [100,66,34],        // #644222
+
+  [209,194,119],      // #d1c277
+
+  [235,183,121],      // #ebb779
+
+  [213,168,143],      // #d5a88f
+
+  [233,200,147]       // #e9c893
+
+];
+ 
 const grid = document.getElementById("iconsGrid");
 
 const search = document.getElementById("search");
@@ -404,15 +420,13 @@ function applyColorFilter() {
 
     const data = imageData.data;
  
-    // Tel kleuren, maar negeer wit
-
     const colorCount = {};
 
-    for (let i = 0; i < data.length; i += 4) {
+    for (let i = 0; i < data.length; i +=4) {
 
       const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
 
-      if (a > 0 && !(r===255 && g===255 && b===255)) {
+      if (a > 0 && !isExcludedColor([r,g,b])) {
 
         const key = `${r},${g},${b}`;
 
@@ -428,7 +442,7 @@ function applyColorFilter() {
 
       .map(entry=>entry[0].split(',').map(Number));
  
-    if (dominantColors.length === 0) return; // alleen wit in afbeelding
+    if (dominantColors.length === 0) return; // alleen uitgesloten kleuren aanwezig
 
     const dominant = dominantColors[0];
  
@@ -436,9 +450,7 @@ function applyColorFilter() {
 
       const r = data[i], g = data[i+1], b = data[i+2];
 
-      // vervang pixels van dominante kleur, maar laat wit ongemoeid
-
-      if (!(r===255 && g===255 && b===255) && colorDistance([r,g,b], dominant) < tolerance) {
+      if (!isExcludedColor([r,g,b]) && colorDistance([r,g,b], dominant) < tolerance) {
 
         data[i] = color.r;
 
@@ -455,6 +467,12 @@ function applyColorFilter() {
     img.src = canvas.toDataURL();
 
   };
+
+}
+ 
+function isExcludedColor(c){
+
+  return excludedColors.some(ex => ex[0]===c[0] && ex[1]===c[1] && ex[2]===c[2]);
 
 }
  
