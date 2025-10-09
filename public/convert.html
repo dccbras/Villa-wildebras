@@ -251,7 +251,8 @@
     });
   })();
 
-  <script>
+
+ <script>
 (function(){
   const canvas = document.getElementById('bannerCanvasC');
   const ctx = canvas.getContext('2d');
@@ -261,10 +262,11 @@
   const textInput = document.getElementById('textInputC');
   const genBtn = document.getElementById('generateBannerC');
   const downloadLink = document.getElementById('downloadLinkC');
+  const previewDiv = document.getElementById('previewBannerC');
 
   function normalizeHex(s){
     if(!s) return '#000000';
-    s=String(s).trim();
+    s = String(s).trim();
     if(s[0]!=='#') s='#'+s;
     if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
     return s;
@@ -276,23 +278,23 @@
     ctx.clearRect(0,0,W,H);
 
     // Bovenste balken
-    ctx.fillStyle = '#ffffff';       // wit vlak 125px
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0,0,W,125);
 
-    ctx.fillStyle = normalizeHex(color1.value); // kleurvlak 1 (25px)
+    ctx.fillStyle = normalizeHex(color1.value);
     ctx.fillRect(0,125,W,25);
 
-    ctx.fillStyle = normalizeHex(color2.value); // kleurvlak 2 (25px)
+    ctx.fillStyle = normalizeHex(color2.value);
     ctx.fillRect(0,150,W,25);
 
-    // Afbeelding onder de balken
-    const imgY = 175;        // start onder bovenste 175px
+    // Afbeeldingsvlak
+    const imgY = 175;
     const imgHeight = 410;
     const imgWidth = 1600;
-    const imgX = (W - imgWidth)/2;  // horizontaal gecentreerd
+    const imgX = (W - imgWidth)/2;
 
     if(img){
-      // Automatisch schalen en bijsnijden
+      // Bereken schaal om volledig te vullen (bijgesneden)
       const scaleX = imgWidth / img.width;
       const scaleY = imgHeight / img.height;
       const scale = Math.max(scaleX, scaleY); // crop om te vullen
@@ -308,13 +310,25 @@
       ctx.textBaseline = 'middle';
       ctx.fillText(textInput.value, W/2, imgY + imgHeight/2);
     }
+
+    // Preview updaten
+    const previewImg = new Image();
+    previewImg.src = canvas.toDataURL('image/png');
+    previewImg.style.maxWidth = '100%';
+    previewImg.style.borderRadius = '6px';
+    previewImg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+    previewDiv.innerHTML = '';
+    previewDiv.appendChild(previewImg);
   }
 
-  genBtn.addEventListener('click',()=>{
+  genBtn.addEventListener('click', ()=>{
     const file = imageInput.files[0];
     if(file){
       const img = new Image();
-      img.onload = ()=>{ drawBanner(img); download(); };
+      img.onload = ()=>{ 
+        drawBanner(img); 
+        download(); 
+      };
       img.src = URL.createObjectURL(file);
     } else {
       drawBanner(null);
@@ -322,6 +336,7 @@
     }
   });
 
+   // ================= Converter 3 Script =================
   function download(){
     downloadLink.href = canvas.toDataURL('image/png');
     downloadLink.style.display = 'inline';
