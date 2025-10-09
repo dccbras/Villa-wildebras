@@ -22,7 +22,7 @@
 
       padding: 10px;
 
-      width: 300px;
+      width: 320px;
 
       border: 1px solid #ccc;
 
@@ -75,6 +75,16 @@
       margin-bottom: 0.5rem;
 
     }
+
+    .no-results {
+
+      text-align: center;
+
+      margin-top: 2rem;
+
+      color: #888;
+
+    }
 </style>
 </head>
 <body>
@@ -82,60 +92,161 @@
 <input type="text" id="search" placeholder="Typ om te zoeken..." />
  
   <div class="icons-grid" id="iconsGrid"></div>
+<div class="no-results" id="noResults" style="display:none;">Geen iconen gevonden...</div>
  
   <script>
 
-    // Voeg hier je iconen toe
+    // ✅ Iconen met synoniemen
 
     const icons = [
 
-      { name: "Boekingsmatrix", file: "BOEKINGSMATRIX.png" },
+      { name: "Boekingsmatrix", file: "BOEKINGSMATRIX.png", synonyms: ["planning", "overzicht", "schema"] },
 
-      { name: "Controleren", file: "CONTROLEREN.png" },
+      { name: "Controleren", file: "CONTROLEREN.png", synonyms: ["nakijken", "verifiëren", "checken"] },
 
-      { name: "Fixed Price", file: "FIXED PRICE.png" },
+      { name: "Fixed Price", file: "FIXED PRICE.png", synonyms: ["vaste prijs", "budget", "tarief"] },
 
-      { name: "Geaccordeerde Uren", file: "Geaccordeerde uren.png" },
+      { name: "Geaccordeerde Uren", file: "Geaccordeerde uren.png", synonyms: ["goedgekeurde uren", "uren akkoord", "tijd registratie"] },
 
-      { name: "MW Uren Boeken", file: "MW UREN BOEKEN.png" },
+      { name: "MW Uren Boeken", file: "MW UREN BOEKEN.png", synonyms: ["medewerker", "personeel", "tijd boeken", "werknemer", "collega"] },
 
-      { name: "Aan Team Deelnemen", file: "AAN TEAM DEELNEMEN.png" },
+      { name: "Aan Team Deelnemen", file: "AAN TEAM DEELNEMEN.png", synonyms: ["team", "teams", "groep", "collega's", "samenwerken"] },
 
-      { name: "Abonnementen", file: "Abonnementen.png" },
+      { name: "Abonnementen", file: "Abonnementen.png", synonyms: ["lidmaatschap", "contract", "inschrijving"] },
 
-      { name: "Accorderen Beoordelen", file: "ACCORDEREN BEOORDELEN.png" },
+      { name: "Accorderen Beoordelen", file: "ACCORDEREN BEOORDELEN.png", synonyms: ["goedkeuren", "controleren", "reviewen", "beoordeling", "acorderen"] },
 
-      { name: "Agekeurde Uren", file: "AGEKEURDE UREN.png" }
+      { name: "Agekeurde Uren", file: "AGEKEURDE UREN.png", synonyms: ["geaccepteerde uren", "uren akkoord", "goedgekeurd"] }
 
     ];
  
     const grid = document.getElementById("iconsGrid");
 
     const search = document.getElementById("search");
+
+    const noResults = document.getElementById("noResults");
+ 
+    // 🧠 Tekst-normalisatie (verwijdert accenten, leestekens, meervoudsvormen)
+
+    function normalizeText(text) {
+
+      return text
+
+        .toLowerCase()
+
+        .normalize("NFD")
+
+        .replace(/[\u0300-\u036f]/g, "")
+
+        .replace(/[^a-z0-9 ]/g, "")
+
+        .replace(/\s+/g, " ")
+
+        .trim()
+
+        .replace(/(en|e|s|n|er|ers|tje|tjes)\b/g, "");
+
+    }
+ 
+    // 🔠 Levenshtein-afstand berekening
+
+    function levenshtein(a, b) {
+
+      const matrix = Array.from({ length: a.length + 1 }, (_, i) =>
+
+        Array(b.length + 1).fill(0)
+
+      );
+
+      for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+
+      for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+      for (let i = 1; i <= a.length; i++) {
+
+        for (let j = 1; j <= b.length; j++) {
+
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+
+          matrix[i][j] = Math.min(
+
+            matrix[i - 1][j] + 1, // verwijderen
+
+            matrix[i][j - 1] + 1, // invoegen
+
+            matrix[i - 1][j - 1] + cost // vervangen
+
+          );
+
+        }
+
+      }
+
+      return matrix[a.length][b.length];
+
+    }
+ 
+    // ✅ Check of de zoekterm 'dichtbij genoeg' is (max 2 verschil)
+
+    function fuzzyMatch(term, query) {
+
+      const t = normalizeText(term);
+
+      const q = normalizeText(query);
+
+      if (t.includes(q)) return true;
+
+      return levenshtein(t, q) <= 2;
+
+    }
+ 
+    // 🔍 Hoofdzoekfunctie
+
+    function matchesQuery(icon, query) {
+
+      const combined = [icon.name, ...(icon.synonyms || [])].join(" ");
+
+      const words = combined.split(" ");
+
+      return words.some(word => fuzzyMatch(word, query));
+
+    }
  
     function renderIcons(filter = "") {
 
       grid.innerHTML = "";
 
-      const filtered = icons.filter(icon =>
+      filter = filter.trim();
+ 
+      const filtered = icons.filter(icon => {
 
-        icon.name.toLowerCase().includes(filter.toLowerCase())
+        if (!filter) return true;
 
-      );
+        return matchesQuery(icon, filter);
 
+      });
+ 
+      noResults.style.display = filtered.length === 0 ? "block" : "none";
+ 
       filtered.forEach(icon => {
 
         const card = document.createElement("div");
 
         card.classList.add("icon-card");
  
-        // ✅ Directe verwijzing naar /public (nu gewoon /)
-
         const img = document.createElement("img");
 
         img.src = `${window.location.origin}/${icon.file}`;
 
         img.alt = icon.name;
+
+        img.onerror = () => {
+
+          img.style.display = "none";
+
+          card.innerHTML += `<div style='color:#999;'>❌ Niet gevonden</div>`;
+
+        };
  
         const label = document.createElement("div");
 
