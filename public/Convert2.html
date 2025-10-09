@@ -1,307 +1,159 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AFAS Icon Finder — Villa Wildebras</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AFAS Iconen Zoeken</title>
 <style>
 
-  :root {
+    body {
 
-    --color-accent: #0078d4;
+      font-family: sans-serif;
 
-    --color-accent-hover: #005a9e;
+      background-color: #f8f9fa;
 
-    --color-gray-dark: #333;
+      color: #333;
 
-    --color-gray-medium: #666;
+      padding: 2rem;
 
-    --color-gray-light: #ddd;
+    }
 
-    --color-background: #f9f9f9;
+    input {
 
-    --border-radius: 8px;
+      padding: 10px;
 
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      width: 300px;
 
-  }
- 
-  body {
+      border: 1px solid #ccc;
 
-    background-color: var(--color-background);
+      border-radius: 6px;
 
-    padding: 30px;
+      margin-bottom: 20px;
 
-    max-width: 800px;
+    }
 
-    margin: 0 auto;
+    .icons-grid {
 
-    color: var(--color-gray-dark);
+      display: grid;
 
-    line-height: 1.5;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 
-  }
- 
-  h1 {
+      gap: 1.5rem;
 
-    color: var(--color-gray-dark);
+    }
 
-    font-weight: 600;
+    .icon-card {
 
-    margin-bottom: 0.3em;
+      background: #fff;
 
-  }
- 
-  p.lead {
+      padding: 1rem;
 
-    color: var(--color-gray-medium);
+      border-radius: 12px;
 
-    margin-bottom: 1.2em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-  }
- 
-  .card {
+      text-align: center;
 
-    background: #fff;
+      transition: transform 0.2s;
 
-    border: 1px solid var(--color-gray-light);
+    }
 
-    border-radius: var(--border-radius);
+    .icon-card:hover {
 
-    padding: 24px;
+      transform: translateY(-3px);
 
-    margin-top: 24px;
+    }
 
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+    .icon-card img {
 
-  }
- 
-  input[type="text"] {
+      width: 64px;
 
-    width: 100%;
+      height: 64px;
 
-    padding: 12px;
+      object-fit: contain;
 
-    font-size: 1rem;
+      margin-bottom: 0.5rem;
 
-    border: 1px solid var(--color-gray-light);
-
-    border-radius: var(--border-radius);
-
-    transition: border-color 0.2s;
-
-    margin-top: 8px;
-
-  }
- 
-  input:focus {
-
-    outline: none;
-
-    border-color: var(--color-accent);
-
-    box-shadow: 0 0 0 2px rgba(0,120,212,0.2);
-
-  }
- 
-  button {
-
-    background-color: var(--color-accent);
-
-    color: #fff;
-
-    border: none;
-
-    border-radius: var(--border-radius);
-
-    padding: 12px 20px;
-
-    font-size: 1rem;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s, transform 0.2s;
-
-    margin-top: 12px;
-
-  }
- 
-  button:hover {
-
-    background-color: var(--color-accent-hover);
-
-    transform: translateY(-1px);
-
-  }
- 
-  .results {
-
-    display: grid;
-
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-
-    gap: 16px;
-
-    margin-top: 20px;
-
-  }
- 
-  .icon-card {
-
-    background: #fafafa;
-
-    border: 1px solid var(--color-gray-light);
-
-    border-radius: var(--border-radius);
-
-    padding: 12px;
-
-    text-align: center;
-
-    transition: transform 0.2s;
-
-  }
- 
-  .icon-card:hover {
-
-    transform: translateY(-3px);
-
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.08);
-
-  }
- 
-  .icon-card img {
-
-    max-width: 64px;
-
-    height: auto;
-
-    margin-bottom: 8px;
-
-  }
- 
-  footer {
-
-    margin-top: 40px;
-
-    text-align: center;
-
-    color: var(--color-gray-medium);
-
-    font-size: 0.9rem;
-
-  }
+    }
 </style>
 </head>
- 
 <body>
-<h1>AFAS Icon Finder</h1>
-<p class="lead">Voer een zoekterm in en bekijk de best passende iconen uit jouw AFAS Iconen-map.</p>
+<h1>🔍 AFAS Iconen Zoeken</h1>
+<input type="text" id="search" placeholder="Typ om te zoeken..." />
  
-<section class="card">
-<label for="searchTerm"><strong>Zoekterm:</strong></label>
-<input type="text" id="searchTerm" placeholder="Bijv. rapport, klant, medewerker..." />
-<button id="searchBtn">🔍 Zoeken</button>
+  <div class="icons-grid" id="iconsGrid"></div>
  
-  <div id="results" class="results">
-<p style="color:#666;">Voer een zoekterm in en klik op “Zoeken”.</p>
-</div>
-</section>
+  <script>
+
+    // Voeg hier je iconen toe
+
+    const icons = [
+
+      { name: "Boekingsmatrix", file: "BOEKINGSMATRIX.png" },
+
+      { name: "Controleren", file: "CONTROLEREN.png" },
+
+      { name: "Fixed Price", file: "FIXED PRICE.png" },
+
+      { name: "Geaccordeerde Uren", file: "Geaccordeerde uren.png" },
+
+      { name: "MW Uren Boeken", file: "MW UREN BOEKEN.png" },
+
+      { name: "Aan Team Deelnemen", file: "AAN TEAM DEELNEMEN.png" },
+
+      { name: "Abonnementen", file: "Abonnementen.png" },
+
+      { name: "Accorderen Beoordelen", file: "ACCORDEREN BEOORDELEN.png" },
+
+      { name: "Agekeurde Uren", file: "AGEKEURDE UREN.png" }
+
+    ];
  
-<footer>
+    const grid = document.getElementById("iconsGrid");
 
-  Gemaakt tijdens de Hackaton — Villa Wildebras 🏡
-</footer>
+    const search = document.getElementById("search");
  
-<script>
+    function renderIcons(filter = "") {
 
-  const searchBtn = document.getElementById('searchBtn');
+      grid.innerHTML = "";
 
-  const searchInput = document.getElementById('searchTerm');
+      const filtered = icons.filter(icon =>
 
-  const results = document.getElementById('results');
+        icon.name.toLowerCase().includes(filter.toLowerCase())
+
+      );
+
+      filtered.forEach(icon => {
+
+        const card = document.createElement("div");
+
+        card.classList.add("icon-card");
  
-  // === Iconenlijst === //
+        // ✅ Directe verwijzing naar /public (nu gewoon /)
 
-  const icons = [
+        const img = document.createElement("img");
 
-    { name: "Boekingsmatrix", keywords: ["boek", "matrix", "boekingsmatrix"], file: "BOEKINGSMATRIX.png" },
+        img.src = `${window.location.origin}/${icon.file}`;
 
-    { name: "Controleren", keywords: ["controleren", "check", "beoordelen"], file: "CONTROLEREN.png" },
-
-    { name: "Fixed Price", keywords: ["prijs", "factuur", "bedrag", "tarief"], file: "FIXED PRICE.png" },
-
-    { name: "Geaccordeerde uren", keywords: ["uren", "geaccordeerd", "goedkeuren", "tijd"], file: "Geaccordeerde uren.png" },
-
-    { name: "Medewerker uren boeken", keywords: ["uren", "boeken", "medewerker", "tijd", "registratie"], file: "MW UREN BOEKEN.png" },
-
-    { name: "Aan team deelnemen", keywords: ["team", "samenwerken", "groep", "collega", "medewerker"], file: "AAN TEAM DEELNEMEN.png" },
-
-    { name: "Abonnementen", keywords: ["abo", "abonnement", "contract"], file: "Abonnementen.png" },
-
-    { name: "Accorderen beoordelen", keywords: ["accoord", "beoordeling", "goedkeuren", "uren"], file: "ACCORDEREN BEOORDELEN.png" },
-
-    { name: "Agekeurde uren", keywords: ["uren", "gekeurd", "goedkeuring", "tijd"], file: "AGEKEURDE UREN.png" }
-
-  ];
+        img.alt = icon.name;
  
-  // === Eenvoudige fuzzy matching === //
+        const label = document.createElement("div");
 
-  function fuzzyMatch(term, keyword) {
-
-    const t = term.toLowerCase();
-
-    const k = keyword.toLowerCase();
-
-    return k.includes(t) || t.includes(k) || k.startsWith(t) || t.endsWith(t);
-
-  }
+        label.textContent = icon.name;
  
-  function handleSearch() {
+        card.appendChild(img);
 
-    const term = searchInput.value.trim().toLowerCase();
+        card.appendChild(label);
 
-    results.innerHTML = "";
- 
-    if (!term) {
+        grid.appendChild(card);
 
-      results.innerHTML = "<p style='color:#666'>Voer eerst een zoekterm in.</p>";
-
-      return;
+      });
 
     }
  
-    const matches = icons.filter(icon =>
+    search.addEventListener("input", (e) => renderIcons(e.target.value));
 
-      icon.keywords.some(keyword => fuzzyMatch(term, keyword))
-
-    ).slice(0, 3);
- 
-    if (matches.length === 0) {
-
-      results.innerHTML = `<p style='color:#666'>Geen iconen gevonden voor '<strong>${term}</strong>'.</p>`;
-
-      return;
-
-    }
- 
-    results.innerHTML = matches.map(icon => `
-<div class="icon-card">
-<img src="public/public/Icons/${icon.file}" alt="${icon.name}">
-<div>${icon.name}</div>
-</div>
-
-    `).join("");
-
-  }
- 
-  searchBtn.addEventListener('click', handleSearch);
-
-  searchInput.addEventListener('keydown', e => {
-
-    if (e.key === 'Enter') handleSearch();
-
-  });
+    renderIcons();
 </script>
 </body>
 </html>
