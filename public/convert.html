@@ -230,47 +230,129 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   genBtnB.addEventListener('click', ()=>{ const a=document.createElement('a'); a.href=drawBannerB(); a.download='banner-2480x175.png'; a.click(); metaB.textContent='Banner gegenereerd — 2480×175 px.';});
   previewBtnB.addEventListener('click', ()=>{ const data=drawBannerB(); previewDivB.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; previewDivB.appendChild(img); metaB.textContent='Preview banner';});
 
-  /* ===== Converter 3 ===== */
-  const canvasC = document.getElementById('bannerCanvasC'); const ctxC = canvasC.getContext('2d');
-  const color1c = document.getElementById('color1c'); const color2c = document.getElementById('color2c');
-  const color1cHex = document.getElementById('color1cHex'); const color2cHex = document.getElementById('color2cHex');
-  const display1c = document.getElementById('colorDisplay1c'); const display2c = document.getElementById('colorDisplay2c');
-  const imageInputC = document.getElementById('imageUploadC'); const textInputC = document.getElementById('textInputC');
-  const previewBtnC = document.getElementById('previewBannerC'); const genBtnC = document.getElementById('generateBannerC');
-  const previewDivC = document.getElementById('previewDivC'); let currentImageC = null;
+ /* ===== Converter 3 ===== */
+const canvasC = document.getElementById('bannerCanvasC');
+const ctxC = canvasC.getContext('2d');
 
-  syncColor(color1c,color1cHex,display1c); syncColor(color2c,color2cHex,display2c);
+const color1c = document.getElementById('color1c');
+const color2c = document.getElementById('color2c');
+const color1cHex = document.getElementById('color1cHex');
+const color2cHex = document.getElementById('color2cHex');
+const display1c = document.getElementById('colorDisplay1c');
+const display2c = document.getElementById('colorDisplay2c');
 
-  dropC.addEventListener('click', ()=>imageInputC.click());
-  imageInputC.addEventListener('change', (e)=>{ const f=e.target.files[0]; if(!f) return; const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); });
-  dropC.addEventListener('dragover', e=>{ e.preventDefault(); dropC.classList.add('dragover'); });
-  dropC.addEventListener('dragleave', ()=>dropC.classList.remove('dragover'));
-  dropC.addEventListener('drop', e=>{ e.preventDefault(); dropC.classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f){ const img=new Image(); img.onload=()=>{currentImageC=img;}; img.src=URL.createObjectURL(f); }});
+const imageInputC = document.getElementById('imageUploadC');
+const dropC = document.getElementById('dropC');
+const textInputC = document.getElementById('textInputC');
 
-  // Bovenste balken
-ctxC.fillStyle='#fff'; ctxC.fillRect(0,0,W,100);       // witte balk 100px
-ctxC.fillStyle=normalizeHex(color1c.value); ctxC.fillRect(0,100,W,50); // kleur 1: 50px
-ctxC.fillStyle=normalizeHex(color2c.value); ctxC.fillRect(0,150,W,25); // kleur 2: 25px
+const previewBtnC = document.getElementById('previewBannerC');
+const genBtnC = document.getElementById('generateBannerC');
+const previewDivC = document.getElementById('previewDivC');
 
-// Afbeeldingvlak
-const imgY = 175, imgH = 410, imgW = 1600, imgX = (W-imgW)/2;
-if(img){
-    const scale = Math.min(imgW/img.width, imgH/img.height); // <-- gebruik Math.min!
-    const drawW = img.width * scale;
-    const drawH = img.height * scale;
-    const dx = imgX + (imgW - drawW)/2;
-    const dy = imgY + (imgH - drawH)/2;
-    ctxC.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
+let currentImageC = null;
+
+// kleur synchronisatie
+function syncColor(input, hex, disp){
+    input.addEventListener('input', ()=>{
+        const v = hexNormalize(input.value);
+        hex.value = v;
+        disp.style.background = v;
+    });
+    hex.addEventListener('input', ()=>{
+        const v = hexNormalize(hex.value);
+        input.value = v;
+        disp.style.background = v;
+    });
+}
+function hexNormalize(s){
+    if(!s) return '#000000';
+    s = s.trim();
+    if(s[0]!=='#') s='#'+s;
+    if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
+    return s;
+}
+syncColor(color1c,color1cHex,display1c);
+syncColor(color2c,color2cHex,display2c);
+
+// upload & drag&drop
+dropC.addEventListener('click', ()=>imageInputC.click());
+imageInputC.addEventListener('change', e=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const img = new Image();
+    img.onload = ()=> { currentImageC = img; };
+    img.src = URL.createObjectURL(f);
+});
+dropC.addEventListener('dragover', e=>{ e.preventDefault(); dropC.classList.add('dragover'); });
+dropC.addEventListener('dragleave', ()=>dropC.classList.remove('dragover'));
+dropC.addEventListener('drop', e=>{
+    e.preventDefault();
+    dropC.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if(f){
+        const img = new Image();
+        img.onload = ()=> { currentImageC = img; };
+        img.src = URL.createObjectURL(f);
+    }
+});
+
+// draw banner
+function drawBannerC(img){
+    const W = 2480, H = 585;
+    ctxC.clearRect(0,0,W,H);
+
+    // Balken
+    const topWhite = 100, topColor = 50, bottomColor = 25;
+    ctxC.fillStyle = '#fff'; ctxC.fillRect(0,0,W,topWhite);
+    ctxC.fillStyle = hexNormalize(color1c.value); ctxC.fillRect(0,topWhite,W,topColor);
+    ctxC.fillStyle = hexNormalize(color2c.value); ctxC.fillRect(0,topWhite+topColor,W,bottomColor);
+
+    // Afbeelding
+    const imgX = (W - 1600)/2;
+    const imgY = topWhite + topColor;
+    const imgW = 1600;
+    const imgH = 410;
+
+    if(img){
+        const scale = Math.min(imgW/img.width, imgH/img.height);
+        const drawW = img.width * scale;
+        const drawH = img.height * scale;
+        const dx = imgX + (imgW - drawW)/2;
+        const dy = imgY + (imgH - drawH)/2;
+        ctxC.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
+    } else if(textInputC.value.trim()!==''){
+        ctxC.fillStyle = '#000';
+        ctxC.font = 'bold 48px Arial';
+        ctxC.textAlign = 'center';
+        ctxC.textBaseline = 'middle';
+        ctxC.fillText(textInputC.value, W/2, imgY + imgH/2);
+    }
+
+    return canvasC.toDataURL('image/png');
 }
 
-  previewBtnC.addEventListener('click', ()=>{
+// preview
+previewBtnC.addEventListener('click', ()=>{
     if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-    const data=drawBannerC(currentImageC); previewDivC.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; img.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; previewDivC.appendChild(img);
-  });
-  genBtnC.addEventListener('click', ()=>{
+    const data = drawBannerC(currentImageC);
+    previewDivC.innerHTML='';
+    const img = new Image();
+    img.src = data;
+    img.style.maxWidth='100%';
+    img.style.borderRadius='8px';
+    img.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';
+    previewDivC.appendChild(img);
+});
+
+// download
+genBtnC.addEventListener('click', ()=>{
     if(!currentImageC && textInputC.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-    const data=drawBannerC(currentImageC); const a=document.createElement('a'); a.href=data; a.download='banner-2480x585.png'; a.click();
-  });
+    const data = drawBannerC(currentImageC);
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'banner-2480x585.png';
+    a.click();
+});
 
 })();
 </script>
