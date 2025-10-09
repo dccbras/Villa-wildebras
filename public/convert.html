@@ -121,7 +121,12 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   <input type="text" id="color2cHex" value="#6a9d1d" style="width:80px">
   <div id="colorDisplay2c" class="color-swatch" style="background:#6a9d1d"></div>
 </div>
-<label>Upload afbeelding (1600×410 px)<br><input type="file" id="imageUploadC" accept="image/*"></label>
+<div id="dropC" class="drop">
+  <div style="font-weight:600">Klik of sleep hier je afbeelding</div>
+  <div class="small">Ondersteunde formaten: JPG, PNG, WebP. Max 12 MB.</div>
+  <input id="imageUploadC" type="file" accept="image/*" style="display:none">
+</div>
+
 <label>Tekst (optioneel, als geen afbeelding)<br><input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas"></label>
 <div class="actions">
   <button id="previewBannerC">Preview</button>
