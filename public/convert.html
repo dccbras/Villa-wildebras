@@ -104,26 +104,34 @@
     <canvas id="bannerCanvasB" width="2480" height="175" style="display:none"></canvas>
   </section>
 
-  <!-- ================= Converter 3: Afbeelding + Banner 1600×410 ================= -->
-  <section class="card">
-    <h2>Afbeelding + Banner converter</h2>
-    <p>Upload afbeelding of gebruik tekst. Banner wordt 1600×410 px onder gekleurde balk.</p>
-    <label>Kleur 1 (onderste balk)<br>
-      <input id="color1c" type="color" value="#b4d44e">
-    </label>
-    <label>Kleur 2 (bovenste balk)<br>
-      <input id="color2c" type="color" value="#6a9d1d">
-    </label>
-    <label>Afbeelding uploaden (optioneel)<br>
-      <input type="file" id="imageUploadC" accept="image/*">
-    </label>
-    <label>Tekst (als geen afbeelding)<br>
-      <input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas">
-    </label>
-    <button id="generateBannerC">Genereer afbeelding</button>
-    <a id="downloadLinkC" style="display:none;" download="banner.png">Download afbeelding</a>
+ <!-- ================= Converter 3: Afbeelding + Banner ================= -->
+<section class="card">
+  <h2>Afbeelding + Banner converter (2480x585 px)</h2>
+
+  <div class="form-group">
+    <label>Kleurvlak 1 (bovenste gekleurde balk, 25px)</label>
+    <input type="color" id="color1c" value="#b4d44e">
+  </div>
+  <div class="form-group">
+    <label>Kleurvlak 2 (bovenste gekleurde balk, 25px)</label>
+    <input type="color" id="color2c" value="#6a9d1d">
+  </div>
+  <div class="form-group">
+    <label>Afbeelding uploaden</label>
+    <input type="file" id="imageUploadC" accept="image/*">
+  </div>
+  <div class="form-group">
+    <label>Tekst (optioneel, als geen afbeelding)</label>
+    <input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas">
+  </div>
+
+  <button id="generateBannerC">Genereer banner</button>
+  <a id="downloadLinkC" style="display:none;" download="banner.png">Download afbeelding</a>
+
+  <div style="margin-top:1rem;">
     <canvas id="bannerCanvasC" width="2480" height="585" style="border:1px solid #ccc; max-width:100%;"></canvas>
-  </section>
+  </div>
+</section>
 
   <footer></footer>
 
@@ -243,59 +251,82 @@
     });
   })();
 
-  // ================= Converter 3 Script =================
-  (function(){
-    const canvas = document.getElementById('bannerCanvasC');
-    const ctx = canvas.getContext('2d');
-    const color1 = document.getElementById('color1c');
-    const color2 = document.getElementById('color2c');
-    const imageInput = document.getElementById('imageUploadC');
-    const textInput = document.getElementById('textInputC');
-    const genBtn = document.getElementById('generateBannerC');
-    const downloadLink = document.getElementById('downloadLinkC');
+  <script>
+(function(){
+  const canvas = document.getElementById('bannerCanvasC');
+  const ctx = canvas.getContext('2d');
+  const color1 = document.getElementById('color1c');
+  const color2 = document.getElementById('color2c');
+  const imageInput = document.getElementById('imageUploadC');
+  const textInput = document.getElementById('textInputC');
+  const genBtn = document.getElementById('generateBannerC');
+  const downloadLink = document.getElementById('downloadLinkC');
 
-    function normalizeHex(s){ if(!s)return '#000'; s=String(s).trim(); if(s[0]!=='#')s='#'+s; if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000'; return s; }
+  function normalizeHex(s){
+    if(!s) return '#000000';
+    s=String(s).trim();
+    if(s[0]!=='#') s='#'+s;
+    if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
+    return s;
+  }
 
-    function drawBanner(img){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      const W=1600,H=410;
-      // kleuren
-      const c1=normalizeHex(color1.value), c2=normalizeHex(color2.value);
-      const bottomH=25; const topH=25;
-      ctx.fillStyle=c2; ctx.fillRect(0,0,W,topH);
-      ctx.fillStyle=c1; ctx.fillRect(0,H-bottomH,W,bottomH);
-      // afbeelding
-      if(img){
-        const scale=Math.min(W/img.width,H/img.height);
-        const w=img.width*scale; const h=img.height*scale;
-        const x=(W-w)/2; const y=(H-h)/2;
-        ctx.drawImage(img,x,y,w,h);
-      } else if(textInput.value.trim()!==''){
-        ctx.fillStyle='#333';
-        ctx.font='bold 50px Arial';
-        ctx.textAlign='center'; ctx.textBaseline='middle';
-        ctx.fillText(textInput.value,W/2,H/2);
-      }
+  function drawBanner(img){
+    const W = 2480;
+    const H = 585;
+    ctx.clearRect(0,0,W,H);
+
+    // Bovenste balken
+    ctx.fillStyle = '#ffffff';       // wit vlak 125px
+    ctx.fillRect(0,0,W,125);
+
+    ctx.fillStyle = normalizeHex(color1.value); // kleurvlak 1 (25px)
+    ctx.fillRect(0,125,W,25);
+
+    ctx.fillStyle = normalizeHex(color2.value); // kleurvlak 2 (25px)
+    ctx.fillRect(0,150,W,25);
+
+    // Afbeelding onder de balken
+    const imgY = 175;        // start onder bovenste 175px
+    const imgHeight = 410;
+    const imgWidth = 1600;
+    const imgX = (W - imgWidth)/2;  // horizontaal gecentreerd
+
+    if(img){
+      // Automatisch schalen en bijsnijden
+      const scaleX = imgWidth / img.width;
+      const scaleY = imgHeight / img.height;
+      const scale = Math.max(scaleX, scaleY); // crop om te vullen
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      const offsetX = imgX - (drawW - imgWidth)/2;
+      const offsetY = imgY - (drawH - imgHeight)/2;
+      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+    } else if(textInput.value.trim()!==''){
+      ctx.fillStyle = '#333';
+      ctx.font = 'bold 50px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(textInput.value, W/2, imgY + imgHeight/2);
     }
+  }
 
-    genBtn.addEventListener('click',()=>{
-      const file=imageInput.files[0];
-      if(file){
-        const img=new Image();
-        img.onload=()=>{ drawBanner(img); download(); };
-        img.src=URL.createObjectURL(file);
-      } else {
-        drawBanner(null); download();
-      }
-    });
-
-    function download(){
-      downloadLink.href=canvas.toDataURL('image/png');
-      downloadLink.style.display='inline';
-      downloadLink.click();
+  genBtn.addEventListener('click',()=>{
+    const file = imageInput.files[0];
+    if(file){
+      const img = new Image();
+      img.onload = ()=>{ drawBanner(img); download(); };
+      img.src = URL.createObjectURL(file);
+    } else {
+      drawBanner(null);
+      download();
     }
-  })();
-  </script>
-</body>
-</html>
+  });
 
+  function download(){
+    downloadLink.href = canvas.toDataURL('image/png');
+    downloadLink.style.display = 'inline';
+    downloadLink.click();
+  }
+
+})();
+</script>
