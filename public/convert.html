@@ -112,25 +112,34 @@
     <label>Kleurvlak 1 (bovenste gekleurde balk, 25px)</label>
     <input type="color" id="color1c" value="#b4d44e">
   </div>
+
   <div class="form-group">
     <label>Kleurvlak 2 (bovenste gekleurde balk, 25px)</label>
     <input type="color" id="color2c" value="#6a9d1d">
   </div>
+
   <div class="form-group">
     <label>Afbeelding uploaden</label>
     <input type="file" id="imageUploadC" accept="image/*">
   </div>
+
   <div class="form-group">
     <label>Tekst (optioneel, als geen afbeelding)</label>
     <input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas">
   </div>
 
-  <button id="generateBannerC">Genereer banner</button>
-  <a id="downloadLinkC" style="display:none;" download="banner.png">Download afbeelding</a>
+  <div class="actions">
+    <button id="generateBannerC">Genereer banner</button>
+    <a id="downloadLinkC" style="display:none;" download="banner.png">Download afbeelding</a>
+  </div>
 
+  <!-- Canvas voor banner -->
   <div style="margin-top:1rem;">
     <canvas id="bannerCanvasC" width="2480" height="585" style="border:1px solid #ccc; max-width:100%;"></canvas>
   </div>
+
+  <!-- Preview -->
+  <div id="previewBannerC" style="margin-top:12px;"></div>
 </section>
 
   <footer></footer>
