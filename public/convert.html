@@ -220,15 +220,38 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   function syncColor(input, hex, disp){ input.addEventListener('input', ()=>{ let v=normalizeHex(input.value); hex.value=v; disp.style.background=v; }); hex.addEventListener('input', ()=>{ let v=normalizeHex(hex.value); input.value=v; disp.style.background=v; }); }
   syncColor(color1b,color1bHex,display1b); syncColor(color2b,color2bHex,display2b);
 
-  function drawBannerB(){
-    const W=2480,H=175; ctxB.clearRect(0,0,W,H); ctxB.fillStyle='#fff'; ctxB.fillRect(0,0,W,H);
-    const h1 = Math.max(0,Math.min(175,parseInt(stripeHeightB.value)||0)); const bottomH = 25;
-    ctxB.fillStyle=normalizeHex(color2b.value); ctxB.fillRect(0,H-bottomH-h1,W,h1);
-    ctxB.fillStyle=normalizeHex(color1b.value); ctxB.fillRect(0,H-bottomH,W,bottomH);
-    return canvasB.toDataURL('image/png');
+ function drawBannerB(img){
+  const W = 2480, H = 585;
+  ctxB.clearRect(0, 0, W, H);
+
+  // === Bovenste balken ===
+  ctxB.fillStyle = '#ffffff';
+  ctxB.fillRect(0, 0, W, 100); // witte balk
+  ctxB.fillStyle = normalizeHex(color1b.value);
+  ctxB.fillRect(0, 100, W, 50); // eerste kleur
+  ctxB.fillStyle = normalizeHex(color2b.value);
+  ctxB.fillRect(0, 150, W, 25); // tweede kleur
+
+  // === Tekst of afbeelding ===
+  const contentY = 175; // onder balken
+  const contentH = 410; // resterende hoogte
+  if (img) {
+    const scale = Math.max(W / img.width, contentH / img.height);
+    const drawW = img.width * scale;
+    const drawH = img.height * scale;
+    const dx = (W - drawW) / 2;
+    const dy = contentY + (contentH - drawH) / 2;
+    ctxB.drawImage(img, 0, 0, img.width, img.height, dx, dy, drawW, drawH);
+  } else if (textInputB.value.trim() !== '') {
+    ctxB.fillStyle = '#000';
+    ctxB.font = 'bold 72px Arial';
+    ctxB.textAlign = 'center';
+    ctxB.textBaseline = 'middle';
+    ctxB.fillText(textInputB.value, W / 2, contentY + contentH / 2);
   }
-  genBtnB.addEventListener('click', ()=>{ const a=document.createElement('a'); a.href=drawBannerB(); a.download='banner-2480x175.png'; a.click(); metaB.textContent='Banner gegenereerd — 2480×175 px.';});
-  previewBtnB.addEventListener('click', ()=>{ const data=drawBannerB(); previewDivB.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; previewDivB.appendChild(img); metaB.textContent='Preview banner';});
+
+  return canvasB.toDataURL('image/png');
+}
 
   /* ===== Converter 3 ===== */
   const canvasC = document.getElementById('bannerCanvasC'); const ctxC = canvasC.getContext('2d');
@@ -253,20 +276,20 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
 
   // === Bovenste balken ===
   ctxC.fillStyle = '#ffffff';
-  ctxC.fillRect(0, 0, W, 100); // witte balk 100px
+  ctxC.fillRect(0, 0, W, 100); // witte balk
   ctxC.fillStyle = normalizeHex(color1c.value);
-  ctxC.fillRect(0, 100, W, 50); // eerste kleur 50px
+  ctxC.fillRect(0, 100, W, 50); // eerste kleur
   ctxC.fillStyle = normalizeHex(color2c.value);
-  ctxC.fillRect(0, 150, W, 25); // tweede kleur 25px
+  ctxC.fillRect(0, 150, W, 25); // tweede kleur
 
   // === Afbeelding ===
-  const imgY = 175;     // onderkant balken
-  const imgW = 1600;    // vaste breedte
-  const imgH = 410;     // vaste hoogte
+  const imgY = 175;      // onderkant balken
+  const imgW = 1600;     // vaste breedte
+  const imgH = 410;      // vaste hoogte
   const imgX = (W - imgW) / 2; // centreren
 
   if (img) {
-    // schaal de afbeelding zodat hij volledig het 1600x410 kader vult
+    // Schaal zodat de afbeelding het vlak volledig vult (bijsnijden waar nodig)
     const scale = Math.max(imgW / img.width, imgH / img.height);
     const drawW = img.width * scale;
     const drawH = img.height * scale;
@@ -277,7 +300,7 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
 
     ctxC.drawImage(
       img,
-      sx, sy, sWidth, sHeight,  // bron uitsnede
+      sx, sy, sWidth, sHeight,  // bronuitsnede
       imgX, imgY, imgW, imgH    // doelpositie
     );
   } else if (textInputC.value.trim() !== '') {
