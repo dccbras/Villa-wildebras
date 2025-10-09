@@ -344,6 +344,55 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
     a.download = 'banner-2480x585.png';
     a.click();
   });
+  /* ====== FIXES ====== */
+
+  // --- ontbrekende definities ---
+  const dropC = document.getElementById('dropC');
+  const textInputB = { value: '' }; // placeholder om fout te voorkomen
+
+  // --- converter 2: preview & download werkend ---
+  previewBtnB.addEventListener('click', ()=>{
+    const data = drawBannerB();
+    previewDivB.innerHTML = '';
+    const img = new Image();
+    img.src = data;
+    img.className = 'preview';
+    previewDivB.appendChild(img);
+  });
+
+  genBtnB.addEventListener('click', ()=>{
+    const data = drawBannerB();
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'banner-2480x175.png';
+    a.click();
+  });
+
+  // --- converter 3: preview & download werkend ---
+  previewBtnC.addEventListener('click', ()=>{
+    if(!currentImageC && textInputC.value.trim()===''){
+      alert('Upload een afbeelding of voer tekst in');
+      return;
+    }
+    const data = drawBannerC(currentImageC);
+    previewDivC.innerHTML = '';
+    const img = new Image();
+    img.src = data;
+    img.className = 'preview';
+    previewDivC.appendChild(img);
+  });
+
+  genBtnC.addEventListener('click', ()=>{
+    if(!currentImageC && textInputC.value.trim()===''){
+      alert('Upload een afbeelding of voer tekst in');
+      return;
+    }
+    const data = drawBannerC(currentImageC);
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'banner-2480x585.png';
+    a.click();
+  });
 
 })();
 </script>
