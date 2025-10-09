@@ -1,44 +1,50 @@
 <!doctype html>
 <html lang="nl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Afbeelding converteren — Villa Wildebras</title>
 <style>
-  :root {
-    --color-accent: #0078d4;
-    --color-accent-hover: #005a9e;
-    --color-gray-dark: #333;
-    --color-gray-medium: #666;
-    --color-gray-light: #ddd;
-    --color-background: #f9f9f9;
-    --border-radius: 8px;
-    --btn-padding: 12px 20px;
-    --transition: 0.2s ease-in-out;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  }
-  body { background-color: var(--color-background); padding: 30px; max-width:1000px; margin:0 auto; color: var(--color-gray-dark); line-height:1.5; }
-  h1,h2 { color: var(--color-gray-dark); font-weight:600; margin-bottom:0.5em; }
-  p,label { color: var(--color-gray-medium); }
-  .card { background:#fff; border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:24px; margin-top:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);}
-  .drop { border:2px dashed var(--color-gray-light); border-radius:var(--border-radius); padding:40px; text-align:center; cursor:pointer; background:#fff; transition: border-color var(--transition), background-color var(--transition);}
-  .drop.dragover { border-color: var(--color-accent); background-color: #eef6ff;}
-  input[type="file"], input[type="number"], input[type="text"], select, input[type="color"] { border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:8px; font-size:1rem; transition:border-color var(--transition); }
-  input:focus, select:focus { outline:none; border-color: var(--color-accent); box-shadow:0 0 0 2px rgba(0,120,212,0.2);}
-  button { background:var(--color-accent); color:#fff; border:none; border-radius: var(--border-radius); padding: var(--btn-padding); font-size:1rem; cursor:pointer; transition:background-color var(--transition), transform var(--transition); box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-  button:hover { background: var(--color-accent-hover); transform: translateY(-1px);}
-  .controls,.actions { display:flex; gap:16px; flex-wrap:wrap; }
-  .preview { max-width:100%; border-radius: var(--border-radius); margin-top:16px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-  .meta { margin-top:12px; font-size:0.9rem; color:var(--color-gray-medium);}
-  .color-picker-wrapper { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-  .color-display { width:40px; height:24px; border-radius:4px; border:1px solid #ccc; display:inline-block; vertical-align:middle; }
-  footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); text-align:center;}
-  @media(max-width:600px){.controls,.actions{flex-direction:column;}}
+:root {
+  --color-accent:#0078d4;
+  --color-accent-hover:#005a9e;
+  --color-gray-dark:#333;
+  --color-gray-medium:#666;
+  --color-gray-light:#ddd;
+  --color-background:#f9f9f9;
+  --border-radius:8px;
+  --btn-padding:12px 20px;
+  --transition:0.2s ease-in-out;
+  font-family:'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+body {
+  background-color: var(--color-background);
+  padding:30px;
+  max-width:1000px;
+  margin:0 auto;
+  color: var(--color-gray-dark);
+  line-height:1.5;
+}
+h1,h2 { color: var(--color-gray-dark); font-weight:600; margin-bottom:0.5em;}
+p,label{color: var(--color-gray-medium);}
+.card { background:#fff; border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:24px; margin-top:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.drop { border:2px dashed var(--color-gray-light); border-radius: var(--border-radius); padding:40px; text-align:center; cursor:pointer; background-color:#fff; transition: background-color var(--transition), border-color var(--transition);}
+.drop.dragover{border-color: var(--color-accent); background-color:#eef6ff;}
+input[type="file"], input[type="number"], input[type="text"], select, input[type="color"] {border:1px solid var(--color-gray-light); border-radius: var(--border-radius); padding:8px; font-size:1rem; transition:border-color var(--transition);}
+input:focus, select:focus { outline:none; border-color:var(--color-accent); box-shadow:0 0 0 2px rgba(0,120,212,0.2);}
+button { background-color:var(--color-accent); color:#fff; border:none; border-radius: var(--border-radius); padding: var(--btn-padding); font-size:1rem; cursor:pointer; transition: background-color var(--transition), transform var(--transition); box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+button:hover { background-color: var(--color-accent-hover); transform:translateY(-1px);}
+.controls, .actions { display:flex; gap:16px; flex-wrap:wrap;}
+.preview { max-width:100%; border-radius: var(--border-radius); margin-top:16px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.color-picker { display:flex; align-items:center; gap:10px; margin-top:5px; }
+.color-swatch { width:30px; height:30px; border-radius:4px; border:1px solid #aaa;}
+.meta { margin-top:12px; font-size:0.9rem; color:var(--color-gray-medium);}
+footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); text-align:center;}
+@media(max-width:600px){ .controls, .actions { flex-direction:column; } }
 </style>
 </head>
 <body>
-
-<h1>MOCKUP HACKATON</h1>
+<h1>Afbeelding converters — Villa Wildebras</h1>
 
 <!-- ================= Converter 1: Logo ================= -->
 <section class="card">
@@ -80,118 +86,180 @@
 
 <!-- ================= Converter 2: Banner 2480×175 ================= -->
 <section class="card">
-<h2>Insite banner 2480×175 px</h2>
-<div class="color-picker-wrapper">
-  <label>Kleur 1 (onderste balk)</label>
-  <input id="color1b" type="color" value="#59656b">
-  <input id="color1bHex" type="text" value="#59656b" style="width:80px;">
-  <div class="color-display" id="colorDisplay1b" style="background:#59656b;"></div>
+<h2>Banner 2480×175 px</h2>
+<p>Kleurvlakken onderaan banner met kleur + hex-code</p>
+<div class="color-picker">
+  <input type="color" id="color1b" value="#59656b">
+  <input type="text" id="color1bHex" value="#59656b" style="width:80px">
+  <div id="colorDisplay1b" class="color-swatch" style="background:#59656b"></div>
 </div>
-<div class="color-picker-wrapper">
-  <label>Kleur 2 (bovenste balk)</label>
-  <input id="color2b" type="color" value="#cf5c65">
-  <input id="color2bHex" type="text" value="#cf5c65" style="width:80px;">
-  <div class="color-display" id="colorDisplay2b" style="background:#cf5c65;"></div>
+<div class="color-picker">
+  <input type="color" id="color2b" value="#cf5c65">
+  <input type="text" id="color2bHex" value="#cf5c65" style="width:80px">
+  <div id="colorDisplay2b" class="color-swatch" style="background:#cf5c65"></div>
 </div>
-<label>Hoogte bovenste balk (px)<br>
-  <input id="stripeHeightB" type="number" value="25" min="0" max="175">
-</label>
+<label>Hoogte bovenste balk (px)<br><input id="stripeHeightB" type="number" value="25" min="0" max="175"></label>
 <div class="actions">
   <button id="genBannerB">Genereer & download</button>
   <button id="previewBannerB">Preview</button>
 </div>
 <div id="bannerPreviewB"></div>
-<div id="bannerMetaB" class="meta"></div>
 <canvas id="bannerCanvasB" width="2480" height="175" style="display:none"></canvas>
+<div id="bannerMetaB" class="meta"></div>
 </section>
 
-<!-- ================= Converter 3: Afbeelding + Banner 2480×585 ================= -->
+<!-- ================= Converter 3: Banner 2480×585 ================= -->
 <section class="card">
-<h2>Afbeelding + Banner converter (2480x585 px)</h2>
-<div class="color-picker-wrapper">
-  <label>Kleurvlak 1 (bovenste gekleurde balk)</label>
+<h2>Afbeelding + Banner 2480×585 px</h2>
+<div class="color-picker">
   <input type="color" id="color1c" value="#b4d44e">
-  <input type="text" id="color1cHex" value="#b4d44e" style="width:80px;">
-  <div class="color-display" id="colorDisplay1c" style="background:#b4d44e;"></div>
+  <input type="text" id="color1cHex" value="#b4d44e" style="width:80px">
+  <div id="colorDisplay1c" class="color-swatch" style="background:#b4d44e"></div>
 </div>
-<div class="color-picker-wrapper">
-  <label>Kleurvlak 2 (bovenste gekleurde balk)</label>
+<div class="color-picker">
   <input type="color" id="color2c" value="#6a9d1d">
-  <input type="text" id="color2cHex" value="#6a9d1d" style="width:80px;">
-  <div class="color-display" id="colorDisplay2c" style="background:#6a9d1d;"></div>
+  <input type="text" id="color2cHex" value="#6a9d1d" style="width:80px">
+  <div id="colorDisplay2c" class="color-swatch" style="background:#6a9d1d"></div>
 </div>
-<div class="form-group">
-  <label>Afbeelding uploaden</label>
-  <input type="file" id="imageUploadC" accept="image/*">
-</div>
-<div class="form-group">
-  <label>Tekst (optioneel, als geen afbeelding)</label>
-  <input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas">
-</div>
+<label>Upload afbeelding (1600×410 px):<br><input type="file" id="imageUploadC" accept="image/*"></label>
+<label>Tekst (optioneel, als geen afbeelding):<br><input type="text" id="textInputC" placeholder="Bijv. Samen leren in de klas"></label>
 <div class="actions">
   <button id="previewBannerC">Preview</button>
   <button id="generateBannerC">Download banner</button>
-  <a id="downloadLinkC" style="display:none;"></a>
+  <a id="downloadLinkC" style="display:none"></a>
 </div>
-<canvas id="bannerCanvasC" width="2480" height="585" style="border:1px solid #ccc; max-width:100%; margin-top:1rem;"></canvas>
 <div id="previewDivC"></div>
+<canvas id="bannerCanvasC" width="2480" height="585" style="display:none"></canvas>
 </section>
 
-<footer></footer>
+<footer>© Villa Wildebras</footer>
 
 <script>
-/* ========== Converter 1 ========== */
+/* ========== Converter 1 Script ========== */
 (function(){
-  const fileInput = document.getElementById('fileInput1');
-  const drop = document.getElementById('drop1');
-  const convertBtn = document.getElementById('convertBtn1');
-  const previewBtn = document.getElementById('previewBtn1');
-  const widthInput = document.getElementById('width1');
-  const heightInput = document.getElementById('height1');
-  const modeSelect = document.getElementById('mode1');
-  const outFormat = document.getElementById('outFormat1');
-  const downloadLink = document.getElementById('downloadLink1');
-  const previewArea = document.getElementById('previewArea1');
-  const meta = document.getElementById('meta1');
-  const qualityToggle = document.getElementById('qualityToggle1');
-  const bgWhite = document.getElementById('bgWhite1');
-
-  let currentImage = null;
-  function onFile(file){
-    if(!file) return;
-    const img = new Image();
-    img.onload = ()=>{ currentImage=img; previewArea.innerHTML=''; img.className='preview'; previewArea.appendChild(img); meta.textContent=`Origineel: ${img.width}×${img.height}px`; convertBtn.disabled=false; previewBtn.disabled=false; };
-    img.src = URL.createObjectURL(file);
-  }
-  drop.addEventListener('click',()=>fileInput.click());
-  fileInput.addEventListener('change',(e)=>onFile(e.target.files[0]));
-  drop.addEventListener('dragover',e=>{e.preventDefault(); drop.classList.add('dragover');});
-  drop.addEventListener('dragleave',()=>drop.classList.remove('dragover'));
-  drop.addEventListener('drop',e=>{ e.preventDefault(); drop.classList.remove('dragover'); onFile(e.dataTransfer.files[0]); });
-
-  function convertImage(){
-    if(!currentImage) return;
-    const W=parseInt(widthInput.value), H=parseInt(heightInput.value), mode=modeSelect.value, out=outFormat.value;
-    const srcW=currentImage.naturalWidth, srcH=currentImage.naturalHeight;
-    const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H;
-    const ctx=canvas.getContext('2d');
-    if(bgWhite.checked){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);}
-    let sx=0, sy=0, sW=srcW, sH=srcH;
-    if(mode==='fill'){ const srcRatio=srcW/srcH, outRatio=W/H; if(srcRatio>outRatio){ sH=srcH; sW=Math.round(outRatio*sH); sx=Math.round((srcW-sW)/2);} else { sW=srcW; sH=Math.round(sW/outRatio); sy=Math.round((srcH-sH)/2);} }
-    else if(mode==='fit'){ const ratio=Math.min(W/srcW,H/srcH); const dw=Math.round(srcW*ratio), dh=Math.round(srcH*ratio); const dx=Math.round((W-dw)/2), dy=Math.round((H-dh)/2); ctx.drawImage(currentImage,0,0,srcW,srcH,dx,dy,dw,dh); return {canvas,out,quality:qualityToggle.checked?0.85:undefined}; }
-    else { ctx.drawImage(currentImage,0,0,srcW,srcH,0,0,W,H); return {canvas,out,quality:qualityToggle.checked?0.85:undefined}; }
-    ctx.drawImage(currentImage,sx,sy,sW,sH,0,0,W,H);
-    return {canvas,out,quality:qualityToggle.checked?0.85:undefined};
-  }
-
-  convertBtn.addEventListener('click',()=>{
-    const res=convertImage();
-    res.canvas.toBlob(blob=>{downloadLink.href=URL.createObjectURL(blob); downloadLink.download='image.png'; downloadLink.click();}, res.out, res.quality);
-  });
-
-  previewBtn.addEventListener('click',()=>{
-    const res=convertImage();
-    const dataUrl=res.canvas.toDataURL(res.out,res.quality);
-    previewArea.innerHTML=''; const img=new Image(); img.src=dataUrl; img.className='preview'; previewArea.appendChild(img);
-  });
+const fileInput = document.getElementById('fileInput1');
+const drop = document.getElementById('drop1');
+const convertBtn = document.getElementById('convertBtn1');
+const previewBtn = document.getElementById('previewBtn1');
+const widthInput = document.getElementById('width1');
+const heightInput = document.getElementById('height1');
+const modeSelect = document.getElementById('mode1');
+const outFormat = document.getElementById('outFormat1');
+const downloadLink = document.getElementById('downloadLink1');
+const previewArea = document.getElementById('previewArea1');
+const meta = document.getElementById('meta1');
+const qualityToggle = document.getElementById('qualityToggle1');
+const bgWhite = document.getElementById('bgWhite1');
+let currentFile=null,currentImage=null;
+function onFile(file){
+  if(!file) return;
+  currentFile=file;
+  const img=new Image();
+  img.onload=()=>{
+    currentImage=img;
+    previewArea.innerHTML='';
+    img.className='preview';
+    previewArea.appendChild(img);
+    meta.textContent=`Origineel: ${img.width}×${img.height}px`;
+    convertBtn.disabled=false;
+    previewBtn.disabled=false;
+  };
+  img.src=URL.createObjectURL(file);
+}
+drop.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',(e)=>onFile(e.target.files[0]));
+drop.addEventListener('dragover', e=>{e.preventDefault(); drop.classList.add('dragover');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('dragover'));
+drop.addEventListener('drop', e=>{e.preventDefault(); drop.classList.remove('dragover'); onFile(e.dataTransfer.files[0]);});
+function createCanvas(w,h){ const c=document.createElement('canvas'); c.width=w; c.height=h; return c;}
+function convertImage(){
+if(!currentImage) return;
+const W=parseInt(widthInput.value),H=parseInt(heightInput.value);
+const mode=modeSelect.value,out=outFormat.value;
+const srcW=currentImage.naturalWidth,srcH=currentImage.naturalHeight;
+const canvas=createCanvas(W,H);
+const ctx=canvas.getContext('2d');
+if(bgWhite.checked){ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);}
+let sx=0,sy=0,sW=srcW,sH=srcH;
+if(mode==='fill'){
+const srcRatio=srcW/srcH,outRatio=W/H;
+if(srcRatio>outRatio){sH=srcH;sW=Math.round(outRatio*sH);sx=Math.round((srcW-sW)/2);}
+else {sW=srcW;sH=Math.round(sW/outRatio);sy=Math.round((srcH-sH)/2);}
+} else if(mode==='fit'){
+const ratio=Math.min(W/srcW,H/srcH);
+const dw=Math.round(srcW*ratio), dh=Math.round(srcH*ratio);
+const dx=Math.round((W-dw)/2), dy=Math.round((H-dh)/2);
+ctx.drawImage(currentImage,0,0,srcW,srcH,dx,dy,dw,dh);
+return {canvas,out,quality:qualityToggle.checked?0.85:undefined};
+}else {ctx.drawImage(currentImage,0,0,srcW,srcH,0,0,W,H); return {canvas,out,quality:qualityToggle.checked?0.85:undefined};}
+ctx.drawImage(currentImage,sx,sy,sW,sH,0,0,W,H);
+return {canvas,out,quality:qualityToggle.checked?0.85:undefined};
+}
+convertBtn.addEventListener('click',()=>{
+const res=convertImage();
+res.canvas.toBlob(blob=>{downloadLink.href=URL.createObjectURL(blob); downloadLink.download='image.png'; downloadLink.click();},res.out,res.quality);
+});
+previewBtn.addEventListener('click',()=>{
+const res=convertImage();
+const dataUrl=res.canvas.toDataURL(res.out,res.quality);
+previewArea.innerHTML=''; const img=new Image(); img.src=dataUrl; img.className='preview'; previewArea.appendChild(img);
+});
 })();
+
+/* ========== Converter 2 Script ========== */
+(function(){
+const canvas = document.getElementById('bannerCanvasB');
+const ctx = canvas.getContext('2d');
+const color1=document.getElementById('color1b'),color2=document.getElementById('color2b');
+const color1Hex=document.getElementById('color1bHex'), color2Hex=document.getElementById('color2bHex');
+const colorDisplay1=document.getElementById('colorDisplay1b'), colorDisplay2=document.getElementById('colorDisplay2b');
+const stripeHeightInput=document.getElementById('stripeHeightB');
+const genBannerBtn=document.getElementById('genBannerB');
+const previewBannerBtn=document.getElementById('previewBannerB');
+const bannerPreview=document.getElementById('bannerPreviewB');
+const bannerMeta=document.getElementById('bannerMetaB');
+function normalizeHex(s){ if(!s)return '#000000'; s=String(s).trim(); if(s[0]!=='#')s='#'+s; if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000'; return s;}
+function syncColor(input,colorHex,display){
+input.addEventListener('input', ()=>{ const val=normalizeHex(input.value); colorHex.value=val; display.style.background=val;});
+colorHex.addEventListener('input', ()=>{ const val=normalizeHex(colorHex.value); input.value=val; display.style.background=val;});
+}
+syncColor(color1,color1Hex,colorDisplay1); syncColor(color2,color2Hex,colorDisplay2);
+function generateBanner(){
+const W=2480,H=175; ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+const stripeH=Math.max(0,Math.min(175,parseInt(stripeHeightInput.value)||0));
+const bottomH=25;
+ctx.fillStyle=normalizeHex(color2.value); ctx.fillRect(0,H-bottomH-stripeH,W,stripeH);
+ctx.fillStyle=normalizeHex(color1.value); ctx.fillRect(0,H-bottomH,W,bottomH);
+return canvas.toDataURL('image/png');
+}
+genBannerBtn.addEventListener('click', ()=>{
+const a=document.createElement('a'); a.href=generateBanner(); a.download='banner-2480x175.png'; a.click(); bannerMeta.textContent='Banner gegenereerd — 2480×175 px.';});
+previewBannerBtn.addEventListener('click', ()=>{
+const dataUrl=generateBanner(); bannerPreview.innerHTML=''; const img=new Image(); img.src=dataUrl; img.style.maxWidth='100%'; img.style.borderRadius='8px'; bannerPreview.appendChild(img); bannerMeta.textContent='Preview banner';});
+})();
+
+/* ========== Converter 3 Script ========== */
+(function(){
+const canvas=document.getElementById('bannerCanvasC'), ctx=canvas.getContext('2d');
+const color1=document.getElementById('color1c'), color2=document.getElementById('color2c');
+const color1Hex=document.getElementById('color1cHex'), color2Hex=document.getElementById('color2cHex');
+const colorDisplay1=document.getElementById('colorDisplay1c'), colorDisplay2=document.getElementById('colorDisplay2c');
+const imageInput=document.getElementById('imageUploadC');
+const textInput=document.getElementById('textInputC');
+const previewBtn=document.getElementById('previewBannerC');
+const genBtn=document.getElementById('generateBannerC');
+const downloadLink=document.getElementById('downloadLinkC');
+const previewDiv=document.getElementById('previewDivC');
+function normalizeHex(s){ if(!s) return '#000000'; s=String(s).trim(); if(s[0]!=='#') s='#'+s; if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000'; return s;}
+function syncColor(input,colorHex,display){input.addEventListener('input',()=>{const val=normalizeHex(input.value); colorHex.value=val; display.style.background=val;}); colorHex.addEventListener('input',()=>{const val=normalizeHex(colorHex.value); input.value=val; display.style.background=val;});}
+syncColor(color1,color1Hex,colorDisplay1); syncColor(color2,color2Hex,colorDisplay2);
+function drawBanner(img){
+const W=2480,H=585; ctx.clearRect(0,0,W,H);
+ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,125);
+ctx.fillStyle=normalizeHex(color1.value); ctx.fillRect(0,125,W,25);
+ctx.fillStyle=normalizeHex(color2.value); ctx.fillRect(0,150,W,25);
+const imgX=(W-1600)/2, imgY=175, imgW=1600, imgH=410;
+if(img){
+const scale=Math.max(imgW/img.width,imgH/img.height);
+const drawW=img.width*scale, drawH=img.height*scale;
+const offsetX=imgX-(drawW-imgW)/2, offsetY=
