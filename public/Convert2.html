@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AFAS Icon Zoeker — Villa Wildebras</title>
+  <title>AFAS Icon Finder — Villa Wildebras</title>
   <style>
     :root {
       --color-accent: #0078d4;
@@ -13,22 +13,27 @@
       --color-gray-light: #ddd;
       --color-background: #f9f9f9;
       --border-radius: 8px;
-      --transition: 0.2s ease-in-out;
       font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     }
 
     body {
       background-color: var(--color-background);
       padding: 30px;
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
       color: var(--color-gray-dark);
       line-height: 1.5;
     }
 
-    h1, h2 {
-      font-weight: 600;
+    h1 {
       color: var(--color-gray-dark);
+      font-weight: 600;
+      margin-bottom: 0.3em;
+    }
+
+    p.lead {
+      color: var(--color-gray-medium);
+      margin-bottom: 1.2em;
     }
 
     .card {
@@ -43,3 +48,133 @@
     input[type="text"] {
       width: 100%;
       padding: 12px;
+      font-size: 1rem;
+      border: 1px solid var(--color-gray-light);
+      border-radius: var(--border-radius);
+      transition: border-color 0.2s;
+      margin-top: 8px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(0,120,212,0.2);
+    }
+
+    button {
+      background-color: var(--color-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      margin-top: 12px;
+    }
+
+    button:hover {
+      background-color: var(--color-accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .icon-card {
+      background: #fafafa;
+      border: 1px solid var(--color-gray-light);
+      border-radius: var(--border-radius);
+      padding: 12px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .icon-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .icon-card img {
+      max-width: 64px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--color-gray-medium);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>AFAS Icon Finder</h1>
+  <p class="lead">Voer een zoekterm in en bekijk de drie best passende iconen uit de AFAS Icon Database.</p>
+
+  <section class="card">
+    <label for="searchTerm"><strong>Zoekterm:</strong></label>
+    <input type="text" id="searchTerm" placeholder="Bijv. rapport, klant, medewerker..." />
+    <button id="searchBtn">🔍 Zoeken</button>
+
+    <div id="results" class="results">
+      <p style="color:#666;">Voer een zoekterm in en klik op “Zoeken”.</p>
+    </div>
+  </section>
+
+  <footer>
+    Gemaakt tijdens de Hackaton — Villa Wildebras 🏡
+  </footer>
+
+  <script>
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchTerm');
+    const results = document.getElementById('results');
+
+    // Mock dataset (vervang dit later door een echte API-call)
+    const icons = [
+      { name: "Rapport", url: "https://cdn-icons-png.flaticon.com/512/1828/1828640.png" },
+      { name: "Klant", url: "https://cdn-icons-png.flaticon.com/512/1077/1077063.png" },
+      { name: "Medewerker", url: "https://cdn-icons-png.flaticon.com/512/847/847969.png" },
+      { name: "Document", url: "https://cdn-icons-png.flaticon.com/512/337/337946.png" },
+      { name: "Finance", url: "https://cdn-icons-png.flaticon.com/512/190/190411.png" },
+      { name: "Instellingen", url: "https://cdn-icons-png.flaticon.com/512/3524/3524659.png" }
+    ];
+
+    function handleSearch() {
+      const term = searchInput.value.trim().toLowerCase();
+      results.innerHTML = "";
+
+      if (!term) {
+        results.innerHTML = "<p style='color:#666'>Voer eerst een zoekterm in.</p>";
+        return;
+      }
+
+      const matches = icons.filter(icon => icon.name.toLowerCase().includes(term)).slice(0, 3);
+
+      if (matches.length === 0) {
+        results.innerHTML = `<p style='color:#666'>Geen iconen gevonden voor '<strong>${term}</strong>'.</p>`;
+        return;
+      }
+
+      results.innerHTML = matches.map(icon => `
+        <div class="icon-card">
+          <img src="${icon.url}" alt="${icon.name}">
+          <div>${icon.name}</div>
+        </div>
+      `).join("");
+    }
+
+    searchBtn.addEventListener('click', handleSearch);
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleSearch();
+    });
+  </script>
+</body>
+</html>
