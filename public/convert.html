@@ -252,95 +252,110 @@
     })();
 
     // ================= Converter 3 Script =================
-    (function(){
-      const canvas = document.getElementById('bannerCanvasC');
-      const ctx = canvas.getContext('2d');
-      const color1 = document.getElementById('color1c');
-      const color2 = document.getElementById('color2c');
-      const imageInput = document.getElementById('imageUploadC');
-      const textInput = document.getElementById('textInputC');
-      const genBtn = document.getElementById('generateBannerC');
-      const downloadLink = document.getElementById('downloadLinkC');
-      const previewDiv = document.getElementById('previewBannerC');
+   <script>
+(function(){
+  const canvas = document.getElementById('bannerCanvasC');
+  const ctx = canvas.getContext('2d');
+  const color1 = document.getElementById('color1c');
+  const color2 = document.getElementById('color2c');
+  const imageInput = document.getElementById('imageUploadC');
+  const textInput = document.getElementById('textInputC');
+  const genBtn = document.getElementById('generateBannerC');
+  const downloadLink = document.getElementById('downloadLinkC');
+  const previewDiv = document.getElementById('previewBannerC');
 
-      function normalizeHex(s){
-        if(!s) return '#000000';
-        s = String(s).trim();
-        if(s[0]!=='#') s='#'+s;
-        if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
-        return s;
-      }
+  function normalizeHex(s){
+    if(!s) return '#000000';
+    s = String(s).trim();
+    if(s[0]!=='#') s='#'+s;
+    if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
+    return s;
+  }
 
-      function drawBanner(img){
-        const W = 2480;
-        const H = 585;
-        ctx.clearRect(0,0,W,H);
+  function drawBanner(img){
+    const W = 2480;
+    const H = 585;
+    ctx.clearRect(0,0,W,H);
 
-        // Bovenste balken
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0,0,W,125);
+    // Bovenste balken
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,W,125);
 
-        ctx.fillStyle = normalizeHex(color1.value);
-        ctx.fillRect(0,125,W,25);
+    ctx.fillStyle = normalizeHex(color1.value);
+    ctx.fillRect(0,125,W,25);
 
-        ctx.fillStyle = normalizeHex(color2.value);
-        ctx.fillRect(0,150,W,25);
+    ctx.fillStyle = normalizeHex(color2.value);
+    ctx.fillRect(0,150,W,25);
 
-        // Afbeeldingsvlak
-        const imgY = 175;
-        const imgHeight = 410;
-        const imgWidth = 1600;
-        const imgX = (W - imgWidth)/2;
+    // Afbeeldingsvlak (onder de balken, start y = 175)
+    const imgY = 175;
+    const imgHeight = 410;
+    const imgWidth = 1600;
+    const imgX = (W - imgWidth)/2;
 
-        if(img){
-          const scaleX = imgWidth / img.width;
-          const scaleY = imgHeight / img.height;
-          const scale = Math.max(scaleX, scaleY); // crop om te vullen
-          const drawW = img.width * scale;
-          const drawH = img.height * scale;
-          const offsetX = imgX - (drawW - imgWidth)/2;
-          const offsetY = imgY - (drawH - imgHeight)/2;
-          ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
-        } else if(textInput.value.trim()!==''){
-          ctx.fillStyle = '#333';
-          ctx.font = 'bold 50px Arial';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(textInput.value, W/2, imgY + imgHeight/2);
-        }
+    if(img){
+      const scaleX = imgWidth / img.width;
+      const scaleY = imgHeight / img.height;
+      const scale = Math.max(scaleX, scaleY); // crop om te vullen
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      const offsetX = imgX - (drawW - imgWidth)/2;
+      const offsetY = imgY - (drawH - imgHeight)/2;
+      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+    } else if(textInput.value.trim()!==''){
+      ctx.fillStyle = '#333';
+      ctx.font = 'bold 50px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(textInput.value, W/2, imgY + imgHeight/2);
+    }
 
-        // Preview updaten
-        const previewImg = new Image();
-        previewImg.src = canvas.toDataURL('image/png');
-        previewImg.style.maxWidth = '100%';
-        previewImg.style.borderRadius = '6px';
-        previewImg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-        previewDiv.innerHTML = '';
-        previewDiv.appendChild(previewImg);
-      }
+    // Preview updaten
+    previewDiv.innerHTML = '';
+    const previewImg = new Image();
+    previewImg.src = canvas.toDataURL('image/png');
+    previewImg.style.maxWidth = '100%';
+    previewImg.style.borderRadius = '6px';
+    previewImg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+    previewDiv.appendChild(previewImg);
+  }
 
-      genBtn.addEventListener('click', ()=>{
-        const file = imageInput.files[0];
-        if(file){
-          const img = new Image();
-          img.onload = ()=>{ 
-            drawBanner(img); 
-            download(); 
-          };
-          img.src = URL.createObjectURL(file);
-        } else {
-          drawBanner(null);
-          download();
-        }
-      });
+  // Preview bij upload direct
+  imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if(file){
+      const img = new Image();
+      img.onload = ()=> drawBanner(img);
+      img.src = URL.createObjectURL(file);
+    } else {
+      drawBanner(null);
+    }
+  });
 
-      function download(){
-        downloadLink.href = canvas.toDataURL('image/png');
-        downloadLink.style.display = 'inline';
-        downloadLink.click();
-      }
+  // Genereer + download knop
+  genBtn.addEventListener('click', ()=>{
+    const file = imageInput.files[0];
+    if(file){
+      const img = new Image();
+      img.onload = ()=>{ 
+        drawBanner(img); 
+        download(); 
+      };
+      img.src = URL.createObjectURL(file);
+    } else {
+      drawBanner(null);
+      download();
+    }
+  });
 
-    })();
-  </script>
+  function download(){
+    downloadLink.href = canvas.toDataURL('image/png');
+    downloadLink.style.display = 'inline';
+    downloadLink.click();
+  }
+
+})();
+</script>
+
 </body>
 </html>
