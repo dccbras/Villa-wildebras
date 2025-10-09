@@ -251,32 +251,106 @@ imageInput.addEventListener('change',(e)=>{
 const file=e.target.files[0]; if(!file) return;
 const img=new Image(); img.onload=()=>{currentImage=img;}; img.src=URL.createObjectURL(file);
 });
-function drawBanner(img){
-const W=2480,H=585; ctx.clearRect(0,0,W,H);
-ctx.fillStyle='#ffffff'; ctx.fillRect(0,0, W,175); // bovenste balken
-ctx.fillStyle=normalizeHex(color1.value); ctx.fillRect(0,175, W,25);
-ctx.fillStyle=normalizeHex(color2.value); ctx.fillRect(0,200, W,25);
-if(img){
-const imgX=0,imgY=225,imgW=W,imgH=360; // afbeelding vanaf 225
-let scale=Math.min(imgW/img.width,imgH/img.height);
-let drawW=img.width*scale, drawH=img.height*scale;
-let dx=(W-drawW)/2, dy=imgY+(imgH-drawH)/2;
-ctx.drawImage(img,0,0,img.width,img.height,dx,dy,drawW,drawH);
-}else if(textInput.value.trim()!==''){
-ctx.fillStyle='#000'; ctx.font='bold 48px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
-ctx.fillText(textInput.value, W/2, 225+180); // in midden van afbeelding
-}
-return canvas.toDataURL('image/png');
-}
-previewBtn.addEventListener('click',()=>{
-if(!currentImage && textInput.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-const data=drawBanner(currentImage);
-previewDiv.innerHTML=''; const img=new Image(); img.src=data; img.style.maxWidth='100%'; img.style.borderRadius='8px'; previewDiv.appendChild(img);
-});
-genBtn.addEventListener('click',()=>{
-if(!currentImage && textInput.value.trim()===''){ alert('Upload afbeelding of voer tekst in'); return; }
-const data=drawBanner(currentImage); const a=document.createElement('a'); a.href=data; a.download='banner-2480x585.png'; a.click();
-});
+<script>
+(function(){
+  const canvas = document.getElementById('bannerCanvasC');
+  const ctx = canvas.getContext('2d');
+  const color1 = document.getElementById('color1c');
+  const color2 = document.getElementById('color2c');
+  const imageInput = document.getElementById('imageUploadC');
+  const textInput = document.getElementById('textInputC');
+  const genBtn = document.getElementById('generateBannerC');
+  const previewBtn = document.getElementById('previewBannerCBtn'); // voeg dit knop-element toe in HTML
+  const previewDiv = document.getElementById('bannerPreviewC');
+  let currentImage = null;
+
+  // Upload afbeelding
+  imageInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(file){
+      const img = new Image();
+      img.onload = ()=>{ currentImage = img; };
+      img.src = URL.createObjectURL(file);
+    }
+  });
+
+  function normalizeHex(s){
+    if(!s) return '#000000';
+    s = String(s).trim();
+    if(s[0]!=='#') s='#'+s;
+    if(!/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(s)) return '#000000';
+    return s;
+  }
+
+  function drawBanner(img){
+    const W = 2480;
+    const H = 585;
+    ctx.clearRect(0,0,W,H);
+
+    // Bovenste balken
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,W,125);
+
+    ctx.fillStyle = normalizeHex(color1.value);
+    ctx.fillRect(0,125,W,25);
+
+    ctx.fillStyle = normalizeHex(color2.value);
+    ctx.fillRect(0,150,W,25);
+
+    // Afbeeldingsvlak onder balken
+    const imgY = 175;
+    const imgHeight = 410;
+    const imgWidth = 1600;
+    const imgX = (W - imgWidth)/2;
+
+    if(img){
+      // schaal om exact in vlak te passen, behoud aspect ratio
+      const scale = Math.max(imgWidth / img.width, imgHeight / img.height);
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      const dx = imgX - (drawW - imgWidth)/2;
+      const dy = imgY - (drawH - imgHeight)/2;
+      ctx.drawImage(img, 0,0,img.width,img.height, dx, dy, drawW, drawH);
+    } else if(textInput.value.trim() !== ''){
+      ctx.fillStyle = '#000';
+      ctx.font = 'bold 48px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(textInput.value, W/2, imgY + imgHeight/2);
+    }
+
+    return canvas.toDataURL('image/png');
+  }
+
+  // Preview knop
+  previewBtn.addEventListener('click', ()=>{
+    if(!currentImage && textInput.value.trim()===''){ 
+      alert('Upload afbeelding of voer tekst in'); 
+      return; 
+    }
+    const data = drawBanner(currentImage);
+    previewDiv.innerHTML = '';
+    const img = new Image();
+    img.src = data;
+    img.style.maxWidth = '100%';
+    img.style.borderRadius = '8px';
+    img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+    previewDiv.appendChild(img);
+  });
+
+  // Genereer/download knop
+  genBtn.addEventListener('click', ()=>{
+    if(!currentImage && textInput.value.trim()===''){ 
+      alert('Upload afbeelding of voer tekst in'); 
+      return; 
+    }
+    const data = drawBanner(currentImage);
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'banner-2480x585.png';
+    a.click();
+  });
+
 })();
 </script>
 </body>
