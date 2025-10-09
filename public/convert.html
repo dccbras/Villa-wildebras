@@ -251,8 +251,7 @@
     });
   })();
 
-
- <script>
+<script>
 (function(){
   const canvas = document.getElementById('bannerCanvasC');
   const ctx = canvas.getContext('2d');
@@ -312,12 +311,12 @@
     }
 
     // Preview updaten
+    previewDiv.innerHTML = '';
     const previewImg = new Image();
     previewImg.src = canvas.toDataURL('image/png');
     previewImg.style.maxWidth = '100%';
     previewImg.style.borderRadius = '6px';
     previewImg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-    previewDiv.innerHTML = '';
     previewDiv.appendChild(previewImg);
   }
 
@@ -327,21 +326,24 @@
       const img = new Image();
       img.onload = ()=>{ 
         drawBanner(img); 
-        download(); 
+        setTimeout(()=>download(), 50); // kleine delay om DOM te updaten
       };
       img.src = URL.createObjectURL(file);
     } else {
       drawBanner(null);
-      download();
+      setTimeout(()=>download(), 50);
     }
   });
 
-   // ================= Converter 3 Script =================
   function download(){
-    downloadLink.href = canvas.toDataURL('image/png');
+    const dataUrl = canvas.toDataURL('image/png');
+    downloadLink.href = dataUrl;
     downloadLink.style.display = 'inline';
+    // Voeg tijdelijk toe aan body om click te triggeren
+    if(!downloadLink.parentNode) document.body.appendChild(downloadLink);
     downloadLink.click();
   }
 
 })();
 </script>
+
