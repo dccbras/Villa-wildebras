@@ -54,23 +54,13 @@
 
     }
  
-    header img {
-
-      height: 48px;
-
-      width: auto;
-
-    }
- 
     header h1 {
 
       font-size: 1.8rem;
 
       font-weight: 600;
 
-      margin: 0;
-
-      flex: 1;
+      margin: 0 auto;
 
       text-align: center;
 
@@ -102,9 +92,11 @@
 
       margin-bottom: 1rem;
 
+      align-items: center;
+
     }
  
-    input {
+    input[type="text"] {
 
       flex: 1;
 
@@ -120,13 +112,31 @@
 
     }
  
-    input:focus {
+    input[type="text"]:focus {
 
       border-color: var(--afas-blue);
 
       outline: none;
 
       box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+
+    }
+ 
+    input[type="color"] {
+
+      width: 60px;
+
+      height: 46px;
+
+      border: none;
+
+      border-radius: var(--border-radius);
+
+      cursor: pointer;
+
+      background: transparent;
+
+      padding: 0;
 
     }
  
@@ -172,7 +182,7 @@
 
       background: #ffffff;
 
-      border: 1px solid #e6e9ed;
+      border: 2px solid #e6e9ed;
 
       border-radius: var(--border-radius);
 
@@ -181,6 +191,8 @@
       padding: 1rem;
 
       transition: all 0.2s ease-in-out;
+
+      cursor: pointer;
 
     }
  
@@ -191,6 +203,16 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
       border-color: var(--afas-blue);
+
+    }
+ 
+    .icon-card.selected {
+
+      border-color: var(--afas-blue);
+
+      background-color: #f0f8ff;
+
+      box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.2);
 
     }
  
@@ -241,17 +263,17 @@
 </head>
 <body>
 <header>
-<img src="/public/afas-logo.png" alt="AFAS logo" />
 <h1>AFAS Hackathon Icon Zoeker</h1>
 </header>
  
   <main>
 <div class="input-row">
 <input type="text" id="search" placeholder="Zoek op term of synoniem..." />
-<input type="text" id="colorInput" placeholder="Bijv. #FF6600 of rgb(0,128,255)" />
+<input type="color" id="colorPicker" value="#0078d4" />
 <button id="applyColor">Kleur toepassen</button>
 </div>
-<div class="icons-grid" id="iconsGrid"></div>
+ 
+    <div class="icons-grid" id="iconsGrid"></div>
 <div class="no-results" id="noResults" style="display:none;">Geen iconen gevonden...</div>
 </main>
  
@@ -288,12 +310,14 @@
 
     const search = document.getElementById("search");
 
-    const colorInput = document.getElementById("colorInput");
+    const colorPicker = document.getElementById("colorPicker");
 
     const applyColorBtn = document.getElementById("applyColor");
 
     const noResults = document.getElementById("noResults");
  
+    let selectedCard = null;
+
     let currentIcons = [];
  
     function renderIcons(filter = "") {
@@ -341,40 +365,56 @@
         card.appendChild(img);
 
         card.appendChild(label);
+ 
+        // klikgedrag om te selecteren
 
+        card.addEventListener("click", () => {
+
+          if (selectedCard) selectedCard.classList.remove("selected");
+
+          selectedCard = card;
+
+          card.classList.add("selected");
+
+        });
+ 
         grid.appendChild(card);
 
       });
 
     }
  
-    // 🎨 Functie om de primaire kleur te vervangen
-
     function applyColorFilter() {
 
-      const color = colorInput.value.trim();
+      if (!selectedCard) {
 
-      if (!color) {
-
-        alert("Voer een geldige kleurcode in, bijvoorbeeld #FF6600.");
+        alert("Klik eerst op een icoon om de kleur aan te passen.");
 
         return;
 
       }
  
-      const images = document.querySelectorAll(".icon-card img");
+      const color = colorPicker.value;
 
-      images.forEach(img => {
+      const img = selectedCard.querySelector("img");
 
-        const canvas = document.createElement("canvas");
+      const canvas = document.createElement("canvas");
 
-        const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d");
+ 
+      canvas.width = img.width;
 
-        canvas.width = img.width;
+      canvas.height = img.height;
+ 
+      const tempImg = new Image();
 
-        canvas.height = img.height;
+      tempImg.crossOrigin = "anonymous";
 
-        ctx.drawImage(img, 0, 0);
+      tempImg.src = img.src;
+ 
+      tempImg.onload = () => {
+
+        ctx.drawImage(tempImg, 0, 0);
 
         ctx.globalCompositeOperation = "source-atop";
 
@@ -382,9 +422,9 @@
 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        img.src = canvas.toDataURL(); // vervangt het originele icoon
+        img.src = canvas.toDataURL();
 
-      });
+      };
 
     }
  
