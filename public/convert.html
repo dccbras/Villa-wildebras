@@ -205,161 +205,94 @@
 
   <footer>
   </footer>
-<!-- Afbeelding + Banner converter -->
-<section class="card" style="margin-top:18px">
-  <h2 style="margin:0 0 8px 0">Afbeelding + banner genereren (2480×585 px)</h2>
-  <p class="small" style="margin:0 0 12px 0">
-    Maak een afbeelding van precies <strong>2480×585 px</strong> met bovenin de tweekleurige balk (175 px hoog) en daaronder een afbeelding of tekst. 
-    Je kunt een eigen afbeelding uploaden of een tekst invullen om een afbeelding te genereren via een prompt.
-  </p>
-
-  <div style="display:flex;flex-direction:column;gap:12px">
-    <div>
-      <label><strong>Afbeelding uploaden (optioneel)</strong></label><br>
-      <input id="comboImageInput" type="file" accept="image/*" style="margin-top:6px">
-    </div>
-
-    <div>
-      <label><strong>Of typ een tekst om een afbeelding te genereren (prompt)</strong></label><br>
-      <input id="comboPrompt" type="text" placeholder="Bijv. 'Illustratie van een leraar en leerlingen voor schoolwebsite'" 
-             style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:1rem">
-    </div>
-
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px">
-      <button id="genComboBanner">Genereer & download</button>
-      <button id="previewComboBanner">Preview</button>
-    </div>
+<!-- Derde converter: afbeelding + balk (fit binnen fotovlak) -->
+<section class="card">
+  <h2>Afbeelding + Banner converter</h2>
+  <div class="form-group">
+    <label>Kleur 1 (bovenste balk)</label>
+    <input type="color" id="color1" value="#b4d44e">
   </div>
-
-  <div id="comboPreview" style="margin-top:12px"></div>
-  <div id="comboMeta" class="meta"></div>
+  <div class="form-group">
+    <label>Kleur 2 (onderste balk)</label>
+    <input type="color" id="color2" value="#6a9d1d">
+  </div>
+  <div class="form-group">
+    <label>Afbeelding uploaden (optioneel)</label>
+    <input type="file" id="imageUpload" accept="image/*">
+  </div>
+  <div class="form-group">
+    <label>Of voer een AI-prompt in</label>
+    <input type="text" id="aiPrompt" placeholder="Bijv. leraar voor het bord met kinderen in klaslokaal">
+  </div>
+  <div class="form-group">
+    <label>Tekst (als geen afbeelding wordt gebruikt)</label>
+    <input type="text" id="textInput" placeholder="Bijv. Samen leren in de klas">
+  </div>
+  <button id="generateBanner">Genereer afbeelding</button>
+  <a id="downloadLink" style="display:none;" download="banner.png">Download afbeelding</a>
+  <div style="margin-top: 1rem;">
+    <canvas id="bannerCanvas" width="2480" height="585" style="border:1px solid #ccc; max-width:100%;"></canvas>
+  </div>
 </section>
 
 <script>
-(function(){
-  const comboInput = document.getElementById('comboImageInput');
-  const comboPrompt = document.getElementById('comboPrompt');
-  const genComboBtn = document.getElementById('genComboBanner');
-  const previewComboBtn = document.getElementById('previewComboBanner');
-  const comboPreview = document.getElementById('comboPreview');
-  const comboMeta = document.getElementById('comboMeta');
+const canvas = document.getElementById('bannerCanvas');
+const ctx = canvas.getContext('2d');
 
-  let comboImage = null;
+document.getElementById('generateBanner').addEventListener('click', () => {
+  const color1 = document.getElementById('color1').value;
+  const color2 = document.getElementById('color2').value;
+  const imageFile = document.getElementById('imageUpload').files[0];
+  const text = document.getElementById('textInput').value;
 
-  comboInput.addEventListener('change', e => {
-    const file = e.target.files && e.target.files[0];
-    if(!file) return;
-    if(!file.type.startsWith('image/')) return alert('Upload een geldig afbeeldingsbestand.');
+  // Bovenste balk (175 px hoog)
+  const topBarHeight = 175;
+
+  // Afbeeldingsvlak
+  const imageY = topBarHeight;
+  const imageHeight = canvas.height - topBarHeight;
+  const imageAreaWidth = 2238; // fotovlakbreedte
+  const imageAreaX = (canvas.width - imageAreaWidth) / 2; // = 121 px marge links/rechts
+
+  // Kleurvlakken tekenen
+  ctx.fillStyle = color1;
+  ctx.fillRect(0, 0, canvas.width, topBarHeight / 2);
+  ctx.fillStyle = color2;
+  ctx.fillRect(0, topBarHeight / 2, canvas.width, topBarHeight / 2);
+
+  if (imageFile) {
     const img = new Image();
-    img.onload = ()=>{ comboImage = img; comboMeta.textContent = `Afbeelding geladen: ${img.width}×${img.height}px`; };
-    img.src = URL.createObjectURL(file);
-  });
+    img.onload = () => {
+      // Fit berekenen
+      const scale = Math.min(imageAreaWidth / img.width, imageHeight / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      const x = imageAreaX + (imageAreaWidth - w) / 2;
+      const y = imageY + (imageHeight - h) / 2;
 
-  function generateComboCanvas(){
-    const W = 2480, H = 585;
-    const bannerH = 175;
-    const bottomH = 25;
-    const canvas = document.createElement('canvas');
-    canvas.width = W; canvas.height = H;
-    const ctx = canvas.getContext('2d');
-
-    // kleuren ophalen uit bestaande kleurvelden
-    const c1 = document.getElementById('color1').value || '#59656b';
-    const c2 = document.getElementById('color2').value || '#cf5c65';
-    const stripeH = Math.max(0, Math.min(175, parseInt(document.getElementById('stripeHeight').value, 10) || 25));
-
-    // achtergrond wit
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0,0,W,H);
-
-    // teken bovenste kleurvlak (banner)
-    ctx.fillStyle = c2;
-    ctx.fillRect(0, bannerH - bottomH - stripeH, W, stripeH);
-    ctx.fillStyle = c1;
-    ctx.fillRect(0, bannerH - bottomH, W, bottomH);
-
-    // afbeelding of tekst toevoegen
-    const areaY = bannerH;
-    const areaH = H - bannerH;
-    if(comboImage){
-      const srcW = comboImage.naturalWidth;
-      const srcH = comboImage.naturalHeight;
-      const scale = Math.min(W/srcW, areaH/srcH);
-      const dw = srcW * scale;
-      const dh = srcH * scale;
-      const dx = (W - dw) / 2;
-      const dy = areaY + (areaH - dh) / 2;
-      ctx.drawImage(comboImage, dx, dy, dw, dh);
-    } else if(comboPrompt.value.trim()){
-      ctx.fillStyle = '#333';
-      ctx.font = 'bold 36px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const text = comboPrompt.value.trim();
-      wrapText(ctx, text, W/2, areaY + areaH/2, W - 100, 40);
-    } else {
-      ctx.fillStyle = '#999';
-      ctx.font = 'italic 32px Segoe UI, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('Geen afbeelding of tekst opgegeven', W/2, areaY + areaH/2);
-    }
-
-    return canvas;
+      ctx.drawImage(img, x, y, w, h);
+      enableDownload();
+    };
+    img.src = URL.createObjectURL(imageFile);
+  } else if (text.trim() !== '') {
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 80px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, canvas.width / 2, imageY + imageHeight / 2);
+    enableDownload();
+  } else {
+    alert('Upload een afbeelding of vul tekst in.');
   }
 
-  // helper om tekst te wrappen
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-    const words = text.split(' ');
-    let line = '';
-    let yy = y;
-    const lines = [];
-    for(let n=0;n<words.length;n++){
-      const testLine = line + words[n] + ' ';
-      const testWidth = ctx.measureText(testLine).width;
-      if(testWidth > maxWidth && n>0){
-        lines.push(line);
-        line = words[n] + ' ';
-      } else {
-        line = testLine;
-      }
-    }
-    lines.push(line);
-    const offsetY = y - (lines.length-1)*lineHeight/2;
-    lines.forEach((ln,i)=>{
-      ctx.fillText(ln.trim(), x, offsetY + i*lineHeight);
-    });
+  function enableDownload() {
+    const link = document.getElementById('downloadLink');
+    link.href = canvas.toDataURL('image/png');
+    link.style.display = 'inline-block';
   }
-
-  function downloadCombo(){
-    const canvas = generateComboCanvas();
-    canvas.toBlob(blob=>{
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'banner-afbeelding-2480x585.png';
-      a.click();
-      URL.revokeObjectURL(url);
-      comboMeta.textContent = 'Bestand gedownload — 2480×585 px';
-    }, 'image/png');
-  }
-
-  function previewCombo(){
-    const canvas = generateComboCanvas();
-    const dataUrl = canvas.toDataURL('image/png');
-    comboPreview.innerHTML = '';
-    const img = new Image();
-    img.src = dataUrl;
-    img.style.maxWidth = '100%';
-    img.style.borderRadius = '8px';
-    img.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)';
-    comboPreview.appendChild(img);
-    comboMeta.textContent = 'Preview gegenereerd.';
-  }
-
-  genComboBtn.addEventListener('click', downloadCombo);
-  previewComboBtn.addEventListener('click', previewCombo);
-})();
+});
 </script>
+
 
 <script>
 (function(){
