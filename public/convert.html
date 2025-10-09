@@ -314,11 +314,38 @@ footer { margin-top:32px; font-size:0.85rem; color:var(--color-gray-medium); tex
   return canvasC.toDataURL('image/png');
 }
 
+  // ===== Fix: textInputB definiëren zodat Converter 2 niet crasht =====
+  const textInputB = { value: '' }; // lege placeholder zodat drawBannerB werkt
+
+  // ===== Converter 3: knoppen werkend maken =====
+  previewBtnC.addEventListener('click', () => {
+    if (!currentImageC && textInputC.value.trim() === '') {
+      alert('Upload een afbeelding of voeg tekst toe');
+      return;
+    }
+    const data = drawBannerC(currentImageC);
+    // Preview tonen
+    previewDivC.innerHTML = '';
+    const img = new Image();
+    img.src = data;
+    img.className = 'preview';
+    previewDivC.appendChild(img);
+  });
+
+  genBtnC.addEventListener('click', () => {
+    if (!currentImageC && textInputC.value.trim() === '') {
+      alert('Upload een afbeelding of voeg tekst toe');
+      return;
+    }
+    const data = drawBannerC(currentImageC);
+    // Download genereren
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'banner-2480x585.png';
+    a.click();
+  });
 
 })();
-</script>
-</body>
-</html>
 </script>
 </body>
 </html>
