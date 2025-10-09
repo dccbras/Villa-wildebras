@@ -3,100 +3,215 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AFAS Iconen Zoeken</title>
+<title>AFAS Hackathon Icon Zoeker</title>
 <style>
 
+    :root {
+
+      --afas-blue: #0078d4;
+
+      --afas-blue-dark: #005a9e;
+
+      --afas-gray: #f5f7fa;
+
+      --afas-text: #2b2b2b;
+
+      --border-radius: 10px;
+
+    }
+ 
     body {
 
-      font-family: sans-serif;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-      background-color: #f8f9fa;
+      background-color: var(--afas-gray);
 
-      color: #333;
+      color: var(--afas-text);
+
+      margin: 0;
+
+      padding: 0;
+
+    }
+ 
+    header {
+
+      background: var(--afas-blue);
+
+      color: white;
+
+      padding: 1.5rem 2rem;
+
+      text-align: center;
+
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+
+    }
+ 
+    header h1 {
+
+      margin: 0;
+
+      font-size: 1.8rem;
+
+      letter-spacing: 0.5px;
+
+    }
+ 
+    main {
+
+      max-width: 900px;
+
+      margin: 2rem auto;
+
+      background: white;
 
       padding: 2rem;
 
-    }
+      border-radius: var(--border-radius);
 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    }
+ 
     input {
 
-      padding: 10px;
+      width: 100%;
 
-      width: 320px;
+      padding: 14px;
 
-      border: 1px solid #ccc;
+      font-size: 1rem;
 
-      border-radius: 6px;
+      border: 1px solid #d0d7de;
 
-      margin-bottom: 20px;
+      border-radius: var(--border-radius);
+
+      transition: border-color 0.2s;
 
     }
+ 
+    input:focus {
 
+      border-color: var(--afas-blue);
+
+      outline: none;
+
+      box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+
+    }
+ 
     .icons-grid {
 
       display: grid;
 
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 
       gap: 1.5rem;
 
-    }
+      margin-top: 2rem;
 
+    }
+ 
     .icon-card {
 
-      background: #fff;
+      background: #ffffff;
 
-      padding: 1rem;
+      border: 1px solid #e6e9ed;
 
-      border-radius: 12px;
-
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-radius: var(--border-radius);
 
       text-align: center;
 
-      transition: transform 0.2s;
+      padding: 1rem;
+
+      transition: all 0.2s ease-in-out;
 
     }
-
+ 
     .icon-card:hover {
 
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+      border-color: var(--afas-blue);
 
     }
-
+ 
     .icon-card img {
 
-      width: 64px;
+      width: 72px;
 
-      height: 64px;
+      height: 72px;
 
-      object-fit: contain;
-
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
 
     }
+ 
+    .icon-card div {
 
+      font-weight: 500;
+
+      color: #333;
+
+    }
+ 
     .no-results {
 
       text-align: center;
 
+      color: #666;
+
       margin-top: 2rem;
 
+    }
+ 
+    footer {
+
+      text-align: center;
+
       color: #888;
+
+      font-size: 0.9rem;
+
+      margin-top: 2rem;
+
+      padding: 1rem;
+
+    }
+ 
+    footer a {
+
+      color: var(--afas-blue);
+
+      text-decoration: none;
+
+    }
+ 
+    footer a:hover {
+
+      text-decoration: underline;
 
     }
 </style>
 </head>
 <body>
-<h1>🔍 AFAS Iconen Zoeken</h1>
-<input type="text" id="search" placeholder="Typ om te zoeken..." />
+<header>
+<h1>AFAS Hackathon Icon Zoeker</h1>
+</header>
  
-  <div class="icons-grid" id="iconsGrid"></div>
+  <main>
+<input type="text" id="search" placeholder="Zoek op term of synoniem..." />
+<div class="icons-grid" id="iconsGrid"></div>
 <div class="no-results" id="noResults" style="display:none;">Geen iconen gevonden...</div>
+</main>
+ 
+  <footer>
+
+    Gemaakt tijdens de <strong>AFAS Hackathon</strong> – Team Villa Wildebras 🏡
+</footer>
  
   <script>
-
-    // ✅ Iconen met synoniemen
 
     const icons = [
 
@@ -108,13 +223,13 @@
 
       { name: "Geaccordeerde Uren", file: "Geaccordeerde uren.png", synonyms: ["goedgekeurde uren", "uren akkoord", "tijd registratie"] },
 
-      { name: "MW Uren Boeken", file: "MW UREN BOEKEN.png", synonyms: ["medewerker", "personeel", "tijd boeken", "werknemer", "collega"] },
+      { name: "MW Uren Boeken", file: "MW UREN BOEKEN.png", synonyms: ["medewerker", "personeel", "tijd boeken"] },
 
-      { name: "Aan Team Deelnemen", file: "AAN TEAM DEELNEMEN.png", synonyms: ["team", "teams", "groep", "collega's", "samenwerken"] },
+      { name: "Aan Team Deelnemen", file: "AAN TEAM DEELNEMEN.png", synonyms: ["team", "groep", "collega's"] },
 
       { name: "Abonnementen", file: "Abonnementen.png", synonyms: ["lidmaatschap", "contract", "inschrijving"] },
 
-      { name: "Accorderen Beoordelen", file: "ACCORDEREN BEOORDELEN.png", synonyms: ["goedkeuren", "controleren", "reviewen", "beoordeling", "acorderen"] },
+      { name: "Accorderen Beoordelen", file: "ACCORDEREN BEOORDELEN.png", synonyms: ["goedkeuren", "controleren", "reviewen"] },
 
       { name: "Agekeurde Uren", file: "AGEKEURDE UREN.png", synonyms: ["geaccepteerde uren", "uren akkoord", "goedgekeurd"] }
 
@@ -126,107 +241,31 @@
 
     const noResults = document.getElementById("noResults");
  
-    // 🧠 Tekst-normalisatie (verwijdert accenten, leestekens, meervoudsvormen)
-
-    function normalizeText(text) {
-
-      return text
-
-        .toLowerCase()
-
-        .normalize("NFD")
-
-        .replace(/[\u0300-\u036f]/g, "")
-
-        .replace(/[^a-z0-9 ]/g, "")
-
-        .replace(/\s+/g, " ")
-
-        .trim()
-
-        .replace(/(en|e|s|n|er|ers|tje|tjes)\b/g, "");
-
-    }
- 
-    // 🔠 Levenshtein-afstand berekening
-
-    function levenshtein(a, b) {
-
-      const matrix = Array.from({ length: a.length + 1 }, (_, i) =>
-
-        Array(b.length + 1).fill(0)
-
-      );
-
-      for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-
-      for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
-
-      for (let i = 1; i <= a.length; i++) {
-
-        for (let j = 1; j <= b.length; j++) {
-
-          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-
-          matrix[i][j] = Math.min(
-
-            matrix[i - 1][j] + 1, // verwijderen
-
-            matrix[i][j - 1] + 1, // invoegen
-
-            matrix[i - 1][j - 1] + cost // vervangen
-
-          );
-
-        }
-
-      }
-
-      return matrix[a.length][b.length];
-
-    }
- 
-    // ✅ Check of de zoekterm 'dichtbij genoeg' is (max 2 verschil)
-
-    function fuzzyMatch(term, query) {
-
-      const t = normalizeText(term);
-
-      const q = normalizeText(query);
-
-      if (t.includes(q)) return true;
-
-      return levenshtein(t, q) <= 2;
-
-    }
- 
-    // 🔍 Hoofdzoekfunctie
-
-    function matchesQuery(icon, query) {
-
-      const combined = [icon.name, ...(icon.synonyms || [])].join(" ");
-
-      const words = combined.split(" ");
-
-      return words.some(word => fuzzyMatch(word, query));
-
-    }
- 
     function renderIcons(filter = "") {
 
       grid.innerHTML = "";
 
-      filter = filter.trim();
+      filter = filter.toLowerCase().trim();
  
       const filtered = icons.filter(icon => {
 
         if (!filter) return true;
 
-        return matchesQuery(icon, filter);
+        const text = [icon.name, ...(icon.synonyms || [])].join(" ").toLowerCase();
+
+        return text.includes(filter);
 
       });
  
-      noResults.style.display = filtered.length === 0 ? "block" : "none";
+      if (filtered.length === 0) {
+
+        noResults.style.display = "block";
+
+      } else {
+
+        noResults.style.display = "none";
+
+      }
  
       filtered.forEach(icon => {
 
@@ -239,14 +278,6 @@
         img.src = `${window.location.origin}/${icon.file}`;
 
         img.alt = icon.name;
-
-        img.onerror = () => {
-
-          img.style.display = "none";
-
-          card.innerHTML += `<div style='color:#999;'>❌ Niet gevonden</div>`;
-
-        };
  
         const label = document.createElement("div");
 
@@ -262,7 +293,7 @@
 
     }
  
-    search.addEventListener("input", (e) => renderIcons(e.target.value));
+    search.addEventListener("input", e => renderIcons(e.target.value));
 
     renderIcons();
 </script>
