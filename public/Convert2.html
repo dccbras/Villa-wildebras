@@ -92,9 +92,21 @@
 
     }
  
+    .input-row {
+
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 1rem;
+
+    }
+ 
     input {
 
-      width: 100%;
+      flex: 1;
 
       padding: 14px;
 
@@ -115,6 +127,32 @@
       outline: none;
 
       box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+
+    }
+ 
+    button {
+
+      background-color: var(--afas-blue);
+
+      color: white;
+
+      border: none;
+
+      border-radius: var(--border-radius);
+
+      padding: 14px 20px;
+
+      font-size: 1rem;
+
+      cursor: pointer;
+
+      transition: background-color 0.2s;
+
+    }
+ 
+    button:hover {
+
+      background-color: var(--afas-blue-dark);
 
     }
  
@@ -199,31 +237,20 @@
       padding: 1rem;
 
     }
- 
-    footer a {
-
-      color: var(--afas-blue);
-
-      text-decoration: none;
-
-    }
- 
-    footer a:hover {
-
-      text-decoration: underline;
-
-    }
 </style>
 </head>
 <body>
 <header>
-<!-- Gebruik je eigen logo-bestand in /public -->
 <img src="/public/afas-logo.png" alt="AFAS logo" />
 <h1>AFAS Hackathon Icon Zoeker</h1>
 </header>
  
   <main>
+<div class="input-row">
 <input type="text" id="search" placeholder="Zoek op term of synoniem..." />
+<input type="text" id="colorInput" placeholder="Bijv. #FF6600 of rgb(0,128,255)" />
+<button id="applyColor">Kleur toepassen</button>
+</div>
 <div class="icons-grid" id="iconsGrid"></div>
 <div class="no-results" id="noResults" style="display:none;">Geen iconen gevonden...</div>
 </main>
@@ -261,7 +288,13 @@
 
     const search = document.getElementById("search");
 
+    const colorInput = document.getElementById("colorInput");
+
+    const applyColorBtn = document.getElementById("applyColor");
+
     const noResults = document.getElementById("noResults");
+ 
+    let currentIcons = [];
  
     function renderIcons(filter = "") {
 
@@ -269,7 +302,7 @@
 
       filter = filter.toLowerCase().trim();
  
-      const filtered = icons.filter(icon => {
+      currentIcons = icons.filter(icon => {
 
         if (!filter) return true;
 
@@ -279,7 +312,7 @@
 
       });
  
-      if (filtered.length === 0) {
+      if (currentIcons.length === 0) {
 
         noResults.style.display = "block";
 
@@ -289,7 +322,7 @@
 
       }
  
-      filtered.forEach(icon => {
+      currentIcons.forEach(icon => {
 
         const card = document.createElement("div");
 
@@ -315,8 +348,50 @@
 
     }
  
+    // 🎨 Functie om de primaire kleur te vervangen
+
+    function applyColorFilter() {
+
+      const color = colorInput.value.trim();
+
+      if (!color) {
+
+        alert("Voer een geldige kleurcode in, bijvoorbeeld #FF6600.");
+
+        return;
+
+      }
+ 
+      const images = document.querySelectorAll(".icon-card img");
+
+      images.forEach(img => {
+
+        const canvas = document.createElement("canvas");
+
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.width;
+
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        ctx.globalCompositeOperation = "source-atop";
+
+        ctx.fillStyle = color;
+
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        img.src = canvas.toDataURL(); // vervangt het originele icoon
+
+      });
+
+    }
+ 
     search.addEventListener("input", e => renderIcons(e.target.value));
 
+    applyColorBtn.addEventListener("click", applyColorFilter);
+ 
     renderIcons();
 </script>
 </body>
