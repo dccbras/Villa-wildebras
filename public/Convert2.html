@@ -112,29 +112,25 @@
 
     }
  
-    button {
+    .slider-row {
 
-      background-color: var(--afas-blue);
+      display: flex;
 
-      color: white;
+      align-items: center;
 
-      border: none;
+      gap: 12px;
 
-      border-radius: var(--border-radius);
+      margin-top: 0.5rem;
 
-      padding: 14px 20px;
-
-      font-size: 1rem;
-
-      cursor: pointer;
-
-      transition: background-color 0.2s;
+      margin-bottom: 1.5rem;
 
     }
  
-    button:hover {
+    input[type="range"] {
 
-      background-color: var(--afas-blue-dark);
+      flex: 1;
+
+      accent-color: var(--afas-blue);
 
     }
  
@@ -233,8 +229,13 @@
   <main>
 <div class="input-row">
 <input type="text" id="search" placeholder="Zoek op term of synoniem..." />
-<input type="color" id="colorPicker" value="#0078d4" />
-<button id="applyColor">Kleur toepassen</button>
+<input type="color" id="colorPicker" value="#0078d4" title="Kies een kleur" />
+</div>
+ 
+    <div class="slider-row">
+<label for="tolerance"><strong>Kleurgevoeligheid:</strong></label>
+<input type="range" id="tolerance" min="5" max="150" value="50" />
+<span id="toleranceValue">50</span>
 </div>
  
     <div class="icons-grid" id="iconsGrid"></div>
@@ -276,7 +277,9 @@
 
     const colorPicker = document.getElementById("colorPicker");
 
-    const applyColorBtn = document.getElementById("applyColor");
+    const toleranceSlider = document.getElementById("tolerance");
+
+    const toleranceValue = document.getElementById("toleranceValue");
 
     const noResults = document.getElementById("noResults");
  
@@ -330,6 +333,8 @@
 
           card.classList.add("selected");
 
+          applyColorFilter();
+
         });
  
         grid.appendChild(card);
@@ -340,15 +345,11 @@
  
     function applyColorFilter() {
 
-      if (!selectedCard) {
+      if (!selectedCard) return;
 
-        alert("Klik eerst op een icoon om de kleur aan te passen.");
-
-        return;
-
-      }
- 
       const color = hexToRgb(colorPicker.value);
+
+      const tolerance = parseInt(toleranceSlider.value);
 
       const img = selectedCard.querySelector("img");
 
@@ -374,8 +375,6 @@
 
         const data = imageData.data;
  
-        // Stap 1: tel kleuren
-
         const colorCount = {};
 
         for (let i = 0; i < data.length; i += 4) {
@@ -398,17 +397,13 @@
 
         }
  
-        // Stap 2: vind meestvoorkomende kleur
-
-        let dominant = Object.entries(colorCount).sort((a, b) => b[1] - a[1])[0][0].split(',').map(Number);
+        const dominant = Object.entries(colorCount).sort((a, b) => b[1] - a[1])[0][0].split(',').map(Number);
  
-        // Stap 3: vervang pixels die lijken op de dominante kleur
-
         for (let i = 0; i < data.length; i += 4) {
 
           const r = data[i], g = data[i + 1], b = data[i + 2];
 
-          if (colorDistance([r, g, b], dominant) < 50) {
+          if (colorDistance([r, g, b], dominant) < tolerance) {
 
             data[i] = color.r;
 
@@ -450,10 +445,20 @@
 
     }
  
+    // Event listeners
+
     search.addEventListener("input", e => renderIcons(e.target.value));
 
-    applyColorBtn.addEventListener("click", applyColorFilter);
+    colorPicker.addEventListener("input", applyColorFilter);
 
+    toleranceSlider.addEventListener("input", e => {
+
+      toleranceValue.textContent = e.target.value;
+
+      applyColorFilter();
+
+    });
+ 
     renderIcons();
 </script>
 </body>
