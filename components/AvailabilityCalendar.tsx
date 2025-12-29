@@ -11,9 +11,9 @@ const getMonthDays = (year: number, month: number) => {
   return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
 };
 
-// Genereer maanden van mei 2025 t/m mei 2026
+// Genereer maanden van januari 2026 t/m december 2026
 const months = Array.from({ length: 13 }, (_, i) => {
-  const date = new Date(2025, 8 + i, 1);
+  const date = new Date(2026, 1 + i, 1);
   return {
     year: date.getFullYear(),
     month: date.getMonth(),
