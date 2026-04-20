@@ -11,6 +11,13 @@ const getMonthDays = (year: number, month: number) => {
   return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
 };
 
+const toLocalDateString = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const generateMonths = (monthsAhead: number) => {
   const now = new Date();
   const startYear = now.getFullYear();
@@ -57,24 +64,25 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
               ))}
 
               {days.map((day) => {
-                const dateStr = day.toISOString().split("T")[0];
-                const status = availability[dateStr] || "unavailable";
-              const today = new Date().toISOString().split("T")[0];
-const isToday = dateStr === today;
+  const dateStr = toLocalDateString(day);
+  const status = availability[dateStr] || "unavailable";
 
-                return (
-                  <div
-  key={dateStr}
-  className={`w-10 h-10 rounded-full text-sm font-medium flex items-center justify-center
-    ${status === "available" ? "bg-green-400 text-white" : "bg-red-400 text-white"}
-    ${isToday ? "ring-2 ring-black" : ""}
-  `}
-  title={dateStr}
->
-  {day.getDate()}
-</div>
-                );
-              })}
+  const todayStr = toLocalDateString(new Date());
+  const isToday = dateStr === todayStr;
+
+  return (
+    <div
+      key={dateStr}
+      className={`w-10 h-10 rounded-full text-sm font-medium flex items-center justify-center
+        ${status === "available" ? "bg-green-400 text-white" : "bg-red-400 text-white"}
+        ${isToday ? "ring-2 ring-black" : ""}
+      `}
+      title={dateStr}
+    >
+      {day.getDate()}
+    </div>
+  );
+})}
             </div>
           </div>
         );
