@@ -15,6 +15,8 @@ const generateMonths = (monthsAhead: number) => {
   const now = new Date();
   const startYear = now.getFullYear();
   const startMonth = now.getMonth(); // huidige maand
+  const today = new Date().toISOString().split("T")[0];
+const isToday = dateStr === today;
 
   return Array.from({ length: monthsAhead }, (_, i) => {
     const date = new Date(startYear, startMonth + i, 1);
@@ -62,16 +64,15 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
 
                 return (
                   <div
-                    key={dateStr}
-                    className={`w-10 h-10 rounded-full text-sm font-medium flex items-center justify-center ${
-                      status === "available"
-                        ? "bg-green-400 text-white"
-                        : "bg-red-400 text-white"
-                    }`}
-                    title={dateStr}
-                  >
-                    {day.getDate()}
-                  </div>
+  key={dateStr}
+  className={`w-10 h-10 rounded-full text-sm font-medium flex items-center justify-center
+    ${status === "available" ? "bg-green-400 text-white" : "bg-red-400 text-white"}
+    ${isToday ? "ring-2 ring-black" : ""}
+  `}
+  title={dateStr}
+>
+  {day.getDate()}
+</div>
                 );
               })}
             </div>
