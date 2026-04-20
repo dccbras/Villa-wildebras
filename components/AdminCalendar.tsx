@@ -9,11 +9,8 @@ const getMonthDays = (year: number, month: number) => {
 
 const generateMonths = (monthsAhead: number) => {
   const now = new Date();
-  const startYear = now.getFullYear();
-  const startMonth = now.getMonth(); // huidige maand
-
   return Array.from({ length: monthsAhead }, (_, i) => {
-    const date = new Date(startYear, startMonth + i, 1);
+    const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
     return {
       year: date.getFullYear(),
       month: date.getMonth(),
@@ -23,36 +20,25 @@ const generateMonths = (monthsAhead: number) => {
 
 const AdminCalendar = () => {
   const [availability, setAvailability] = useState<any>({});
-  const AdminCalendar = () => {
-  const [availability, setAvailability] = useState<any>({});
-
-  const months = generateMonths(13); // huidige maand + 12 vooruit
+  const months = generateMonths(13);
 
   useEffect(() => {
-    const fetchAvailability = async () => {
-      const response = await fetch("/api/availability");
-      const data = await response.json();
-      setAvailability(data);
-    };
-    fetchAvailability();
+    fetch("/api/availability")
+      .then(res => res.json())
+      .then(setAvailability);
   }, []);
 
   const toggleAvailability = async (date: string) => {
-    const currentStatus = availability[date] === "available" ? "unavailable" : "available";
+    const newStatus =
+      availability[date] === "available" ? "unavailable" : "available";
 
     await fetch("/api/availability", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ date, status: currentStatus }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date, status: newStatus }),
     });
 
-    // Update lokale state
-    setAvailability((prev: any) => ({
-      ...prev,
-      [date]: currentStatus,
-    }));
+    setAvailability(prev => ({ ...prev, [date]: newStatus }));
   };
 
   return (
@@ -72,20 +58,23 @@ const AdminCalendar = () => {
                 year: "numeric",
               })}
             </h2>
+
             <div className="grid grid-cols-7 gap-2">
-              {["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"].map((d) => (
+              {["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"].map(d => (
                 <div key={d} className="text-sm text-center font-semibold">
                   {d}
                 </div>
               ))}
 
-              {/* Lege vakjes vooraan */}
-              {Array.from({ length: offset }, (_, i) => (
-                <div key={`empty-${i}`} />
+              {Array.from({ length: offset }).map((_, i) => (
+                <div key={i} />
               ))}
 
-              {days.map((day) => {
-                const dateStr = day.toISOString().split("T")[0];
+              {days.map(day => {
+                const dateStr = `${day.getFullYear()}-${String(
+                  day.getMonth() + 1
+                ).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+
                 const status = availability[dateStr] || "unavailable";
 
                 return (
@@ -97,7 +86,6 @@ const AdminCalendar = () => {
                         ? "bg-green-400 text-white"
                         : "bg-red-400 text-white"
                     }`}
-                    title={`${dateStr} - klik om te wisselen`}
                   >
                     {day.getDate()}
                   </button>
