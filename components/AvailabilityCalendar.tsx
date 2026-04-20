@@ -11,14 +11,19 @@ const getMonthDays = (year: number, month: number) => {
   return Array.from({ length: days }, (_, i) => new Date(year, month, i + 1));
 };
 
-// Genereer maanden van januari 2026 t/m december 2026
-const months = Array.from({ length: 13 }, (_, i) => {
-  const date = new Date(2025, 12 + i, 1);
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-  };
-});
+const generateMonths = (monthsAhead: number) => {
+  const now = new Date();
+  const startYear = now.getFullYear();
+  const startMonth = now.getMonth(); // huidige maand
+
+  return Array.from({ length: monthsAhead }, (_, i) => {
+    const date = new Date(startYear, startMonth + i, 1);
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth(),
+    };
+  });
+};
 
 const AvailabilityCalendar = ({ availability }: { availability: Availability }) => {
   return (
