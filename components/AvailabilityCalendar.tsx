@@ -15,8 +15,6 @@ const generateMonths = (monthsAhead: number) => {
   const now = new Date();
   const startYear = now.getFullYear();
   const startMonth = now.getMonth(); // huidige maand
-  const today = new Date().toISOString().split("T")[0];
-const isToday = dateStr === today;
 
   return Array.from({ length: monthsAhead }, (_, i) => {
     const date = new Date(startYear, startMonth + i, 1);
@@ -61,6 +59,8 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
               {days.map((day) => {
                 const dateStr = day.toISOString().split("T")[0];
                 const status = availability[dateStr] || "unavailable";
+              const today = new Date().toISOString().split("T")[0];
+const isToday = dateStr === today;
 
                 return (
                   <div
