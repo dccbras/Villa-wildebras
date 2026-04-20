@@ -26,14 +26,15 @@ const generateMonths = (monthsAhead: number) => {
 };
 
 const AvailabilityCalendar = ({ availability }: { availability: Availability }) => {
+  const months = generateMonths(12); // bijv. huidige maand + 11 vooruit
+
   return (
     <div className="space-y-8">
       {months.map(({ year, month }) => {
         const days = getMonthDays(year, month);
 
-        // Eerste dag van de maand (0 = zondag, 1 = maandag, ...)
         const firstDay = new Date(year, month, 1).getDay();
-        const offset = (firstDay + 6) % 7; // Zodat maandag = 0, zondag = 6
+        const offset = (firstDay + 6) % 7;
 
         return (
           <div key={`${year}-${month}`} className="border p-4 rounded-xl shadow">
@@ -43,6 +44,7 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
                 year: "numeric",
               })}
             </h2>
+
             <div className="grid grid-cols-7 gap-2">
               {["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"].map((d) => (
                 <div key={d} className="text-sm text-center font-semibold">
@@ -50,7 +52,6 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
                 </div>
               ))}
 
-              {/* Lege vakjes vóór de eerste dag */}
               {Array.from({ length: offset }, (_, i) => (
                 <div key={`empty-${i}`} />
               ))}
@@ -58,6 +59,7 @@ const AvailabilityCalendar = ({ availability }: { availability: Availability }) 
               {days.map((day) => {
                 const dateStr = day.toISOString().split("T")[0];
                 const status = availability[dateStr] || "unavailable";
+
                 return (
                   <div
                     key={dateStr}
