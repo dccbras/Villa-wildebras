@@ -1,21 +1,22 @@
-let userConfig = undefined
-try {
-  userConfig = await import('./v0-user-next.config')
-} catch (e) {
-  // ignore error
-}
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  i18n: {
+    locales: ['nl', 'de'],
+    defaultLocale: 'nl',
+  },
+
   eslint: {
     ignoreDuringBuilds: true,
   },
+
   typescript: {
     ignoreBuildErrors: true,
   },
+
   images: {
     unoptimized: true,
   },
+
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
@@ -23,27 +24,31 @@ const nextConfig = {
   },
 }
 
+let userConfig = undefined
+try {
+  userConfig = (await import('./v0-user-next.config')).default
+} catch (e) {
+  // ignore if file does not exist
+}
+
 mergeConfig(nextConfig, userConfig)
 
-function mergeConfig(nextConfig, userConfig) {
-  if (!userConfig) {
-    return
-  }
+function mergeConfig(baseConfig, userConfig) {
+  if (!userConfig) return
 
   for (const key in userConfig) {
     if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
+      typeof baseConfig[key] === 'object' &&
+      !Array.isArray(baseConfig[key])
     ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
+      baseConfig[key] = {
+        ...baseConfig[key],
         ...userConfig[key],
       }
     } else {
-      nextConfig[key] = userConfig[key]
+      baseConfig[key] = userConfig[key]
     }
   }
 }
 
 export default nextConfig
-     
