@@ -43,7 +43,7 @@ export default async function BoekenPage() {
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
             <h3 className="text-xl font-semibold mb-4">Prijzen & reserveren</h3>
             <p className="text-gray-700 mb-4">
-              De actuele prijzen van je verblijf kun je bekijken via onze{" "}
+              Boek direct via ons voor korting! De actuele prijzen van je verblijf kun je bekijken via onze{" "}
               <a
                 href="https://www.airbnb.nl/rooms/1421709322516548820?adults=2&search_mode=regular_search&source_impression_id=p3_1747506249_P31g_VcaNn26DfDl&previous_page_section_name=1000&federated_search_id=20e86a3a-a1b3-46fb-9d64-b51e515e1c13&guests=1&check_in=2025-10-06&check_out=2025-10-12"
                 target="_blank"
