@@ -1,13 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  i18n: {
-    locales: ['nl', 'de'],
-    defaultLocale: 'nl',
-  },
-
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // ✅ App Router compatible
 
   typescript: {
     ignoreBuildErrors: true,
