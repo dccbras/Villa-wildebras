@@ -1,32 +1,25 @@
-// app/boeken/page.tsx
-
-import type { Metadata } from "next";
-import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import AvailabilityCalendar from "@/components/AvailabilityCalendar";
+import type { Metadata } from "next"
+import Image from "next/image"
+import AvailabilityCalendar from "@/components/AvailabilityCalendar"
 
 export const metadata: Metadata = {
   title: "Boeken | Villa Wildebras",
   description: "Boek jouw verblijf bij Villa Wildebras in Egmond",
-};
+}
 
 type Availability = {
   [date: string]: "available" | "unavailable";
 };
 
 export default async function BoekenPage() {
-  const res = await fetch(
-    `${process.env.BASE_URL}/api/availability`,
-    {
-      next: { revalidate: 60 }, // ISR: ververs elke 60 seconden
-    }
-  );
-
+  const res = await fetch(`${process.env.BASE_URL}/api/availability`, {
+    next: { revalidate: 60 },
+  });
   const availability: Availability = await res.json();
 
   return (
     <main className="min-h-screen relative">
-      {/* Hero sectie */}
+      {/* Hero sectie met bosfoto */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wim-van-t-einde-Unb2Eh1HDOE-unsplash.jpg-s8ekArjg7nOFokR0SflXfX4EvD2h0d.jpeg"
@@ -35,115 +28,51 @@ export default async function BoekenPage() {
           className="object-cover"
           priority
         />
-
         <div className="absolute inset-0 bg-black/30" />
-
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
-            Boeken
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">Boeken</h1>
         </div>
       </div>
 
-      {/* Content */}
+      {/* Boekingsinformatie */}
       <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
         <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-          <h2 className="text-2xl font-semibold mb-6 text-center">
-            Boek jouw verblijf bij Villa Wildebras
-          </h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
 
-          {/* Direct boeken */}
-          <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
-            <h3 className="text-xl font-semibold mb-4">
-              Direct boeken bij ons
-            </h3>
-
-            <p className="mb-4">
-              Je kunt direct bij ons boeken. Bekijk de beschikbaarheid en stuur
-              ons een e-mail om te reserveren.
+          {/* Prijsinformatie via Airbnb */}
+          <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">Prijzen & reserveren</h3>
+            <p className="text-gray-700 mb-4">
+              Boek direct via ons voor korting! De actuele prijzen van je verblijf kun je bekijken via onze{" "}
+              <a
+                href="https://www.airbnb.nl/rooms/1421709322516548820?adults=2&search_mode=regular_search&source_impression_id=p3_1747506249_P31g_VcaNn26DfDl&previous_page_section_name=1000&federated_search_id=20e86a3a-a1b3-46fb-9d64-b51e515e1c13&guests=1&check_in=2025-10-06&check_out=2025-10-12"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#B84C65] font-medium hover:underline"
+              >
+                Airbnb-pagina
+              </a>.
             </p>
-
-            <ul className="mb-4 text-gray-700">
-              <li>• €95,00 per nacht (minimaal 3 nachten)</li>
-              <li>• €570,- voor 1 week (van maandag tot zondag)</li>
-            </ul>
+            <p className="text-gray-700 mb-6">
+              Boek je daarna direct via ons? Dan krijg je <strong>vanaf 3 nachten minimaal €50 korting</strong> op de totaalprijs. Bij een langer verblijf, ontvang je meer korting.  
+              Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
+            </p>
 
             <a
               href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
               className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
             >
-              Stuur een e-mail
+              Direct boeken via e-mail
             </a>
           </div>
 
-          {/* Natuurhuisje */}
-          <div className="border border-gray-200 rounded-lg p-6 shadow-sm flex flex-col items-center mb-8">
-            <p className="mb-4 text-center">
-              Je kunt ook boeken via Natuurhuisje. Let op: daar staat niet alle
-              beschikbaarheid open. Neem gerust contact met ons op als je
-              gewenste data er niet tussen staan.
-            </p>
-
-            <a
-              href="https://www.natuurhuisje.nl/vakantiehuisje/83614"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block group relative mt-4"
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
-                  <svg
-                    className="absolute w-48 h-24 -left-16 -top-8"
-                    viewBox="0 0 200 100"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10,50 Q50,10 100,50 T190,50"
-                      stroke="black"
-                      strokeWidth="2"
-                      strokeDasharray="5,5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-
-                  <div className="relative z-10 transition-transform group-hover:-translate-y-1">
-                    <div className="w-16 h-10 bg-black rounded-full relative overflow-hidden">
-                      <div className="absolute top-1 left-0 w-full h-2 bg-yellow-300"></div>
-                      <div className="absolute top-5 left-0 w-full h-2 bg-yellow-300"></div>
-                    </div>
-
-                    <div className="absolute -top-2 -left-2 w-8 h-6 bg-white rounded-full rotate-[30deg]"></div>
-                    <div className="absolute -top-2 -right-2 w-8 h-6 bg-white rounded-full -rotate-[30deg]"></div>
-
-                    <div className="absolute -top-3 left-5 w-1 h-3 bg-black"></div>
-                    <div className="absolute -top-3 right-5 w-1 h-3 bg-black"></div>
-
-                    <div className="absolute -top-4 left-5 w-2 h-2 bg-yellow-300 rounded-full"></div>
-                  </div>
-                </div>
-
-                <div className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors px-6 py-3 rounded-lg flex items-center justify-center shadow-lg">
-                  <span className="text-white font-medium text-lg">
-                    Boeken via Natuurhuisje
-                  </span>
-
-                  <ExternalLink className="ml-2 h-5 w-5 text-white" />
-                </div>
-              </div>
-            </a>
-          </div>
-
-          {/* Beschikbaarheid */}
+          {/* Beschikbaarheid tonen */}
           <div className="mt-12">
-            <h3 className="text-xl font-semibold mb-4 text-center">
-              Beschikbaarheid
-            </h3>
-
+            <h3 className="text-xl font-semibold mb-4 text-center">Beschikbaarheid</h3>
             <AvailabilityCalendar availability={availability} />
           </div>
         </div>
       </div>
     </main>
-  );
+  )
 }
