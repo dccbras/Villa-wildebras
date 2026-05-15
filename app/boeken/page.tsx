@@ -58,13 +58,7 @@ export default async function BoekenPage() {
               Boek je daarna direct via ons? Dan krijg je <strong>vanaf 3 nachten minimaal €50 korting</strong> op de totaalprijs. Bij een langer verblijf, ontvang je meer korting.  
               Alle prijzen zijn inclusief schoonmaakkosten, linnengoed en toeristenbelasting.
             </p>
-
-            <a
-              href="mailto:villawildebras@gmail.com?subject=Reservering%20Villa%20Wildebras"
-              className="inline-block bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
-            >
-              Direct boeken via e-mail
-            </a>
+           <BookingForm />
           </div>
 
           {/* Beschikbaarheid tonen */}
