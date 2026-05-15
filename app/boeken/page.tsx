@@ -1,3 +1,4 @@
+import BookingForm from "@/components/BookingForm";
 import type { Metadata } from "next"
 import Image from "next/image"
 import AvailabilityCalendar from "@/components/AvailabilityCalendar"
