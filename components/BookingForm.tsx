@@ -9,11 +9,12 @@ export default function BookingForm() {
     email: "",
     fromDate: "",
     toDate: "",
-    persons: "1",
+    persons: "2",
     message: "",
   });
 
   const [nights, setNights] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // Bereken aantal nachten
   useEffect(() => {
@@ -21,7 +22,8 @@ export default function BookingForm() {
       const from = new Date(form.fromDate);
       const to = new Date(form.toDate);
 
-      const diff = (to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24);
+      const diff =
+        (to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24);
 
       setNights(diff > 0 ? diff : 0);
     } else {
@@ -29,67 +31,103 @@ export default function BookingForm() {
     }
   }, [form.fromDate, form.toDate]);
 
+  // Input handler
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  // Submit handler
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("/api/booking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    if (res.ok) {
-      alert("Aanvraag succesvol verzonden!");
-      setForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        fromDate: "",
-        toDate: "",
-        persons: "1",
-        message: "",
-      });
-      setNights(0);
-    } else {
-      alert("Er ging iets mis, probeer opnieuw.");
+    // ✅ Validatie
+    if (
+      !form.firstName ||
+      !form.lastName ||
+      !form.email ||
+      !form.fromDate ||
+      !form.toDate
+    ) {
+      alert("Vul alle verplichte velden in.");
+      return;
     }
-  } catch (error) {
-    console.error(error);
-    alert("Fout bij verzenden.");
-  }
-};
+
+    if (nights <= 0) {
+      alert("De einddatum moet na de startdatum liggen.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Reset formulier
+        setForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          fromDate: "",
+          toDate: "",
+          persons: "2",
+          message: "",
+        });
+        setNights(0);
+
+        // ✅ Redirect naar succespagina
+        window.location.href = "/bedankt";
+      } else {
+        alert("Fout: " + (data?.error || "Probeer opnieuw."));
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Er ging iets mis bij verzenden.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-      <h3 className="text-xl font-semibold mb-4">Stuur vrijblijvend een boekingsaanvraag in</h3>
+      <h3 className="text-xl font-semibold mb-4">
+        Stuur vrijblijvend een boekingsaanvraag in
+      </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+
         {/* Naam */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             type="text"
             name="firstName"
-            placeholder="Voornaam"
-            required
-            className="w-full border px-3 py-2 rounded-lg"
+            value={form.firstName}
             onChange={handleChange}
+            required
+            placeholder="Voornaam"
+            className="w-full border px-3 py-2 rounded-lg"
           />
+
           <input
             type="text"
             name="lastName"
-            placeholder="Achternaam"
-            required
-            className="w-full border px-3 py-2 rounded-lg"
+            value={form.lastName}
             onChange={handleChange}
+            required
+            placeholder="Achternaam"
+            className="w-full border px-3 py-2 rounded-lg"
           />
         </div>
 
@@ -97,10 +135,11 @@ const handleSubmit = async (e: React.FormEvent) => {
         <input
           type="email"
           name="email"
-          placeholder="E-mail"
-          required
-          className="w-full border px-3 py-2 rounded-lg"
+          value={form.email}
           onChange={handleChange}
+          required
+          placeholder="E-mail"
+          className="w-full border px-3 py-2 rounded-lg"
         />
 
         {/* Datums */}
@@ -108,16 +147,19 @@ const handleSubmit = async (e: React.FormEvent) => {
           <input
             type="date"
             name="fromDate"
+            value={form.fromDate}
+            onChange={handleChange}
             required
             className="w-full border px-3 py-2 rounded-lg"
-            onChange={handleChange}
           />
+
           <input
             type="date"
             name="toDate"
+            value={form.toDate}
+            onChange={handleChange}
             required
             className="w-full border px-3 py-2 rounded-lg"
-            onChange={handleChange}
           />
         </div>
 
@@ -129,8 +171,9 @@ const handleSubmit = async (e: React.FormEvent) => {
         {/* Personen */}
         <select
           name="persons"
-          className="w-full border px-3 py-2 rounded-lg"
+          value={form.persons}
           onChange={handleChange}
+          className="w-full border px-3 py-2 rounded-lg"
         >
           <option value="2">2 personen</option>
           <option value="1">1 persoon</option>
@@ -139,18 +182,20 @@ const handleSubmit = async (e: React.FormEvent) => {
         {/* Bericht */}
         <textarea
           name="message"
-          placeholder="Bericht"
+          value={form.message}
+          onChange={handleChange}
+          placeholder="Bericht (optioneel)"
           rows={4}
           className="w-full border px-3 py-2 rounded-lg"
-          onChange={handleChange}
         />
 
         {/* Submit */}
         <button
           type="submit"
-          className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow"
+          disabled={loading}
+          className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow disabled:opacity-50"
         >
-          Verstuur aanvraag
+          {loading ? "Versturen..." : "Verstuur aanvraag"}
         </button>
       </form>
     </div>
