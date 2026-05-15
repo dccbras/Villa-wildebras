@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
     const data = await resend.emails.send({
       from: "Villa Wildebras <onboarding@resend.dev>",
-      to: ["villawildebras@gmail.com"],
+      to: ["dccbras@gmail.com"],
       subject: "Nieuwe boekingsaanvraag",
       html: `
         <h2>Nieuwe boekingsaanvraag</h2>
