@@ -106,8 +106,8 @@ export default function BookingForm() {
           className="w-full border px-3 py-2 rounded-lg"
           onChange={handleChange}
         >
-          <option value="1">1 persoon</option>
-          <option value="2">2 personen</option>
+          <option value="1">2 personen</option>
+          <option value="2">2 persoon</option>
         </select>
 
         {/* Bericht */}
