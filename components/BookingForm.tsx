@@ -35,12 +35,38 @@ export default function BookingForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    console.log("Form data:", form);
-    alert("Formulier verzonden (test fase)");
-  };
+  try {
+    const res = await fetch("/api/booking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      alert("Aanvraag succesvol verzonden!");
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        fromDate: "",
+        toDate: "",
+        persons: "1",
+        message: "",
+      });
+      setNights(0);
+    } else {
+      alert("Er ging iets mis, probeer opnieuw.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Fout bij verzenden.");
+  }
+};
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">

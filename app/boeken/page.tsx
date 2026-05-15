@@ -13,9 +13,9 @@ type Availability = {
 };
 
 export default async function BoekenPage() {
-  const res = await fetch(`${process.env.BASE_URL}/api/availability`, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/availability`, {
+  next: { revalidate: 60 },
+});
   const availability: Availability = await res.json();
 
   return (
