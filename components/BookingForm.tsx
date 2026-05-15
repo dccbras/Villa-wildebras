@@ -44,7 +44,7 @@ export default function BookingForm() {
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-      <h3 className="text-xl font-semibold mb-4">Check de beschikbaarheid</h3>
+      <h3 className="text-xl font-semibold mb-4">Stuur vrijblijvend een boekingsaanvraag in</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Naam */}
