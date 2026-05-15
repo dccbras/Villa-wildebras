@@ -28,3 +28,12 @@ export async function POST(req: Request) {
         <p><strong>Periode:</strong> ${fromDate} t/m ${toDate}</p>
         <p><strong>Aantal personen:</strong> ${persons}</p>
         <p><strong>Bericht:</strong><br/>${message}</p>
+      `,
+    });
+
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ success: false }, { status: 500 });
+  }
+}
