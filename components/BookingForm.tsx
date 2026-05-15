@@ -107,7 +107,7 @@ export default function BookingForm() {
           onChange={handleChange}
         >
           <option value="1">2 personen</option>
-          <option value="2">2 persoon</option>
+          <option value="2">1 persoon</option>
         </select>
 
         {/* Bericht */}
