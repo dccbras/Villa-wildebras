@@ -1,6 +1,108 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+
+const HIGH_SEASON_NIGHTLY = 135;
+const LOW_SEASON_NIGHTLY = 100;
+
+// Jouw interpretatie: “weekprijs” = €700 voor 6 aaneengesloten nachten (hoogseizoen)
+const HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 700;
+const WEEK_BLOCK_NIGHTS = 6;
+
+function toLocalDate(dateStr: string) {
+  // Voorkomt timezone-gedoe door altijd lokale middernacht te nemen
+  return new Date(`${dateStr}T00:00:00`);
+}
+
+function addDays(d: Date, days: number) {
+  const nd = new Date(d);
+  nd.setDate(nd.getDate() + days);
+  return nd;
+}
+
+function isHighSeason(d: Date) {
+  // Hoogseizoen: mei t/m september
+  const m = d.getMonth() + 1; // 1..12
+  return m >= 5 && m <= 9;
+}
+
+function formatEUR(amount: number) {
+  return new Intl.NumberFormat("nl-NL", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+type PriceResult = {
+  total: number;
+  highNights: number;
+  lowNights: number;
+  nights: number;
+  appliedWeekDeal: boolean;
+};
+
+function calculatePrice(fromDate: string, toDate: string): PriceResult | null {
+  if (!fromDate || !toDate) return null;
+
+  const from = toLocalDate(fromDate);
+  const to = toLocalDate(toDate);
+
+  const diffDays = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays <= 0) return null;
+
+  // Bouw lijst met nachten: van check-in datum t/m de dag vóór check-out
+  const nightsDates: Date[] = [];
+  for (let i = 0; i < diffDays; i++) {
+    nightsDates.push(addDays(from, i));
+  }
+
+  let highNights = 0;
+  let lowNights = 0;
+
+  // Basisberekening per nacht: kies automatisch laagste prijs (laagseizoen is lager).
+  // (Bij overlap is dit precies wat jij wilt: laagste prijs per nacht.)
+  let baseTotal = 0;
+  const isHighArr = nightsDates.map((d) => isHighSeason(d));
+
+  for (let i = 0; i < nightsDates.length; i++) {
+    if (isHighArr[i]) {
+      highNights++;
+      baseTotal += HIGH_SEASON_NIGHTLY;
+    } else {
+      lowNights++;
+      baseTotal += LOW_SEASON_NIGHTLY;
+    }
+  }
+
+  // Weekdeal toepassen:
+  // “Als het verblijf langer dan een week is in het hoogseizoen, neem dan 700 voor 6 nachten en daarna weer per dag.”
+  // Implementatie: als er ergens een blok van 6 aaneengesloten hoogseizoen-nachten zit,
+  // pas 1x de weekprijs toe op het eerste (vroegste) geldige blok.
+  let appliedWeekDeal = false;
+  let total = baseTotal;
+
+  // Alleen zinvol als er überhaupt 6 nachten zijn
+  if (nightsDates.length >= WEEK_BLOCK_NIGHTS) {
+    for (let i = 0; i <= nightsDates.length - WEEK_BLOCK_NIGHTS; i++) {
+      const blockAllHigh = isHighArr.slice(i, i + WEEK_BLOCK_NIGHTS).every(Boolean);
+      if (blockAllHigh) {
+        // Vervang 6 * 135 door 700
+        total = total - (WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY) + HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS;
+        appliedWeekDeal = true;
+        break; // 1x toepassen (zoals je beschreef)
+      }
+    }
+  }
+
+  return {
+    total,
+    highNights,
+    lowNights,
+    nights: diffDays,
+    appliedWeekDeal,
+  };
+}
 
 export default function BookingForm() {
   const [form, setForm] = useState({
@@ -19,23 +121,24 @@ export default function BookingForm() {
   // Bereken aantal nachten
   useEffect(() => {
     if (form.fromDate && form.toDate) {
-      const from = new Date(form.fromDate);
-      const to = new Date(form.toDate);
+      const from = toLocalDate(form.fromDate);
+      const to = toLocalDate(form.toDate);
 
-      const diff =
-        (to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24);
-
+      const diff = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
       setNights(diff > 0 ? diff : 0);
     } else {
       setNights(0);
     }
   }, [form.fromDate, form.toDate]);
 
+  // Prijsindicatie (memoized)
+  const price = useMemo(() => {
+    return calculatePrice(form.fromDate, form.toDate);
+  }, [form.fromDate, form.toDate]);
+
   // Input handler
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -45,13 +148,7 @@ export default function BookingForm() {
     e.preventDefault();
 
     // ✅ Validatie
-    if (
-      !form.firstName ||
-      !form.lastName ||
-      !form.email ||
-      !form.fromDate ||
-      !form.toDate
-    ) {
+    if (!form.firstName || !form.lastName || !form.email || !form.fromDate || !form.toDate) {
       alert("Vul alle verplichte velden in.");
       return;
     }
@@ -69,6 +166,7 @@ export default function BookingForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        // Laat payload gelijk zodat je API niet stuk gaat
         body: JSON.stringify(form),
       });
 
@@ -102,12 +200,9 @@ export default function BookingForm() {
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-      <h3 className="text-xl font-semibold mb-4">
-        Stuur vrijblijvend een boekingsaanvraag in
-      </h3>
+      <h3 className="text-xl font-semibold mb-4">Stuur vrijblijvend een boekingsaanvraag in</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* Naam */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
@@ -166,6 +261,38 @@ export default function BookingForm() {
         {/* Nachten */}
         <div className="text-sm text-gray-600">
           Aantal nachten: <strong>{nights}</strong>
+        </div>
+
+        {/* Prijsindicatie */}
+        <div className="text-sm text-gray-600">
+          Prijsindicatie:{" "}
+          <strong>
+            {price ? formatEUR(price.total) : "—"}
+          </strong>
+          {price && (
+            <div className="mt-1 text-xs text-gray-500">
+              {price.lowNights > 0 && (
+                <span>
+                  Laagseizoen: <strong>{price.lowNights}</strong> nacht(en) × €{LOW_SEASON_NIGHTLY}
+                </span>
+              )}
+              {price.lowNights > 0 && price.highNights > 0 && <span> • </span>}
+              {price.highNights > 0 && (
+                <span>
+                  Hoogseizoen: <strong>{price.highNights}</strong> nacht(en) × €{HIGH_SEASON_NIGHTLY}
+                </span>
+              )}
+              {price.appliedWeekDeal && (
+                <span>
+                  {" "}
+                  • <strong>Weekprijs toegepast</strong> (€{HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} voor {WEEK_BLOCK_NIGHTS} nachten)
+                </span>
+              )}
+              <div className="mt-1">
+                Inclusief schoonmaakkosten, linnengoed en toeristenbelasting. Definitieve prijs altijd na bevestiging.
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Personen */}
