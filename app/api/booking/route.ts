@@ -15,7 +15,32 @@ export async function POST(req: Request) {
       toDate,
       persons,
       message,
+      nights,
+      priceEstimateFormatted,
+      priceEstimateSummary,
+      priceEstimate,
     } = body;
+
+    const safeMessage = (message || "").replaceAll("\n", "<br/>");
+
+    const priceHtml = priceEstimateFormatted
+      ? `
+        <p><strong>Prijsindicatie:</strong> ${priceEstimateFormatted}</p>
+        ${
+          priceEstimate
+            ? `<ul>
+                <li>Nachtten totaal: ${priceEstimate.nights ?? nights ?? "-"}</li>
+                <li>Laagseizoen-nachten: ${priceEstimate.lowNights ?? "-"}</li>
+                <li>Hoogseizoen-nachten: ${priceEstimate.highNights ?? "-"}</li>
+                <li>Weekprijs toegepast: ${priceEstimate.weekDealsApplied ?? 0}×</li>
+              </ul>`
+            : ""
+        }
+        <p style="color:#6b7280;font-size:12px;margin-top:6px;">
+          Inclusief schoonmaakkosten, linnengoed en toeristenbelasting. Definitieve prijs na bevestiging.
+        </p>
+      `
+      : `<p><strong>Prijsindicatie:</strong> —</p>`;
 
     const data = await resend.emails.send({
       from: "Villa Wildebras <onboarding@resend.dev>",
@@ -27,8 +52,27 @@ export async function POST(req: Request) {
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Periode:</strong> ${fromDate} t/m ${toDate}</p>
         <p><strong>Aantal personen:</strong> ${persons}</p>
-        <p><strong>Bericht:</strong><br/>${message}</p>
+        <p><strong>Aantal nachten:</strong> ${nights ?? "-"}</p>
+
+        ${priceHtml}
+
+        <p><strong>Bericht:</strong><br/>${safeMessage || "-"}</p>
       `,
+      // Optioneel: ook een platte tekst versie (handig voor sommige mailclients)
+      text: `
+Nieuwe boekingsaanvraag
+
+Naam: ${firstName} ${lastName}
+Email: ${email}
+Periode: ${fromDate} t/m ${toDate}
+Aantal personen: ${persons}
+Aantal nachten: ${nights ?? "-"}
+
+${priceEstimateSummary ? priceEstimateSummary : "Prijsindicatie: —"}
+
+Bericht:
+${message || "-"}
+      `.trim(),
     });
 
     return NextResponse.json({ success: true, data });
