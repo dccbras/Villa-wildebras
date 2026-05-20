@@ -45,13 +45,13 @@ export default async function BoekenPage() {
   <h3 className="text-xl font-semibold mb-4">Prijzen &amp; reserveren</h3>
 
   <p className="text-gray-700 mb-4">
-    Hieronder vind je onze richtprijzen. Wil je boeken of een vraag stellen? Vul dan het formulier in — we reageren
+    Hieronder vind je onze richtprijzen. Wil je boeken of een vraag stellen? Vul dan het formulier in. We reageren
     snel.
   </p>
 
   <div className="text-gray-700 mb-6 space-y-4">
     <div>
-      <p className="font-semibold">Hoogseizoen</p>
+      <p className="font-semibold">Hoogseizoen (mei t/m september)</p>
       <ul className="list-disc pl-5">
         <li>Prijs per nacht: <strong>€135</strong></li>
         <li>Prijs per week (maandag t/m zondag): <strong>€700</strong></li>
