@@ -54,7 +54,7 @@ export default async function BoekenPage() {
       <p className="font-semibold">Hoogseizoen (mei t/m september)</p>
       <ul className="list-disc pl-5">
         <li>Prijs per nacht: <strong>€135</strong></li>
-        <li>Prijs per week (maandag t/m zondag): <strong>€700</strong></li>
+        <li>Prijs per week (6 nachten): <strong>€700</strong></li>
       </ul>
     </div>
 
