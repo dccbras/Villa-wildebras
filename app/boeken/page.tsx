@@ -45,7 +45,7 @@ export default async function BoekenPage() {
   <h3 className="text-xl font-semibold mb-4">Prijzen &amp; reserveren</h3>
 
   <p className="text-gray-700 mb-4">
-    Hieronder vind je onze richtprijzen. Wil je boeken of een vraag stellen? Vul dan het formulier in. We reageren
+    Hieronder vind je onze richtprijzen, en onderaan de pagina de beschikbaarheidskalender. Wil je boeken of een vraag stellen? Vul dan het formulier in. We reageren
     snel.
   </p>
 
