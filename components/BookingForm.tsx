@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const HIGH_SEASON_NIGHTLY = 135;
 const LOW_SEASON_NIGHTLY = 100;
+const PROMO_NIGHTLY = 100;
 
 // Jouw interpretatie: “weekprijs” = €700 voor 6 aaneengesloten nachten (hoogseizoen)
 const HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 700;
@@ -26,6 +27,13 @@ function isHighSeason(d: Date) {
   return m >= 5 && m <= 9;
 }
 
+function isPromoNight(d: Date) {
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+
+  return (month === 6 && day >= 15) || (month === 7 && day <= 15);
+}
+
 function formatEUR(amount: number) {
   return new Intl.NumberFormat("nl-NL", {
     style: "currency",
@@ -38,6 +46,7 @@ type PriceEstimate = {
   total: number;
   highNights: number;
   lowNights: number;
+  promoNights: number;
   nights: number;
   weekDealsApplied: number; // hoe vaak weekprijs is toegepast
 };
@@ -57,15 +66,20 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     nightsDates.push(addDays(from, i));
   }
 
-  const highFlags = nightsDates.map((d) => isHighSeason(d));
+  const promoFlags = nightsDates.map((d) => isPromoNight(d));
+  const highFlags = nightsDates.map((d, i) => !promoFlags[i] && isHighSeason(d));
 
   let highNights = 0;
   let lowNights = 0;
+  let promoNights = 0;
 
-  // Basis: per nacht (laag = €100, hoog = €135)
+  // Basis: per nacht
   let total = 0;
   for (let i = 0; i < nightsDates.length; i++) {
-    if (highFlags[i]) {
+    if (promoFlags[i]) {
+      promoNights++;
+      total += PROMO_NIGHTLY;
+    } else if (highFlags[i]) {
       highNights++;
       total += HIGH_SEASON_NIGHTLY;
     } else {
@@ -74,8 +88,8 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     }
   }
 
-  // ✅ Weekprijs toepassen voor ELKE set van 6 aaneengesloten hoogseizoen-nachten
-  // Bijv. 12 nachten hoog: 2x weekprijs, rest per nacht.
+  // ✅ Weekprijs toepassen voor ELKE set van 6 aaneengesloten REGULIERE hoogseizoen-nachten
+  // Actienachten tellen dus niet mee voor de weekprijs
   let weekDealsApplied = 0;
 
   const fullPriceForBlock = WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY; // 6*135
@@ -94,6 +108,7 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
       runLength = 0;
     }
   }
+
   // laatste run afhandelen
   if (runLength >= WEEK_BLOCK_NIGHTS) {
     const blocks = Math.floor(runLength / WEEK_BLOCK_NIGHTS);
@@ -105,6 +120,7 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     total,
     highNights,
     lowNights,
+    promoNights,
     nights: diffDays,
     weekDealsApplied,
   };
@@ -143,7 +159,7 @@ export default function BookingForm() {
   // Handige strings om mee te sturen naar de mail
   const priceFormatted = price ? formatEUR(price.total) : "";
   const priceSummary = price
-    ? `Prijsindicatie: ${priceFormatted} (${price.lowNights} laagseizoen-nacht(en) × €${LOW_SEASON_NIGHTLY}, ${price.highNights} hoogseizoen-nacht(en) × €${HIGH_SEASON_NIGHTLY}${
+    ? `Prijsindicatie: ${priceFormatted} (${price.promoNights > 0 ? `${price.promoNights} actienacht(en) × €${PROMO_NIGHTLY} (actieprijs), ` : ""}${price.lowNights} laagseizoen-nacht(en) × €${LOW_SEASON_NIGHTLY}, ${price.highNights} hoogseizoen-nacht(en) × €${HIGH_SEASON_NIGHTLY}${
         price.weekDealsApplied > 0
           ? `, weekprijs toegepast ×${price.weekDealsApplied} (€${HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} per ${WEEK_BLOCK_NIGHTS} nachten)`
           : ""
@@ -175,10 +191,10 @@ export default function BookingForm() {
       const payload = {
         ...form,
         nights,
-        // ✅ nieuw: prijsindicatie mee sturen
-        priceEstimate: price, // object met total/high/low/weekDealsApplied
-        priceEstimateFormatted: priceFormatted, // "€ 1.235"
-        priceEstimateSummary: priceSummary, // leesbare tekst
+        // ✅ prijsindicatie mee sturen
+        priceEstimate: price,
+        priceEstimateFormatted: priceFormatted,
+        priceEstimateSummary: priceSummary,
       };
 
       const res = await fetch("/api/booking", {
@@ -280,25 +296,31 @@ export default function BookingForm() {
           Prijsindicatie: <strong>{price ? formatEUR(price.total) : "—"}</strong>
 
           {price && (
-            <div className="mt-1 text-xs text-gray-500">
+            <div className="mt-2 text-xs text-gray-500 space-y-1">
+              {price.promoNights > 0 && (
+                <div className="text-orange-700">
+                  Actieperiode (15 juni t/m 15 juli): <strong>{price.promoNights}</strong> nacht(en) × €{PROMO_NIGHTLY} <strong>(actieprijs)</strong>
+                </div>
+              )}
+
               {price.lowNights > 0 && (
-                <span>
+                <div>
                   Laagseizoen: <strong>{price.lowNights}</strong> nacht(en) × €{LOW_SEASON_NIGHTLY}
-                </span>
+                </div>
               )}
-              {price.lowNights > 0 && price.highNights > 0 && <span> • </span>}
+
               {price.highNights > 0 && (
-                <span>
+                <div>
                   Hoogseizoen: <strong>{price.highNights}</strong> nacht(en) × €{HIGH_SEASON_NIGHTLY}
-                </span>
+                </div>
               )}
+
               {price.weekDealsApplied > 0 && (
-                <span>
-                  {" "}
-                  • <strong>Weekprijs toegepast</strong> ×{price.weekDealsApplied} (€{HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} per{" "}
-                  {WEEK_BLOCK_NIGHTS} nachten)
-                </span>
+                <div>
+                  <strong>Weekprijs toegepast</strong> ×{price.weekDealsApplied} (€{HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} per {WEEK_BLOCK_NIGHTS} nachten)
+                </div>
               )}
+
               <div className="mt-1">
                 Inclusief schoonmaakkosten, linnengoed en toeristenbelasting. Definitieve prijs altijd na bevestiging.
               </div>
