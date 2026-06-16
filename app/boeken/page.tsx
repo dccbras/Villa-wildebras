@@ -55,6 +55,7 @@ export default async function BoekenPage() {
       <ul className="list-disc pl-5">
         <li>Prijs per nacht: <strong>€135</strong></li>
         <li>Prijs per week (6 nachten): <strong>€700</strong></li>
+        <li>Speciale actie! 15 juni t/m 15 juli <strong>€100 p.n.!</strong></li>
       </ul>
     </div>
 
