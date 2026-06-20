@@ -1,14 +1,58 @@
-import { HeroSection } from "@/components/hero-section"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { HeroSection } from "@/components/hero-section";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import {
+  Bed,
+  ChefHat,
+  Flame,
+  Leaf,
+  ShowerHeadIcon as Shower,
+  Wifi,
+} from "lucide-react";
+import { getTranslations } from "@/lib/getTranslations";
 
-
-export default function Home({
+export default async function Home({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const t = getTranslations(locale);
+
+  const features = [
+    {
+      title: t.home_feature_1_title,
+      description: t.home_feature_1_description,
+      icon: ChefHat,
+    },
+    {
+      title: t.home_feature_2_title,
+      description: t.home_feature_2_description,
+      icon: Bed,
+    },
+    {
+      title: t.home_feature_3_title,
+      description: t.home_feature_3_description,
+      icon: Flame,
+    },
+    {
+      title: t.home_feature_4_title,
+      description: t.home_feature_4_description,
+      icon: Shower,
+    },
+    {
+      title: t.home_feature_5_title,
+      description: t.home_feature_5_description,
+      icon: Wifi,
+    },
+    {
+      title: t.home_feature_6_title,
+      description: t.home_feature_6_description,
+      icon: Leaf,
+    },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col">
       <HeroSection />
@@ -17,22 +61,25 @@ export default function Home({
         <div className="container px-4 md:px-6">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Welkom bij Villa Wildebras</h2>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+                {t.home_title}
+              </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-               Villa Wildebras is een uniek tiny house, gemaakt met duurzame materialen. 
-                Het huisje ligt aan rand van het Noordhollands Duinreservaat, waar je vanuit de achtertuin Schotse hooglanders kunt spotten. 
-                Een fijne plek om te ontspannen en te genieten van de natuur in Egmond.
+                {t.home_intro}
               </p>
               <div className="mt-8">
                 <Button asChild>
-                  <Link href="/het-huisje">Meer over het huisje</Link>
+                  <Link href={`/${locale}/het-huisje`}>
+                    {t.home_more_about_house}
+                  </Link>
                 </Button>
               </div>
             </div>
+
             <div className="relative aspect-square overflow-hidden rounded-xl lg:aspect-auto lg:h-[600px]">
               <Image
                 src="/IMG_9386 (1).JPEG"
-                alt="Villa Wildebras interieur"
+                alt={t.home_image_alt}
                 fill
                 className="object-cover"
               />
@@ -43,7 +90,10 @@ export default function Home({
 
       <section className="bg-muted py-20">
         <div className="container px-4 md:px-6">
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Voorzieningen</h2>
+          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+            {t.home_features_title}
+          </h2>
+
           <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <div key={feature.title} className="flex flex-col items-center text-center">
@@ -56,41 +106,5 @@ export default function Home({
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-import { Bed, ChefHat, Flame, Leaf, ShowerHeadIcon as Shower, Wifi } from "lucide-react"
-
-const features = [
-  {
-    title: "Volledig Uitgeruste Keuken",
-    description: "Kook je eigen maaltijden in onze ruime keuken",
-    icon: ChefHat,
-  },
-  {
-    title: "Slapen",
-    description: "In een heerlijk tweepersoonsbed op onze slaapvide.",
-    icon: Bed,
-  },
-  {
-    title: "Houtkachel",
-    description: "Geniet van de gezellige warmte van een authentieke houtkachel.",
-    icon: Flame,
-  },
-  {
-    title: "Moderne Badkamer",
-    description: "Een compacte maar complete badkamer.",
-    icon: Shower,
-  },
-  {
-    title: "Gratis Wifi",
-    description: "Blijf verbonden met snel en betrouwbaar internet.",
-    icon: Wifi,
-  },
-  {
-    title: "Aan de duinrand",
-    description: "Begin je wandeling direct vanuit het tiny house.",
-    icon: Leaf,
-  },
-]
-
