@@ -3,7 +3,8 @@ import Link from "next/link";
 export default function BedanktPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>
+const { locale } = await params;
 }) {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
