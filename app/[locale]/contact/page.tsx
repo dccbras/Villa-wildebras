@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description: "Neem contact op met Villa Wildebras in Egmond aan den Hoef",
 };
 
-export default function ContactPage({
+export default async function Page({
   params,
 }: {
-  params: Promise<{ locale: string }>
-const { locale } = await params;
+  params: Promise<{ locale: string }>;
 }) {
-  const t = getTranslations(params.locale);
+  const { locale } = await params;
+  const t = getTranslations(locale);
 
   return (
     <main className="min-h-screen relative">
