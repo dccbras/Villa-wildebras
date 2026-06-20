@@ -1,26 +1,37 @@
 import BookingForm from "@/components/BookingForm";
-import type { Metadata } from "next"
-import Image from "next/image"
-import AvailabilityCalendar from "@/components/AvailabilityCalendar"
+import type { Metadata } from "next";
+import Image from "next/image";
+import AvailabilityCalendar from "@/components/AvailabilityCalendar";
+import { getTranslations } from "@/lib/getTranslations";
 
 export const metadata: Metadata = {
   title: "Boeken | Villa Wildebras",
   description: "Boek jouw verblijf bij Villa Wildebras in Egmond",
-}
+};
 
 type Availability = {
   [date: string]: "available" | "unavailable";
 };
 
-export default async function BoekenPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/availability`, {
-  next: { revalidate: 60 },
-});
+export default async function BoekenPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/availability`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
+
   const availability: Availability = await res.json();
+
+  const t = getTranslations(params.locale);
 
   return (
     <main className="min-h-screen relative">
-      {/* Hero sectie met bosfoto */}
+      {/* Hero */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wim-van-t-einde-Unb2Eh1HDOE-unsplash.jpg-s8ekArjg7nOFokR0SflXfX4EvD2h0d.jpeg"
@@ -31,58 +42,65 @@ export default async function BoekenPage() {
         />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">Boeken</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
+            {t.boeken_title}
+          </h1>
         </div>
       </div>
 
-      {/* Boekingsinformatie */}
+      {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-6xl -mt-16 relative z-10">
         <div className="bg-white p-8 rounded-lg shadow-md backdrop-blur-sm">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Boek jouw verblijf bij Villa Wildebras</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">
+            {t.boeken_intro}
+          </h2>
 
-          {/* Prijsinformatie */}
-<div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-  <h3 className="text-xl font-semibold mb-4">Prijzen &amp; reserveren</h3>
+          {/* Prijzen */}
+          <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">
+              {t.prijzen_title}
+            </h3>
 
-  <p className="text-gray-700 mb-4">
-    Hieronder vind je onze richtprijzen, en onderaan de pagina de beschikbaarheidskalender. Wil je boeken of een vraag stellen? Vul dan het formulier in. We reageren
-    snel.
-  </p>
+            <p className="text-gray-700 mb-4">
+              {t.prijzen_intro}
+            </p>
 
-  <div className="text-gray-700 mb-6 space-y-4">
-    <div>
-      <p className="font-semibold">Hoogseizoen (mei t/m september)</p>
-      <ul className="list-disc pl-5">
-        <li>Prijs per nacht: <strong>€135</strong></li>
-        <li>Prijs per week (6 nachten): <strong>€700</strong></li>
-        <li>Speciale actie! 15 juni t/m 15 juli <strong>€100 p.n.!</strong></li>
-      </ul>
-    </div>
+            <div className="text-gray-700 mb-6 space-y-4">
+              <div>
+                <p className="font-semibold">{t.hoogseizoen}</p>
+                <ul className="list-disc pl-5">
+                  <li>{t.hoogseizoen_prijs_nacht}</li>
+                  <li>{t.hoogseizoen_prijs_week}</li>
+                  <li>{t.hoogseizoen_actie}</li>
+                </ul>
+              </div>
 
-    <div>
-      <p className="font-semibold">Laagseizoen (oktober t/m april)</p>
-      <ul className="list-disc pl-5">
-        <li>Prijs per nacht: <strong>€100</strong></li>
-        <li>Voor meerdere dagen: <strong>in overleg</strong></li>
-      </ul>
-    </div>
+              <div>
+                <p className="font-semibold">{t.laagseizoen}</p>
+                <ul className="list-disc pl-5">
+                  <li>{t.laagseizoen_prijs}</li>
+                  <li>{t.laagseizoen_info}</li>
+                </ul>
+              </div>
 
-    <p className="text-sm text-gray-600">
-      Alle prijzen zijn inclusief <strong>schoonmaakkosten</strong>, <strong>linnengoed</strong> en{" "}
-      <strong>toeristenbelasting</strong>.
-    </p>
-  </div>
+              <p className="text-sm text-gray-600">
+                {t.prijzen_inclusief}
+              </p>
+            </div>
 
-  <BookingForm />
-</div>
+            {/* 👇 BELANGRIJK */}
+            <BookingForm locale={params.locale} />
+          </div>
 
-          {/* Beschikbaarheid tonen */}
+          {/* Kalender */}
           <div className="mt-12">
-            <h3 className="text-xl font-semibold mb-4 text-center">Beschikbaarheid</h3>
+            <h3 className="text-xl font-semibold mb-4 text-center">
+              {t.beschikbaarheid}
+            </h3>
             <AvailabilityCalendar availability={availability} />
           </div>
         </div>
       </div>
     </main>
-  )
+  );
 }
