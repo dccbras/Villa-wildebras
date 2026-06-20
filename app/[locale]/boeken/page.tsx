@@ -19,17 +19,15 @@ export default async function BoekenPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = getTranslations(locale);
 
-  // ...
-  return (
-    <>
-      <BookingForm locale={locale} />
-    </>
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/availability`,
+    {
+      next: { revalidate: 60 },
+    }
   );
-}
-  const availability: Availability = await res.json();
 
+  const availability: Availability = await res.json();
   const t = getTranslations(locale);
 
   return (
@@ -91,7 +89,6 @@ export default async function BoekenPage({
               </p>
             </div>
 
-            {/* 👇 BELANGRIJK */}
             <BookingForm locale={locale} />
           </div>
 
