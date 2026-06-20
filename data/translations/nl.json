@@ -130,6 +130,13 @@
   "hero_image_alt": "Villa Wildebras exterieur",
 "hero_subtitle": "Geniet van een heerlijk verblijf aan de rand van het Noordhollands Duinreservaat",
 "hero_book_now": "Nu Boeken",
-"hero_more_about_house": "Meer over het huisje"
+"hero_more_about_house": "Meer over het huisje",
+  "nav_home": "Home",
+"nav_house": "Het huisje",
+"nav_about": "Over ons",
+"nav_booking": "Boeken",
+"nav_contact": "Contact",
+"nav_book_now": "Nu Boeken",
+"nav_toggle_menu": "Menu openen"
 }
 
