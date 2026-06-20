@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   description: "Ontdek alles over ons Tiny House Villa Wildebras in Egmond.",
 };
 
-export default function OverHetHuisjePage({
+export default async function Page({
   params,
 }: {
-  params: Promise<{ locale: string }>
-const { locale } = await params;
+  params: Promise<{ locale: string }>;
 }) {
-  const t = getTranslations(params.locale);
+  const { locale } = await params;
+  const t = getTranslations(locale);
 
   return (
     <main className="min-h-screen relative">
