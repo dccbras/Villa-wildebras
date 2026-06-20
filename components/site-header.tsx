@@ -1,15 +1,22 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import Image from "next/image"
-import { Menu } from "lucide-react"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { Menu } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export function SiteHeader() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+
+  const locales = ["nl", "en", "de"];
+
+  const currentLocale =
+    locales.find((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)) || "nl";
+
+  const pathWithoutLocale = pathname.replace(/^\/(nl|en|de)(?=\/|$)/, "") || "/";
 
   const routes = [
     {
@@ -32,11 +39,24 @@ export function SiteHeader() {
       href: "/contact",
       label: "Contact",
     },
-  ]
+  ];
+
+  const localizedRoutes = routes.map((route) => ({
+    ...route,
+    href: route.href === "/" ? `/${currentLocale}` : `/${currentLocale}${route.href}`,
+  }));
+
+  const isActiveRoute = (href: string) => {
+    if (href === `/${currentLocale}`) {
+      return pathname === `/${currentLocale}`;
+    }
+    return pathname === href;
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
+        {/* Mobiel menu */}
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -47,9 +67,10 @@ export function SiteHeader() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
+
           <SheetContent side="left" className="pl-1 pr-0">
             <div className="px-7">
-              <Link href="/" className="flex items-center">
+              <Link href={`/${currentLocale}`} className="flex items-center">
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Villa%20Wildebras%20logo%20roze-bKwdWt908qyGCNzy2nSn8G4PNIlRGE.png"
                   alt="Villa Wildebras"
@@ -59,22 +80,37 @@ export function SiteHeader() {
                 />
               </Link>
             </div>
+
             <nav className="flex flex-col gap-4 px-2 pt-8">
-              {routes.map((route) => (
+              {localizedRoutes.map((route) => (
                 <Link
                   key={route.href}
                   href={route.href}
                   className={`block px-5 py-2 text-lg font-medium hover:text-primary ${
-                    pathname === route.href ? "text-primary" : ""
+                    isActiveRoute(route.href) ? "text-primary" : ""
                   }`}
                 >
                   {route.label}
                 </Link>
               ))}
             </nav>
+
+            <div className="flex gap-3 px-7 pt-6">
+              <Link href={`/nl${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "nl" ? "font-bold" : ""}>
+                🇳🇱
+              </Link>
+              <Link href={`/en${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "en" ? "font-bold" : ""}>
+                🇬🇧
+              </Link>
+              <Link href={`/de${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "de" ? "font-bold" : ""}>
+                🇩🇪
+              </Link>
+            </div>
           </SheetContent>
         </Sheet>
-        <Link href="/" className="mr-6 hidden lg:flex">
+
+        {/* Logo desktop */}
+        <Link href={`/${currentLocale}`} className="mr-6 hidden lg:flex">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Villa%20Wildebras%20logo%20roze-bKwdWt908qyGCNzy2nSn8G4PNIlRGE.png"
             alt="Villa Wildebras"
@@ -83,23 +119,41 @@ export function SiteHeader() {
             className="dark:invert"
           />
         </Link>
+
+        {/* Desktop navigatie */}
         <nav className="hidden gap-6 lg:flex">
-          {routes.map((route) => (
+          {localizedRoutes.map((route) => (
             <Link
               key={route.href}
               href={route.href}
-              className={`text-sm font-medium hover:text-primary ${pathname === route.href ? "text-primary" : ""}`}
+              className={`text-sm font-medium hover:text-primary ${
+                isActiveRoute(route.href) ? "text-primary" : ""
+              }`}
             >
               {route.label}
             </Link>
           ))}
         </nav>
-        <div className="ml-auto">
+
+        {/* Rechterkant */}
+        <div className="ml-auto flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3 text-xl">
+            <Link href={`/nl${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "nl" ? "font-bold" : ""}>
+              🇳🇱
+            </Link>
+            <Link href={`/en${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "en" ? "font-bold" : ""}>
+              🇬🇧
+            </Link>
+            <Link href={`/de${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "de" ? "font-bold" : ""}>
+              🇩🇪
+            </Link>
+          </div>
+
           <Button asChild>
-            <Link href="/boeken">Nu Boeken</Link>
+            <Link href={`/${currentLocale}/boeken`}>Nu Boeken</Link>
           </Button>
         </div>
       </div>
     </header>
-  )
+  );
 }
