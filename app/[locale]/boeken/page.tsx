@@ -58,10 +58,13 @@ export default async function BoekenPage({
 
           {/* Boekingsblok */}
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-            <p className="text-gray-700 mb-6 text-center">
-              {t.boeken_calculator_verwijzing}
-            </p>
+         <p className="text-gray-700 mb-6 text-center">
+  {t.boeken_intro_tekst}
+</p>
 
+<p className="text-gray-700 mb-6 text-center font-medium">
+  {t.boeken_calculator_verwijzing}
+</p>
             <BookingForm locale={locale} />
           </div>
 
