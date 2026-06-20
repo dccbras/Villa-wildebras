@@ -105,5 +105,8 @@
   "booking_alert_submit_failed": "Something went wrong while sending.",
   "booking_promo_nights_label": "promotional night(s)",
   "booking_low_season_nights_label": "low season night(s)",
-  "booking_high_season_nights_label": "high season night(s)"
+  "booking_high_season_nights_label": "high season night(s)",
+  "thank_you_title": "Thank you!",
+"thank_you_text": "Your request has been sent successfully. We will contact you as soon as possible.",
+"thank_you_back_home": "Back to home"
 }
