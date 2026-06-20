@@ -16,18 +16,21 @@ type Availability = {
 export default async function BoekenPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/availability`,
-    {
-      next: { revalidate: 60 },
-    }
-  );
+  const { locale } = await params;
+  const t = getTranslations(locale);
 
+  // ...
+  return (
+    <>
+      <BookingForm locale={locale} />
+    </>
+  );
+}
   const availability: Availability = await res.json();
 
-  const t = getTranslations(params.locale);
+  const t = getTranslations(locale);
 
   return (
     <main className="min-h-screen relative">
@@ -89,7 +92,7 @@ export default async function BoekenPage({
             </div>
 
             {/* 👇 BELANGRIJK */}
-            <BookingForm locale={params.locale} />
+            <BookingForm locale={locale} />
           </div>
 
           {/* Kalender */}
