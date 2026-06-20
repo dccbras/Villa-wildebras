@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getTranslations } from "@/lib/getTranslations";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -14,30 +15,36 @@ export function SiteHeader() {
   const locales = ["nl", "en", "de"];
 
   const currentLocale =
-    locales.find((locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)) || "nl";
+    locales.find(
+      (locale) =>
+        pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+    ) || "nl";
 
-  const pathWithoutLocale = pathname.replace(/^\/(nl|en|de)(?=\/|$)/, "") || "/";
+  const t = getTranslations(currentLocale);
+
+  const pathWithoutLocale =
+    pathname.replace(/^\/(nl|en|de)(?=\/|$)/, "") || "/";
 
   const routes = [
     {
       href: "/",
-      label: "Home",
+      label: t.nav_home,
     },
     {
       href: "/het-huisje",
-      label: "Het huisje",
+      label: t.nav_house,
     },
     {
       href: "/over-ons",
-      label: "Over ons",
+      label: t.nav_about,
     },
     {
       href: "/boeken",
-      label: "Boeken",
+      label: t.nav_booking,
     },
     {
       href: "/contact",
-      label: "Contact",
+      label: t.nav_contact,
     },
   ];
 
@@ -64,7 +71,7 @@ export function SiteHeader() {
               className="mr-6 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
             >
               <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle menu</span>
+              <span className="sr-only">{t.nav_toggle_menu}</span>
             </Button>
           </SheetTrigger>
 
@@ -96,14 +103,14 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex gap-3 px-7 pt-6">
-              <Link href={`/nl${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "nl" ? "font-bold" : ""}>
-                🇳🇱
+              <Link href={`/nl${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+                NL
               </Link>
-              <Link href={`/en${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "en" ? "font-bold" : ""}>
-                🇬🇧
+              <Link href={`/en${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+                GB
               </Link>
-              <Link href={`/de${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "de" ? "font-bold" : ""}>
-                🇩🇪
+              <Link href={`/de${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+                DE
               </Link>
             </div>
           </SheetContent>
@@ -130,30 +137,3 @@ export function SiteHeader() {
                 isActiveRoute(route.href) ? "text-primary" : ""
               }`}
             >
-              {route.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Rechterkant */}
-        <div className="ml-auto flex items-center gap-4">
-          <div className="hidden lg:flex items-center gap-3 text-xl">
-            <Link href={`/nl${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "nl" ? "font-bold" : ""}>
-              🇳🇱
-            </Link>
-            <Link href={`/en${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "en" ? "font-bold" : ""}>
-              🇬🇧
-            </Link>
-            <Link href={`/de${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`} className={currentLocale === "de" ? "font-bold" : ""}>
-              🇩🇪
-            </Link>
-          </div>
-
-          <Button asChild>
-            <Link href={`/${currentLocale}/boeken`}>Nu Boeken</Link>
-          </Button>
-        </div>
-      </div>
-    </header>
-  );
-}
