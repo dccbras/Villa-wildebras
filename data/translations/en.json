@@ -130,5 +130,12 @@
   "hero_image_alt": "Exterior of Villa Wildebras",
 "hero_subtitle": "Enjoy a wonderful stay on the edge of the North Holland Dune Reserve",
 "hero_book_now": "Book now",
-"hero_more_about_house": "More about the cottage"
+"hero_more_about_house": "More about the cottage",
+  "nav_home": "Home",
+"nav_house": "The cottage",
+"nav_about": "About us",
+"nav_booking": "Booking",
+"nav_contact": "Contact",
+"nav_book_now": "Book now",
+"nav_toggle_menu": "Open menu"
 }
