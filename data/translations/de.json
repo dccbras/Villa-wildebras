@@ -108,5 +108,23 @@
   "booking_high_season_nights_label": "Hochsaison-Nächte",
   "thank_you_title": "Vielen Dank!",
 "thank_you_text": "Deine Anfrage wurde erfolgreich versendet. Wir melden uns so schnell wie möglich bei dir.",
-"thank_you_back_home": "Zur Startseite"
+"thank_you_back_home": "Zur Startseite",
+  "home_title": "Willkommen bei Villa Wildebras",
+"home_intro": "Villa Wildebras ist ein einzigartiges Tiny House aus nachhaltigen Materialien. Das Häuschen liegt am Rand des Nordholländischen Dünenreservats, wo man vom Garten aus schottische Hochlandrinder beobachten kann. Ein wunderbarer Ort, um sich zu entspannen und die Natur in Egmond zu genießen.",
+"home_more_about_house": "Mehr über das Häuschen",
+"home_image_alt": "Innenansicht von Villa Wildebras",
+"home_features_title": "Ausstattung",
+
+"home_feature_1_title": "Voll ausgestattete Küche",
+"home_feature_1_description": "Koche deine eigenen Mahlzeiten in unserer großzügigen Küche.",
+"home_feature_2_title": "Schlafen",
+"home_feature_2_description": "In einem herrlichen Doppelbett auf unserer Schlafempore.",
+"home_feature_3_title": "Holzofen",
+"home_feature_3_description": "Genieße die gemütliche Wärme eines authentischen Holzofens.",
+"home_feature_4_title": "Modernes Badezimmer",
+"home_feature_4_description": "Ein kompaktes, aber vollständiges Badezimmer.",
+"home_feature_5_title": "Kostenloses WLAN",
+"home_feature_5_description": "Bleibe mit schnellem und zuverlässigem Internet verbunden.",
+"home_feature_6_title": "Am Rand der Dünen",
+"home_feature_6_description": "Beginne deinen Spaziergang direkt vom Tiny House aus."
 }
