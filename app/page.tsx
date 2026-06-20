@@ -3,7 +3,12 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export default function Home() {
+
+export default function Home({
+  params,
+}: {
+  params: { locale: string };
+}) {
   return (
     <div className="flex min-h-screen flex-col">
       <HeroSection />
