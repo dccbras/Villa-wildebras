@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect } from "react";
 import {
   Truck,
   Hammer,
@@ -49,13 +46,6 @@ export default async function Page({
       text: t.overons_section_3,
     },
   ];
-
-  useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
-    return () => {
-      document.documentElement.style.scrollBehavior = "auto";
-    };
-  }, []);
 
   return (
     <main className="min-h-screen relative">
