@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { getTranslations } from "@/lib/getTranslations";
 
 const HIGH_SEASON_NIGHTLY = 135;
 const LOW_SEASON_NIGHTLY = 100;
 const PROMO_NIGHTLY = 100;
 
-// Jouw interpretatie: “weekprijs” = €700 voor 6 aaneengesloten nachten (hoogseizoen)
+// “weekprijs” = €700 voor 6 aaneengesloten nachten (hoogseizoen)
 const HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 700;
 const WEEK_BLOCK_NIGHTS = 6;
 
 function toLocalDate(dateStr: string) {
-  // Voorkomt timezone-gedoe door altijd lokale middernacht te nemen
   return new Date(`${dateStr}T00:00:00`);
 }
 
@@ -23,7 +23,7 @@ function addDays(d: Date, days: number) {
 
 function isHighSeason(d: Date) {
   // Hoogseizoen: mei t/m september
-  const m = d.getMonth() + 1; // 1..12
+  const m = d.getMonth() + 1;
   return m >= 5 && m <= 9;
 }
 
@@ -34,8 +34,14 @@ function isPromoNight(d: Date) {
   return (month === 6 && day >= 15) || (month === 7 && day <= 15);
 }
 
-function formatEUR(amount: number) {
-  return new Intl.NumberFormat("nl-NL", {
+function getIntlLocale(locale: string) {
+  if (locale === "de") return "de-DE";
+  if (locale === "en") return "en-GB";
+  return "nl-NL";
+}
+
+function formatEUR(amount: number, locale: string) {
+  return new Intl.NumberFormat(getIntlLocale(locale), {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0,
@@ -48,7 +54,7 @@ type PriceEstimate = {
   lowNights: number;
   promoNights: number;
   nights: number;
-  weekDealsApplied: number; // hoe vaak weekprijs is toegepast
+  weekDealsApplied: number;
 };
 
 function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null {
@@ -73,8 +79,8 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
   let lowNights = 0;
   let promoNights = 0;
 
-  // Basis: per nacht
   let total = 0;
+
   for (let i = 0; i < nightsDates.length; i++) {
     if (promoFlags[i]) {
       promoNights++;
@@ -88,12 +94,11 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     }
   }
 
-  // ✅ Weekprijs toepassen voor ELKE set van 6 aaneengesloten REGULIERE hoogseizoen-nachten
-  // Actienachten tellen dus niet mee voor de weekprijs
+  // Weekprijs toepassen voor elke set van 6 aaneengesloten reguliere hoogseizoen-nachten
   let weekDealsApplied = 0;
 
-  const fullPriceForBlock = WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY; // 6*135
-  const discountPerBlock = fullPriceForBlock - HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS; // voordeel per block
+  const fullPriceForBlock = WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY;
+  const discountPerBlock = fullPriceForBlock - HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS;
 
   let runLength = 0;
   for (let i = 0; i < highFlags.length; i++) {
@@ -109,7 +114,6 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     }
   }
 
-  // laatste run afhandelen
   if (runLength >= WEEK_BLOCK_NIGHTS) {
     const blocks = Math.floor(runLength / WEEK_BLOCK_NIGHTS);
     weekDealsApplied += blocks;
@@ -126,7 +130,13 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
   };
 }
 
-export default function BookingForm() {
+type BookingFormProps = {
+  locale: string;
+};
+
+export default function BookingForm({ locale }: BookingFormProps) {
+  const t = getTranslations(locale);
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -140,7 +150,6 @@ export default function BookingForm() {
   const [nights, setNights] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // Bereken aantal nachten
   useEffect(() => {
     if (form.fromDate && form.toDate) {
       const from = toLocalDate(form.fromDate);
@@ -153,35 +162,43 @@ export default function BookingForm() {
     }
   }, [form.fromDate, form.toDate]);
 
-  // Prijsindicatie
-  const price = useMemo(() => calculatePrice(form.fromDate, form.toDate), [form.fromDate, form.toDate]);
+  const price = useMemo(
+    () => calculatePrice(form.fromDate, form.toDate),
+    [form.fromDate, form.toDate]
+  );
 
-  // Handige strings om mee te sturen naar de mail
-  const priceFormatted = price ? formatEUR(price.total) : "";
+  const priceFormatted = price ? formatEUR(price.total, locale) : "";
+
   const priceSummary = price
-    ? `Prijsindicatie: ${priceFormatted} (${price.promoNights > 0 ? `${price.promoNights} actienacht(en) × €${PROMO_NIGHTLY} (actieprijs), ` : ""}${price.lowNights} laagseizoen-nacht(en) × €${LOW_SEASON_NIGHTLY}, ${price.highNights} hoogseizoen-nacht(en) × €${HIGH_SEASON_NIGHTLY}${
+    ? `${t.booking_price_estimate_label ?? "Prijsindicatie"}: ${priceFormatted} (${
+        price.promoNights > 0
+          ? `${price.promoNights} ${t.booking_promo_nights_label ?? "actienacht(en)"} × €${PROMO_NIGHTLY} (${t.booking_promo_price_label ?? "actieprijs"}), `
+          : ""
+      }${price.lowNights} ${t.booking_low_season_nights_label ?? "laagseizoen-nacht(en)"} × €${LOW_SEASON_NIGHTLY}, ${price.highNights} ${
+        t.booking_high_season_nights_label ?? "hoogseizoen-nacht(en)"
+      } × €${HIGH_SEASON_NIGHTLY}${
         price.weekDealsApplied > 0
-          ? `, weekprijs toegepast ×${price.weekDealsApplied} (€${HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} per ${WEEK_BLOCK_NIGHTS} nachten)`
+          ? `, ${t.booking_week_price_applied ?? "weekprijs toegepast"} ×${price.weekDealsApplied} (€${HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} ${t.booking_per_6_nights ?? `per ${WEEK_BLOCK_NIGHTS} nachten`})`
           : ""
       })`
     : "";
 
-  // Input handler
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => setForm({ ...form, [e.target.name]: e.target.value });
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  // Submit handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!form.firstName || !form.lastName || !form.email || !form.fromDate || !form.toDate) {
-      alert("Vul alle verplichte velden in.");
+      alert(t.booking_alert_required_fields ?? "Vul alle verplichte velden in.");
       return;
     }
 
     if (nights <= 0) {
-      alert("De einddatum moet na de startdatum liggen.");
+      alert(t.booking_alert_invalid_dates ?? "De einddatum moet na de startdatum liggen.");
       return;
     }
 
@@ -190,8 +207,8 @@ export default function BookingForm() {
 
       const payload = {
         ...form,
+        locale,
         nights,
-        // ✅ prijsindicatie mee sturen
         priceEstimate: price,
         priceEstimateFormatted: priceFormatted,
         priceEstimateSummary: priceSummary,
@@ -216,13 +233,13 @@ export default function BookingForm() {
           message: "",
         });
         setNights(0);
-        window.location.href = "/bedankt";
+        window.location.href = `/${locale}/bedankt`;
       } else {
-        alert("Fout: " + (data?.error || "Probeer opnieuw."));
+        alert(`${t.booking_alert_error_prefix ?? "Fout"}: ${data?.error || (t.booking_alert_try_again ?? "Probeer opnieuw.")}`);
       }
     } catch (error) {
       console.error(error);
-      alert("Er ging iets mis bij verzenden.");
+      alert(t.booking_alert_submit_failed ?? "Er ging iets mis bij verzenden.");
     } finally {
       setLoading(false);
     }
@@ -230,7 +247,9 @@ export default function BookingForm() {
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-      <h3 className="text-xl font-semibold mb-4">Stuur vrijblijvend een boekingsaanvraag in</h3>
+      <h3 className="text-xl font-semibold mb-4">
+        {t.booking_form_title ?? "Stuur vrijblijvend een boekingsaanvraag in"}
+      </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Naam */}
@@ -241,7 +260,7 @@ export default function BookingForm() {
             value={form.firstName}
             onChange={handleChange}
             required
-            placeholder="Voornaam"
+            placeholder={t.booking_first_name ?? "Voornaam"}
             className="w-full border px-3 py-2 rounded-lg"
           />
           <input
@@ -250,7 +269,7 @@ export default function BookingForm() {
             value={form.lastName}
             onChange={handleChange}
             required
-            placeholder="Achternaam"
+            placeholder={t.booking_last_name ?? "Achternaam"}
             className="w-full border px-3 py-2 rounded-lg"
           />
         </div>
@@ -262,7 +281,7 @@ export default function BookingForm() {
           value={form.email}
           onChange={handleChange}
           required
-          placeholder="E-mail"
+          placeholder={t.booking_email ?? "E-mail"}
           className="w-full border px-3 py-2 rounded-lg"
         />
 
@@ -288,41 +307,49 @@ export default function BookingForm() {
 
         {/* Nachten */}
         <div className="text-sm text-gray-600">
-          Aantal nachten: <strong>{nights}</strong>
+          {t.booking_nights ?? "Aantal nachten"}: <strong>{nights}</strong>
         </div>
 
         {/* Prijsindicatie */}
         <div className="text-sm text-gray-600">
-          Prijsindicatie: <strong>{price ? formatEUR(price.total) : "—"}</strong>
+          {t.booking_price_estimate_label ?? "Prijsindicatie"}:{" "}
+          <strong>{price ? formatEUR(price.total, locale) : "—"}</strong>
 
           {price && (
             <div className="mt-2 text-xs text-gray-500 space-y-1">
               {price.promoNights > 0 && (
                 <div className="text-orange-700">
-                  Actieperiode (15 juni t/m 15 juli): <strong>{price.promoNights}</strong> nacht(en) × €{PROMO_NIGHTLY} <strong>(actieprijs)</strong>
+                  {t.booking_promo_period ?? "Actieperiode (15 juni t/m 15 juli)"}:{" "}
+                  <strong>{price.promoNights}</strong> {t.booking_night_plural ?? "nacht(en)"} × €
+                  {PROMO_NIGHTLY} <strong>({t.booking_promo_price_label ?? "actieprijs"})</strong>
                 </div>
               )}
 
               {price.lowNights > 0 && (
                 <div>
-                  Laagseizoen: <strong>{price.lowNights}</strong> nacht(en) × €{LOW_SEASON_NIGHTLY}
+                  {t.booking_low_season ?? "Laagseizoen"}: <strong>{price.lowNights}</strong>{" "}
+                  {t.booking_night_plural ?? "nacht(en)"} × €{LOW_SEASON_NIGHTLY}
                 </div>
               )}
 
               {price.highNights > 0 && (
                 <div>
-                  Hoogseizoen: <strong>{price.highNights}</strong> nacht(en) × €{HIGH_SEASON_NIGHTLY}
+                  {t.booking_high_season ?? "Hoogseizoen"}: <strong>{price.highNights}</strong>{" "}
+                  {t.booking_night_plural ?? "nacht(en)"} × €{HIGH_SEASON_NIGHTLY}
                 </div>
               )}
 
               {price.weekDealsApplied > 0 && (
                 <div>
-                  <strong>Weekprijs toegepast</strong> ×{price.weekDealsApplied} (€{HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS} per {WEEK_BLOCK_NIGHTS} nachten)
+                  <strong>{t.booking_week_price_applied ?? "Weekprijs toegepast"}</strong> ×
+                  {price.weekDealsApplied} (€{HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS}{" "}
+                  {t.booking_per_6_nights ?? `per ${WEEK_BLOCK_NIGHTS} nachten`})
                 </div>
               )}
 
               <div className="mt-1">
-                Inclusief schoonmaakkosten, linnengoed en toeristenbelasting. Definitieve prijs altijd na bevestiging.
+                {t.booking_price_disclaimer ??
+                  "Inclusief schoonmaakkosten, linnengoed en toeristenbelasting. Definitieve prijs altijd na bevestiging."}
               </div>
             </div>
           )}
@@ -335,8 +362,8 @@ export default function BookingForm() {
           onChange={handleChange}
           className="w-full border px-3 py-2 rounded-lg"
         >
-          <option value="2">2 personen</option>
-          <option value="1">1 persoon</option>
+          <option value="2">{t.booking_two_persons ?? "2 personen"}</option>
+          <option value="1">{t.booking_one_person ?? "1 persoon"}</option>
         </select>
 
         {/* Bericht */}
@@ -344,7 +371,7 @@ export default function BookingForm() {
           name="message"
           value={form.message}
           onChange={handleChange}
-          placeholder="Bericht (optioneel)"
+          placeholder={t.booking_message_optional ?? "Bericht (optioneel)"}
           rows={4}
           className="w-full border px-3 py-2 rounded-lg"
         />
@@ -355,7 +382,9 @@ export default function BookingForm() {
           disabled={loading}
           className="bg-[#B84C65] hover:bg-[#9d3e54] transition-colors text-white font-medium py-2 px-4 rounded-lg shadow disabled:opacity-50"
         >
-          {loading ? "Versturen..." : "Verstuur aanvraag"}
+          {loading
+            ? t.booking_submitting ?? "Versturen..."
+            : t.booking_submit ?? "Verstuur aanvraag"}
         </button>
       </form>
     </div>
