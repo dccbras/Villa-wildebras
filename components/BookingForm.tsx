@@ -233,7 +233,7 @@ export default function BookingForm({ locale }: BookingFormProps) {
           message: "",
         });
         setNights(0);
-        window.location.href = `/${locale}/bedankt`;
+        window.location.href = `/${locale || "nl"}/bedankt`;
       } else {
         alert(`${t.booking_alert_error_prefix ?? "Fout"}: ${data?.error || (t.booking_alert_try_again ?? "Probeer opnieuw.")}`);
       }
