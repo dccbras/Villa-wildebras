@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { getTranslations } from "@/lib/getTranslations";
 
-export default function BedanktPage({
+export default async function BedanktPage({
   params,
 }: {
-  params: Promise<{ locale: string }>
-const { locale } = await params;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const t = getTranslations(locale);
+
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Achtergrondafbeelding */}
@@ -20,17 +23,20 @@ const { locale } = await params;
 
       {/* Content */}
       <div className="relative z-10 max-w-xl text-center bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold mb-4">Bedankt!</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          {t.thank_you_title ?? "Bedankt!"}
+        </h1>
 
         <p className="text-gray-700 mb-6">
-          Je aanvraag is succesvol verzonden. We nemen zo snel mogelijk contact met je op.
+          {t.thank_you_text ??
+            "Je aanvraag is succesvol verzonden. We nemen zo snel mogelijk contact met je op."}
         </p>
 
         <Link
-          href={`/${params.locale}`}
+          href={`/${locale}`}
           className="text-[#B84C65] font-medium hover:underline"
         >
-          Terug naar home
+          {t.thank_you_back_home ?? "Terug naar home"}
         </Link>
       </div>
     </main>
