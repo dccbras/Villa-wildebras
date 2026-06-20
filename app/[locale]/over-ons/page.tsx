@@ -1,66 +1,86 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useEffect } from "react"
-import { Truck, Hammer, Home, Thermometer, Paintbrush, Flame, Hexagon, Moon } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import Image from "next/image";
+import { useEffect } from "react";
+import {
+  Truck,
+  Hammer,
+  Home,
+  Thermometer,
+  Paintbrush,
+  Flame,
+  Hexagon,
+  Moon,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { getTranslations } from "@/lib/getTranslations";
 
-const timelineEvents = [
-  { date: "Mei 2022", title: "Tiny house trailer gekocht", icon: Truck },
-  { date: "Juni 2022", title: "Start bouw Tiny house", icon: Hammer },
-  { date: "December 2022", title: "Houtskelet gereed", icon: Home },
-  { date: "Februari 2023", title: "Wanden voorzien van isolatie", icon: Thermometer },
-  { date: "Juni 2023", title: "Schilderen en timmeren", icon: Paintbrush },
-  { date: "December 2023", title: "Houtkachel aangeschaft", icon: Flame },
-  { date: "April 2024", title: "Gevelbekleding aangebracht", icon: Hexagon },
-  { date: "Augustus 2024", title: "Verhuizen uit de loods en eerste keer overnachten", icon: Moon },
-]
+export default function Page({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const t = getTranslations(params.locale);
 
-const sections = [
-  {
-    image: "/1.png",
-    text: "Wij zijn Daniëlle en Albert, en wij zijn in 2022 begonnen met de bouw van ons Tinyhouse. Het huisje staat in het mooie Egmond, aan de rand van het Noordhollands Duinreservaat – een plek waar de rust van de natuur en het uitzicht op Schotse hooglanders en paarden die grazen, je meteen doet ontsnappen aan de drukte van de stad. Zelf wonen we in Amsterdam en nu ons huisje af is komen we hier graag om het drukke stadsleven af te wisselen met de natuur.",
-  },
-  {
-    image: "/2.png",
-    text: "We zijn begonnen met bouwen op een echte tiny house trailer. Van 3D-tekeningen tot het houtskelet en de afwerking, elke stap was een leerzaam proces. We hebben de materialen zoveel mogelijk tweedehands ingekocht via Marktplaats of zelfs gevonden bij het grofvuil – en je zult zien: dat is absoluut niet te zien aan het eindresultaat! Sinds de zomer 2024 staat het huisje op zijn plek en hebben we er voor het eerst in geslapen.",
-  },
-  {
-    image: "/3.png",
-    text: "Het kleine huisje is van alle gemakken voorzien, omdat we het zelf ook vaak gebruiken en weten wat we nodig hebben voor een fijne en comfortabele tijd. De momenten die wij zelf niet in het huisje doorbrengen, delen we graag met jou. We hopen dat het er ook voor jou een fijne plek zal zijn om te ontspannen en tot rust te komen.",
-  },
-]
+  const timelineEvents = [
+    { date: t.overons_timeline_date_1, title: t.overons_timeline_title_1, icon: Truck },
+    { date: t.overons_timeline_date_2, title: t.overons_timeline_title_2, icon: Hammer },
+    { date: t.overons_timeline_date_3, title: t.overons_timeline_title_3, icon: Home },
+    { date: t.overons_timeline_date_4, title: t.overons_timeline_title_4, icon: Thermometer },
+    { date: t.overons_timeline_date_5, title: t.overons_timeline_title_5, icon: Paintbrush },
+    { date: t.overons_timeline_date_6, title: t.overons_timeline_title_6, icon: Flame },
+    { date: t.overons_timeline_date_7, title: t.overons_timeline_title_7, icon: Hexagon },
+    { date: t.overons_timeline_date_8, title: t.overons_timeline_title_8, icon: Moon },
+  ];
 
-export default function Page() {
+  const sections = [
+    {
+      image: "/1.png",
+      text: t.overons_section_1,
+    },
+    {
+      image: "/2.png",
+      text: t.overons_section_2,
+    },
+    {
+      image: "/3.png",
+      text: t.overons_section_3,
+    },
+  ];
+
   useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth"
+    document.documentElement.style.scrollBehavior = "smooth";
     return () => {
-      document.documentElement.style.scrollBehavior = "auto"
-    }
-  }, [])
+      document.documentElement.style.scrollBehavior = "auto";
+    };
+  }, []);
 
   return (
     <main className="min-h-screen relative">
-      {/* Hero sectie met aangepaste afbeelding */}
+      {/* Hero sectie */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
           src="/zoe-gayah-jonker-Lit4A7dKruo-unsplash.jpg"
-          alt="Tiny House Header"
+          alt={t.overons_hero_alt}
           fill
           className="object-cover"
           priority
         />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">Over ons</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center px-4">
+            {t.overons_title}
+          </h1>
         </div>
       </div>
 
       {/* Tijdlijn */}
       <div className="container mx-auto px-4 py-16">
         <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl font-semibold text-center mb-6">Ons Tiny House Avontuur</h2>
+          <h2 className="text-3xl font-semibold text-center mb-6">
+            {t.overons_timeline_heading}
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {timelineEvents.map((event, index) => (
               <div key={index} className="flex flex-col items-center text-center">
@@ -78,13 +98,18 @@ export default function Page() {
       {/* Inhoudssecties */}
       <div className="container mx-auto px-4 space-y-12">
         {sections.map((section, index) => (
-          <div key={index} className={`flex flex-col md:flex-row ${index % 2 === 1 ? "md:flex-row-reverse" : ""} gap-8 items-center`}>
+          <div
+            key={index}
+            className={`flex flex-col md:flex-row ${
+              index % 2 === 1 ? "md:flex-row-reverse" : ""
+            } gap-8 items-center`}
+          >
             <div className="md:w-2/5">
               <Dialog>
                 <DialogTrigger asChild>
                   <Image
                     src={section.image}
-                    alt={`Afbeelding ${index + 1}`}
+                    alt={`${t.overons_image_alt} ${index + 1}`}
                     width={400}
                     height={300}
                     className="rounded-lg shadow-lg cursor-pointer"
@@ -93,7 +118,7 @@ export default function Page() {
                 <DialogContent>
                   <Image
                     src={section.image}
-                    alt={`Afbeelding ${index + 1}`}
+                    alt={`${t.overons_image_alt} ${index + 1}`}
                     width={800}
                     height={600}
                     className="rounded-lg"
@@ -112,6 +137,5 @@ export default function Page() {
         ))}
       </div>
     </main>
-  )
+  );
 }
-
