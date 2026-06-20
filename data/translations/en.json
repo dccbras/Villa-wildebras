@@ -108,5 +108,23 @@
   "booking_high_season_nights_label": "high season night(s)",
   "thank_you_title": "Thank you!",
 "thank_you_text": "Your request has been sent successfully. We will contact you as soon as possible.",
-"thank_you_back_home": "Back to home"
+"thank_you_back_home": "Back to home",
+  "home_title": "Welcome to Villa Wildebras",
+"home_intro": "Villa Wildebras is a unique tiny house built with sustainable materials. The cottage is located on the edge of the North Holland Dune Reserve, where you can spot Scottish Highland cattle from the backyard. A lovely place to relax and enjoy nature in Egmond.",
+"home_more_about_house": "More about the cottage",
+"home_image_alt": "Interior of Villa Wildebras",
+"home_features_title": "Facilities",
+
+"home_feature_1_title": "Fully equipped kitchen",
+"home_feature_1_description": "Cook your own meals in our spacious kitchen.",
+"home_feature_2_title": "Sleeping",
+"home_feature_2_description": "In a lovely double bed on our sleeping loft.",
+"home_feature_3_title": "Wood stove",
+"home_feature_3_description": "Enjoy the cosy warmth of an authentic wood stove.",
+"home_feature_4_title": "Modern bathroom",
+"home_feature_4_description": "A compact but complete bathroom.",
+"home_feature_5_title": "Free wifi",
+"home_feature_5_description": "Stay connected with fast and reliable internet.",
+"home_feature_6_title": "At the edge of the dunes",
+"home_feature_6_description": "Start your walk directly from the tiny house."
 }
