@@ -105,5 +105,8 @@
   "booking_alert_submit_failed": "Beim Senden ist ein Fehler aufgetreten.",
   "booking_promo_nights_label": "Aktionsnächte",
   "booking_low_season_nights_label": "Nebensaison-Nächte",
-  "booking_high_season_nights_label": "Hochsaison-Nächte"
+  "booking_high_season_nights_label": "Hochsaison-Nächte",
+  "thank_you_title": "Vielen Dank!",
+"thank_you_text": "Deine Anfrage wurde erfolgreich versendet. Wir melden uns so schnell wie möglich bei dir.",
+"thank_you_back_home": "Zur Startseite"
 }
