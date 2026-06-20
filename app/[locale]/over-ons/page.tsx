@@ -16,13 +16,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { getTranslations } from "@/lib/getTranslations";
 
-export default function Page({
+export default async function Page({
   params,
 }: {
-  params: Promise<{ locale: string }>
-const { locale } = await params;
+  params: Promise<{ locale: string }>;
 }) {
-  const t = getTranslations(params.locale);
+  const { locale } = await params;
+  const t = getTranslations(locale);
 
   const timelineEvents = [
     { date: t.overons_timeline_date_1, title: t.overons_timeline_title_1, icon: Truck },
