@@ -130,5 +130,13 @@
   "hero_image_alt": "Außenansicht von Villa Wildebras",
 "hero_subtitle": "Genieße einen wunderbaren Aufenthalt am Rand des Nordholländischen Dünenreservats",
 "hero_book_now": "Jetzt buchen",
-"hero_more_about_house": "Mehr über das Häuschen"
+"hero_more_about_house": "Mehr über das Häuschen",
+  "nav_home": "Startseite",
+"nav_house": "Das Häuschen",
+"nav_about": "Über uns",
+"nav_booking": "Buchung",
+"nav_contact": "Kontakt",
+"nav_book_now": "Jetzt buchen",
+"nav_toggle_menu": "Menü öffnen"
+
 }
