@@ -102,3 +102,8 @@
   "booking_alert_invalid_dates": "Das Enddatum muss nach dem Startdatum liegen.",
   "booking_alert_error_prefix": "Fehler",
   "booking_alert_try_again": "Bitte erneut versuchen.",
+  "booking_alert_submit_failed": "Beim Senden ist ein Fehler aufgetreten.",
+  "booking_promo_nights_label": "Aktionsnächte",
+  "booking_low_season_nights_label": "Nebensaison-Nächte",
+  "booking_high_season_nights_label": "Hochsaison-Nächte"
+}
