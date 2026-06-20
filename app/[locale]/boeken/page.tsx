@@ -56,38 +56,11 @@ export default async function BoekenPage({
             {t.boeken_intro}
           </h2>
 
-          {/* Prijzen */}
+          {/* Boekingsblok */}
           <div className="border border-gray-200 rounded-lg p-6 shadow-sm mb-8 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4">
-              {t.prijzen_title}
-            </h3>
-
-            <p className="text-gray-700 mb-4">
-              {t.prijzen_intro}
+            <p className="text-gray-700 mb-6 text-center">
+              {t.boeken_calculator_verwijzing}
             </p>
-
-            <div className="text-gray-700 mb-6 space-y-4">
-              <div>
-                <p className="font-semibold">{t.hoogseizoen}</p>
-                <ul className="list-disc pl-5">
-                  <li>{t.hoogseizoen_prijs_nacht}</li>
-                  <li>{t.hoogseizoen_prijs_week}</li>
-                  <li>{t.hoogseizoen_actie}</li>
-                </ul>
-              </div>
-
-              <div>
-                <p className="font-semibold">{t.laagseizoen}</p>
-                <ul className="list-disc pl-5">
-                  <li>{t.laagseizoen_prijs}</li>
-                  <li>{t.laagseizoen_info}</li>
-                </ul>
-              </div>
-
-              <p className="text-sm text-gray-600">
-                {t.prijzen_inclusief}
-              </p>
-            </div>
 
             <BookingForm locale={locale} />
           </div>
@@ -104,3 +77,4 @@ export default async function BoekenPage({
     </main>
   );
 }
+``
