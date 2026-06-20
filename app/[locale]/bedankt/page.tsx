@@ -1,4 +1,10 @@
-export default function BedanktPage() {
+import Link from "next/link";
+
+export default function BedanktPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Achtergrondafbeelding */}
@@ -8,7 +14,7 @@ export default function BedanktPage() {
         aria-hidden="true"
       />
 
-      {/* Optioneel: donkere overlay voor leesbaarheid */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
 
       {/* Content */}
@@ -19,9 +25,12 @@ export default function BedanktPage() {
           Je aanvraag is succesvol verzonden. We nemen zo snel mogelijk contact met je op.
         </p>
 
-        <a href="/" className="text-[#B84C65] font-medium hover:underline">
+        <Link
+          href={`/${params.locale}`}
+          className="text-[#B84C65] font-medium hover:underline"
+        >
           Terug naar home
-        </a>
+        </Link>
       </div>
     </main>
   );
