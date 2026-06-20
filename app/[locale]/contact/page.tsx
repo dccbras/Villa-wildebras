@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 export default function ContactPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>
+const { locale } = await params;
 }) {
   const t = getTranslations(params.locale);
 
