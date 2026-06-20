@@ -55,7 +55,7 @@ export default async function Home({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <HeroSection />
+      <HeroSection locale={locale} />
 
       <section className="py-20">
         <div className="container px-4 md:px-6">
