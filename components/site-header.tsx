@@ -50,7 +50,10 @@ export function SiteHeader() {
 
   const localizedRoutes = routes.map((route) => ({
     ...route,
-    href: route.href === "/" ? `/${currentLocale}` : `/${currentLocale}${route.href}`,
+    href:
+      route.href === "/"
+        ? `/${currentLocale}`
+        : `/${currentLocale}${route.href}`,
   }));
 
   const isActiveRoute = (href: string) => {
@@ -103,13 +106,13 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex gap-3 px-7 pt-6">
-              <Link href={`/nl${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+              <Link href={`/nl${pathWithoutLocale}`} className="text-sm font-medium hover:text-primary">
                 NL
               </Link>
-              <Link href={`/en${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+              <Link href={`/en${pathWithoutLocale}`} className="text-sm font-medium hover:text-primary">
                 GB
               </Link>
-              <Link href={`/de${pathWithoutLocale}`} className="text-base font-medium hover:text-primary">
+              <Link href={`/de${pathWithoutLocale}`} className="text-sm font-medium hover:text-primary">
                 DE
               </Link>
             </div>
@@ -137,3 +140,32 @@ export function SiteHeader() {
                 isActiveRoute(route.href) ? "text-primary" : ""
               }`}
             >
+              {route.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Rechterkant */}
+        <div className="ml-auto flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3 text-base">
+            <Link href={`/nl${pathWithoutLocale}`} className="hover:text-primary">
+              NL
+            </Link>
+            <Link href={`/en${pathWithoutLocale}`} className="hover:text-primary">
+              GB
+            </Link>
+            <Link href={`/de${pathWithoutLocale}`} className="hover:text-primary">
+              DE
+            </Link>
+          </div>
+
+          <Button asChild>
+            <Link href={`/${currentLocale}/boeken`}>
+              {t.nav_book_now}
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+}
