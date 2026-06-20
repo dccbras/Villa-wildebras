@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description: "Ontdek alles over ons Tiny House Villa Wildebras in Egmond.",
 };
 
-export default async function Page({
+export default async function OverHetHuisjePage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -196,4 +196,3 @@ export default async function Page({
     </main>
   );
 }
-
