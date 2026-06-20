@@ -105,6 +105,9 @@
   "booking_alert_submit_failed": "Er ging iets mis bij verzenden.",
   "booking_promo_nights_label": "actienacht(en)",
   "booking_low_season_nights_label": "laagseizoen-nacht(en)",
-  "booking_high_season_nights_label": "hoogseizoen-nacht(en)"
+  "booking_high_season_nights_label": "hoogseizoen-nacht(en)",
+  "thank_you_title": "Bedankt!",
+"thank_you_text": "Je aanvraag is succesvol verzonden. We nemen zo snel mogelijk contact met je op.",
+"thank_you_back_home": "Terug naar home"
 }
 
