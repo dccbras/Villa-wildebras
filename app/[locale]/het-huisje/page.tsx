@@ -81,7 +81,7 @@ export default function OverHetHuisjePage({
             </h2>
             <div className="rounded-lg overflow-hidden">
               <Image
-                src="Fotocollage impressie.jpg"
+                src="/Fotocollage impressie.jpg"
                 alt={t.over_collage_1_alt}
                 width={1200}
                 height={1200}
@@ -145,7 +145,7 @@ export default function OverHetHuisjePage({
             </h2>
             <div className="rounded-lg overflow-hidden">
               <Image
-                src="Fotocollage impressie (1).jpg"
+                src="/Fotocollage impressie (1).jpg"
                 alt={t.over_collage_2_alt}
                 width={1200}
                 height={1200}
