@@ -3,10 +3,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getTranslations } from "@/lib/getTranslations";
 
-const HIGH_SEASON_NIGHTLY = 120;
+const HIGH_SEASON_NIGHTLY = 105;
 const LOW_SEASON_NIGHTLY = 100;
 
-const HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 650;
+const HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 600;
 const LOW_SEASON_WEEK_PRICE_FOR_6_NIGHTS = 500;
 
 const WEEK_BLOCK_NIGHTS = 6;
