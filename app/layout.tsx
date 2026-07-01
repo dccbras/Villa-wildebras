@@ -25,11 +25,8 @@ import { Inter } from "next/font/google"
 	      <body className={inter.className}>
 	        <SiteHeader />
 	        <main>{children}</main>
+	        <Analytics />
 	      </body>
 	    </html>
 	  )
 	}
-	
-	
-	
-import './globals.css'
