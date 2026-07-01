@@ -78,7 +78,7 @@ export default async function Home({
 
             <div className="relative aspect-square overflow-hidden rounded-xl lg:aspect-auto lg:h-[600px]">
               <Image
-                src="/IMG_9386 (1).JPEG"
+                src="Startpagina.JPEG"
                 alt={t.home_image_alt}
                 fill
                 className="object-cover"
