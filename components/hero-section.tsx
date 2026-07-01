@@ -13,7 +13,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
   return (
     <section className="relative h-[90vh] overflow-hidden">
       <Image
-        src="/Header tinyhouse 4.jpg"
+        src="/Startpagina.JPEG"
         alt={t.hero_image_alt}
         fill
         className="object-cover"
