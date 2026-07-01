@@ -42,7 +42,7 @@ export default async function Page({ params }: PageProps) {
       {/* Hero sectie */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
-          src="Contact.JPEG"
+          src="/Contact.JPEG"
           alt={t.contact_hero_alt}
           fill
           className="object-cover"
