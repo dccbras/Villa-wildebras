@@ -52,7 +52,7 @@ export default async function Page({
       {/* Hero sectie */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
-          src="/zoe-gayah-jonker-Lit4A7dKruo-unsplash.jpg"
+          src="/over-ons.JPEG"
           alt={t.overons_hero_alt}
           fill
           className="object-cover"
