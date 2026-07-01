@@ -35,7 +35,7 @@ export default async function BoekenPage({
       {/* Hero */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wim-van-t-einde-Unb2Eh1HDOE-unsplash.jpg-s8ekArjg7nOFokR0SflXfX4EvD2h0d.jpeg"
+          src="/Boeken.JPEG"
           alt="Bos met dennenbomen en zonlicht"
           fill
           className="object-cover"
