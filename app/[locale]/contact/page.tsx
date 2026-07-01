@@ -42,7 +42,7 @@ export default async function Page({ params }: PageProps) {
       {/* Hero sectie */}
       <div className="relative h-[40vh] lg:h-[60vh] w-full">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/chris-de-tempe-eTewIFLlyhA-unsplash.jpg-GwkWvnkvEcs6KSR2Q6U5FF2VCwRXDQ.jpeg"
+          src="Contact.JPEG"
           alt={t.contact_hero_alt}
           fill
           className="object-cover"
