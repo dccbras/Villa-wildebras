@@ -41,6 +41,14 @@ function formatEUR(amount: number, locale: string) {
   }).format(amount);
 }
 
+type WeekDealDetail = {
+  season: "high" | "low";
+  blocks: number;
+  weekPrice: number;
+  normalPrice: number;
+  discount: number;
+};
+
 type PriceEstimate = {
   total: number;
   highNights: number;
@@ -48,6 +56,7 @@ type PriceEstimate = {
   promoNights: number;
   nights: number;
   weekDealsApplied: number;
+  weekDealDetails: WeekDealDetail[];
 };
 
 function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null {
@@ -81,8 +90,38 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
   }
 
   let weekDealsApplied = 0;
+  const weekDealDetails: WeekDealDetail[] = [];
+
   let runLength = 0;
   let currentSeason: "high" | "low" | null = null;
+
+  function applyWeekDeal(runLength: number, season: "high" | "low") {
+    if (runLength < WEEK_BLOCK_NIGHTS) return;
+
+    const blocks = Math.floor(runLength / WEEK_BLOCK_NIGHTS);
+    weekDealsApplied += blocks;
+
+    const nightlyPrice =
+      season === "high" ? HIGH_SEASON_NIGHTLY : LOW_SEASON_NIGHTLY;
+
+    const weekPrice =
+      season === "high"
+        ? HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS
+        : LOW_SEASON_WEEK_PRICE_FOR_6_NIGHTS;
+
+    const normalPrice = WEEK_BLOCK_NIGHTS * nightlyPrice;
+    const discount = normalPrice - weekPrice;
+
+    total -= blocks * discount;
+
+    weekDealDetails.push({
+      season,
+      blocks,
+      weekPrice,
+      normalPrice,
+      discount,
+    });
+  }
 
   for (let i = 0; i < nightsDates.length; i++) {
     const season = highFlags[i] ? "high" : "low";
@@ -91,20 +130,7 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
       runLength++;
     } else {
       if (runLength >= WEEK_BLOCK_NIGHTS && currentSeason) {
-        const blocks = Math.floor(runLength / WEEK_BLOCK_NIGHTS);
-        weekDealsApplied += blocks;
-
-        const fullPrice =
-          currentSeason === "high"
-            ? WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY
-            : WEEK_BLOCK_NIGHTS * LOW_SEASON_NIGHTLY;
-
-        const weekPrice =
-          currentSeason === "high"
-            ? HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS
-            : LOW_SEASON_WEEK_PRICE_FOR_6_NIGHTS;
-
-        total -= blocks * (fullPrice - weekPrice);
+        applyWeekDeal(runLength, currentSeason);
       }
 
       currentSeason = season;
@@ -114,20 +140,7 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
 
   // Laatste blok verwerken
   if (runLength >= WEEK_BLOCK_NIGHTS && currentSeason) {
-    const blocks = Math.floor(runLength / WEEK_BLOCK_NIGHTS);
-    weekDealsApplied += blocks;
-
-    const fullPrice =
-      currentSeason === "high"
-        ? WEEK_BLOCK_NIGHTS * HIGH_SEASON_NIGHTLY
-        : WEEK_BLOCK_NIGHTS * LOW_SEASON_NIGHTLY;
-
-    const weekPrice =
-      currentSeason === "high"
-        ? HIGH_SEASON_WEEK_PRICE_FOR_6_NIGHTS
-        : LOW_SEASON_WEEK_PRICE_FOR_6_NIGHTS;
-
-    total -= blocks * (fullPrice - weekPrice);
+    applyWeekDeal(runLength, currentSeason);
   }
 
   return {
@@ -137,6 +150,7 @@ function calculatePrice(fromDate: string, toDate: string): PriceEstimate | null 
     promoNights: 0,
     nights: diffDays,
     weekDealsApplied,
+    weekDealDetails,
   };
 }
 
@@ -179,15 +193,30 @@ export default function BookingForm({ locale }: BookingFormProps) {
 
   const priceFormatted = price ? formatEUR(price.total, locale) : "";
 
+  const weekDealSummary =
+    price && price.weekDealDetails.length > 0
+      ? price.weekDealDetails
+          .map((deal) => {
+            const seasonLabel =
+              deal.season === "high"
+                ? t.booking_high_season ?? "Hoogseizoen"
+                : t.booking_low_season ?? "Laagseizoen";
+
+            return `${t.booking_week_price_applied ?? "Weekprijs toegepast"} ${seasonLabel}: ${formatEUR(
+              deal.weekPrice,
+              locale
+            )} × ${deal.blocks}`;
+          })
+          .join(", ")
+      : "";
+
   const priceSummary = price
     ? `${t.booking_price_estimate_label ?? "Prijsindicatie"}: ${priceFormatted} (${price.lowNights} ${
         t.booking_low_season_nights_label ?? "laagseizoen-nacht(en)"
       } × €${LOW_SEASON_NIGHTLY}, ${price.highNights} ${
         t.booking_high_season_nights_label ?? "hoogseizoen-nacht(en)"
       } × €${HIGH_SEASON_NIGHTLY}${
-        price.weekDealsApplied > 0
-          ? `, ${t.booking_week_price_applied ?? "weekprijs toegepast"} ×${price.weekDealsApplied}`
-          : ""
+        weekDealSummary ? `, ${weekDealSummary}` : ""
       })`
     : "";
 
@@ -343,12 +372,22 @@ export default function BookingForm({ locale }: BookingFormProps) {
                 </div>
               )}
 
-              {price.weekDealsApplied > 0 && (
-                <div>
-                  <strong>{t.booking_week_price_applied ?? "Weekprijs toegepast"}</strong> ×
-                  {price.weekDealsApplied}
-                </div>
-              )}
+              {price.weekDealDetails.length > 0 &&
+                price.weekDealDetails.map((deal, index) => {
+                  const seasonLabel =
+                    deal.season === "high"
+                      ? t.booking_high_season ?? "Hoogseizoen"
+                      : t.booking_low_season ?? "Laagseizoen";
+
+                  return (
+                    <div key={`${deal.season}-${index}`}>
+                      <strong>
+                        {t.booking_week_price_applied ?? "Weekprijs toegepast"}
+                      </strong>
+                      : {seasonLabel} {formatEUR(deal.weekPrice, locale)} × {deal.blocks}
+                    </div>
+                  );
+                })}
 
               <div className="mt-1">
                 {t.booking_price_disclaimer ??
