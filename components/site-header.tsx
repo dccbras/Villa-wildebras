@@ -110,7 +110,7 @@ export function SiteHeader() {
                 NL
               </Link>
               <Link href={`/en${pathWithoutLocale}`} className="text-sm font-medium hover:text-primary">
-                GB
+                EN
               </Link>
               <Link href={`/de${pathWithoutLocale}`} className="text-sm font-medium hover:text-primary">
                 DE
@@ -152,7 +152,7 @@ export function SiteHeader() {
               NL
             </Link>
             <Link href={`/en${pathWithoutLocale}`} className="hover:text-primary">
-              GB
+              EN
             </Link>
             <Link href={`/de${pathWithoutLocale}`} className="hover:text-primary">
               DE
