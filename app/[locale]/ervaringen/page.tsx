@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ErvaringenPage() {
   return (
     <main className="min-h-screen bg-gray-50">
-    <div className="relative h-[40vh] lg:h-[60vh] w-full">
+   <div className="relative h-[40vh] lg:h-[60vh] w-full">
   /Ervaringen.JPEG
 
   <div className="absolute inset-0 bg-black/30" />
