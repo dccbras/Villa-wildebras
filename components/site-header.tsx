@@ -46,6 +46,10 @@ export function SiteHeader() {
       href: "/contact",
       label: t.nav_contact,
     },
+    {
+  label: t.menu_reviews,
+  href: `/${locale}/reviews`,
+}
   ];
 
   const localizedRoutes = routes.map((route) => ({
