@@ -53,8 +53,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <div className="relative *-[40vh] lg:h-[60vh] w-full">
-        /Reviews.JPEG
+      <div className="relative h-[40vh] lg:h-[60vh] w-full bg-gray-200">
 
         <div className="absolute inset-0 bg-black/30" />
 
