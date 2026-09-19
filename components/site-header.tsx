@@ -47,9 +47,9 @@ export function SiteHeader() {
       label: t.nav_contact,
     },
     {
-  label: t.menu_reviews,
-  href: `/${locale}/reviews`,
-}
+      href: "/ervaringen",
+      label: t.nav_experiences
+    },
   ];
 
   const localizedRoutes = routes.map((route) => ({
