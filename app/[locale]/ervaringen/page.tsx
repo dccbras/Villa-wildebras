@@ -23,9 +23,15 @@ export default async function Page({ params }: PageProps) {
   const { locale } = await params;
   const t = getTranslations(locale);
 
-  const airbnbUrl =
-    "https://www.airbnb.nl/rooms/1421709322516548820";
-
+<a
+  href={airbnbUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-white hover:opacity-90"
+>
+  {t.view_airbnb_reviews}
+  <ExternalLink className="h-4 w-4" />
+</a>
   const reviews = [
     {
       name: "Emma",
