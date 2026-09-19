@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function ErvaringenPage() {
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="relative h-[40vh] lg:h-[60vh] w-full">
-        <Image
-          src="/Reviews.JPEG"
-          alt="Ervaringenck/40" />
+    <div className="relative h-[40vh] lg:h-[60vh] w-full">
+  /Ervaringen.JPEG
 
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-white text-4xl md:text-5xl font-bold">
-            Ervaringen
-          </h1>
-        </div>
-      </div>
+  <div className="absolute inset-0 bg-black/30" />
+
+  <div className="absolute inset-0 flex items-center justify-center">
+    <h1 className="text-white text-4xl md:text-5xl font-bold">
+      Ervaringen
+    </h1>
+  </div>
+</div>
 
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <section className="bg-white rounded-2xl shadow-md p-8 mb-10 text-center">
